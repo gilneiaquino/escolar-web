@@ -7,7 +7,10 @@ const Menu: React.FC = () => {
                     <a className="nav-link active" href="/home">Home</a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link" href="/alunos">Aluno</a>
+                    <a className="nav-link" href="/formularioAluno">Cadastrar Aluno</a>
+                </li>
+                <li className="nav-item">
+                    <a className="nav-link" href="/listaAlunos">Listar alunos</a>
                 </li>
                 <li className="nav-item">
                     <a className="nav-link" href="/home">Professor</a>

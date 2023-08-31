@@ -2,13 +2,14 @@
 import { Aluno } from "../modelos/Aluno";
 import * as AlunoService from "./AlunoService";
 
+
 export const listarAlunos = () => {
   return AlunoService.listarAlunos();
 };
 
 export const adicionarAluno = (aluno: Aluno) => {
-  console.log("aluno" , aluno);
-  
+  console.log("aluno", aluno);
+
   AlunoService.adicionarAluno(aluno);
 };
 

@@ -3,6 +3,39 @@ import React, { useState } from "react";
 import * as AlunoController from "./AlunoController";
 import { Aluno } from "../modelos/Aluno";
 
+
+
+const estados = [
+  { nome: 'Acre', uf: 'AC' },
+  { nome: 'Alagoas', uf: 'AL' },
+  { nome: 'Amapá', uf: 'AP' },
+  { nome: 'Amazonas', uf: 'AM' },
+  { nome: 'Bahia', uf: 'BA' },
+  { nome: 'Ceará', uf: 'CE' },
+  { nome: 'Distrito Federal', uf: 'DF' },
+  { nome: 'Espírito Santo', uf: 'ES' },
+  { nome: 'Goiás', uf: 'GO' },
+  { nome: 'Maranhão', uf: 'MA' },
+  { nome: 'Mato Grosso', uf: 'MT' },
+  { nome: 'Mato Grosso do Sul', uf: 'MS' },
+  { nome: 'Minas Gerais', uf: 'MG' },
+  { nome: 'Pará', uf: 'PA' },
+  { nome: 'Paraíba', uf: 'PB' },
+  { nome: 'Paraná', uf: 'PR' },
+  { nome: 'Pernambuco', uf: 'PE' },
+  { nome: 'Piauí', uf: 'PI' },
+  { nome: 'Rio de Janeiro', uf: 'RJ' },
+  { nome: 'Rio Grande do Norte', uf: 'RN' },
+  { nome: 'Rio Grande do Sul', uf: 'RS' },
+  { nome: 'Rondônia', uf: 'RO' },
+  { nome: 'Roraima', uf: 'RR' },
+  { nome: 'Santa Catarina', uf: 'SC' },
+  { nome: 'São Paulo', uf: 'SP' },
+  { nome: 'Sergipe', uf: 'SE' },
+  { nome: 'Tocantins', uf: 'TO' }
+];
+
+
 const AlunoForm: React.FC = () => {
   const [nome, setNome] = useState("");
   const [dataNascimento, setDataNascimento] = useState("");
@@ -13,6 +46,7 @@ const AlunoForm: React.FC = () => {
   const [estado, setEstado] = useState("");
   const [cep, setCep] = useState("");
   const [telefones, setTelefones] = useState([{ id: 1, ddd: 0, numero: 0, tipo: 'Residencial' }]); // Inicializa com um campo de telefone vazio
+  const [selectedUF, setSelectedUF] = useState('');
 
   const adicionarTelefone = () => {
     const novoTelefone = { id: telefones.length + 1, ddd: 0, numero: 0, tipo: 'Comercial' };
@@ -29,6 +63,10 @@ const AlunoForm: React.FC = () => {
       telefone.id === id ? { ...telefone, [campo]: value } : telefone
     );
     setTelefones(novosTelefones);
+  };
+
+  const handleChangeEstado = (event: any) => {
+    setEstado(event.target.value);
   };
 
   const handleSubmit = (e: any) => {
@@ -63,13 +101,17 @@ const AlunoForm: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2>Cadastro</h2>
 
-      <form onSubmit={handleSubmit}>
-        <div>
-          <div className="row">
-            <div className="form-group col-md-4 mx-sm-3">
+
+    <form onSubmit={handleSubmit}>
+      <div className="container card">
+        <div className="card-header mx-sm-3">
+          Dados Cadastrais
+        </div>
+
+        <div className="card-body">
+          <div className="row col-12">
+            <div className="form-group col-md-5 mx-sm-3">
               <label>Nome</label>
               <input
                 className="form-control"
@@ -100,71 +142,114 @@ const AlunoForm: React.FC = () => {
               />
             </div>
           </div>
-          <br>
-          </br>
-          <h3>Endereço</h3>
-          <div className="row">
-            <div className="col mb-2 mx-sm-3">
-              <label>Rua</label>
-              <input
-                className="form-control"
-                type="text"
-                placeholder="Rua"
-                value={rua}
-                onChange={(e) => setRua(e.target.value)}
-              />
+          <div >
+            <div className="card-header">
+              Endereço
             </div>
-            <input
-              type="text"
-              placeholder="Número"
-              value={numero}
-              onChange={(e) => setNumero(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Cidade"
-              value={cidade}
-              onChange={(e) => setCidade(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Estado"
-              value={estado}
-              onChange={(e) => setEstado(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="CEP"
-              value={cep}
-              onChange={(e) => setCep(e.target.value)}
-            />
+
+            <div className="row" >
+              <div className="col mb-1 mx-sm-3">
+                <label>Cep</label>
+                <input
+                  className="form-control"
+                  type="text"
+                  placeholder="CEP"
+                  value={cep}
+                  onChange={(e) => setCep(e.target.value)}
+                />
+              </div>
+              <div className="col mb-1 mx-sm-3">
+                <label>Estado</label>
+                <select className="form-control" value={selectedUF} onChange={handleChangeEstado}>
+                  <option value="">Selecione um estado</option>
+                  {estados.map((estado) => (
+                    <option key={estado.uf} value={estado.uf}>
+                      {estado.nome} - {estado.uf}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col mb-1 mx-sm-3">
+                <label>Cidade</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Cidade"
+                  value={cidade}
+                  onChange={(e) => setCidade(e.target.value)}
+                />
+              </div>
+              <div className="col mb-1 mx-sm-3">
+                <label>Rua</label>
+                <input
+                  className="form-control"
+                  type="text"
+                  placeholder="Rua"
+                  value={rua}
+                  onChange={(e) => setRua(e.target.value)}
+                />
+              </div>
+              <div className="col mb-1 mx-sm-3">
+                <label>Número</label>
+                <input
+                  className="form-control"
+                  type="text"
+                  placeholder="Número"
+                  value={numero}
+                  onChange={(e) => setNumero(e.target.value)}
+                />
+              </div>
+            </div>
+
           </div>
-          <h3>Telefones</h3>
+          <div className="card-header">
+            Telefones
+          </div>
+
           {telefones.map((telefone) => (
-            <div key={telefone.id}>
-              <input
-                type="text"
-                placeholder="DDD"
-                maxLength={2}
-                size={2}
-                value={telefone.ddd}
-                onChange={(e) => handleTelefoneChange(telefone.id, 'ddd', e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder="Número de Telefone"
-                value={telefone.numero}
-                onChange={(e) => handleTelefoneChange(telefone.id, 'numero', e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder="Tipo de Telefone"
-                value={telefone.tipo}
-                onChange={(e) => handleTelefoneChange(telefone.id, 'tipo', e.target.value)}
-              />
-              <button type="button" onClick={() => removerTelefone(telefone.id)}>
-                Remover
-              </button>
+            <div className="row" key={telefone.id}>
+              <div className="col mb-1 mx-sm-3">
+
+                <label>DDD</label>
+                <input
+                  className="form-control col2"
+                  type="text"
+                  placeholder="DDD"
+                  maxLength={2}
+                  size={2}
+                  value={telefone.ddd}
+                  onChange={(e) => handleTelefoneChange(telefone.id, 'ddd', e.target.value)}
+                />
+              </div>
+              <div className="col mb-1 mx-sm-3">
+
+                <label>Número de Telefone</label>
+                <input
+                  className="form-control"
+                  type="text"
+                  placeholder="Número de Telefone"
+                  value={telefone.numero}
+                  onChange={(e) => handleTelefoneChange(telefone.id, 'numero', e.target.value)}
+                />
+              </div>
+              <div className="col mb-1 mx-sm-3">
+                <label>Tipo de Telefone</label>
+                <input
+                  className="form-control"
+                  type="text"
+                  placeholder="Tipo de Telefone"
+                  value={telefone.tipo}
+                  onChange={(e) => handleTelefoneChange(telefone.id, 'tipo', e.target.value)}
+                />
+              </div>
+              <div className="col mb-1 mx-sm-3">
+                <label>&nbsp;</label>
+                <button type="button" className="btn btn-secondary" onClick={() => removerTelefone(telefone.id)}>
+                  Remover
+                </button>
+              </div>
             </div>
           ))}
 
@@ -187,9 +272,10 @@ const AlunoForm: React.FC = () => {
 
 
         </div>
-      </form>
+      </div>
+    </form>
 
-    </div>
+
 
   );
 };
