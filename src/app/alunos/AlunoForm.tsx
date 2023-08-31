@@ -35,6 +35,11 @@ const estados = [
   { nome: 'Tocantins', uf: 'TO' }
 ];
 
+const tipoTelefones = [
+  { nome: 'Residencial' },
+  { nome: 'Comercial' }
+];
+
 
 const AlunoForm: React.FC = () => {
   const [nome, setNome] = useState("");
@@ -47,6 +52,8 @@ const AlunoForm: React.FC = () => {
   const [cep, setCep] = useState("");
   const [telefones, setTelefones] = useState([{ id: 1, ddd: 0, numero: 0, tipo: 'Residencial' }]); // Inicializa com um campo de telefone vazio
   const [selectedUF, setSelectedUF] = useState('');
+  const [selectedTipoTelefone, setTipoTelefone] = useState('');
+
 
   const adicionarTelefone = () => {
     const novoTelefone = { id: telefones.length + 1, ddd: 0, numero: 0, tipo: 'Comercial' };
@@ -68,6 +75,12 @@ const AlunoForm: React.FC = () => {
   const handleChangeEstado = (event: any) => {
     setEstado(event.target.value);
   };
+
+  const handleChangeTipoTelefone = (event: any) => {
+    setTipoTelefone(event.target.value);
+  };
+
+
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -209,12 +222,22 @@ const AlunoForm: React.FC = () => {
           </div>
 
           {telefones.map((telefone) => (
-            <div className="row" key={telefone.id}>
-              <div className="col mb-1 mx-sm-3">
-
+            <div className="row col-12" key={telefone.id}>
+              <div className="col-md-2 mx-sm-3">
+                <label>Tipo de Telefone</label>
+                <select className="form-control"
+                  value={selectedTipoTelefone} onChange={handleChangeTipoTelefone}>
+                  {tipoTelefones.map((telefone) => (
+                    <option key={telefone.nome} value={telefone.nome}>
+                      {telefone.nome}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="col col-md-1 mx-sm-3">
                 <label>DDD</label>
                 <input
-                  className="form-control col2"
+                  className="form-control"
                   type="text"
                   placeholder="DDD"
                   maxLength={2}
@@ -223,27 +246,21 @@ const AlunoForm: React.FC = () => {
                   onChange={(e) => handleTelefoneChange(telefone.id, 'ddd', e.target.value)}
                 />
               </div>
-              <div className="col mb-1 mx-sm-3">
+              <div className="col col-md-2  mx-sm-3">
 
                 <label>Número de Telefone</label>
                 <input
                   className="form-control"
+                  maxLength={10}
+                  size={10}
                   type="text"
                   placeholder="Número de Telefone"
                   value={telefone.numero}
                   onChange={(e) => handleTelefoneChange(telefone.id, 'numero', e.target.value)}
                 />
               </div>
-              <div className="col mb-1 mx-sm-3">
-                <label>Tipo de Telefone</label>
-                <input
-                  className="form-control"
-                  type="text"
-                  placeholder="Tipo de Telefone"
-                  value={telefone.tipo}
-                  onChange={(e) => handleTelefoneChange(telefone.id, 'tipo', e.target.value)}
-                />
-              </div>
+
+
               <div className="col mb-1 mx-sm-3">
                 <label>&nbsp;</label>
                 <button type="button" className="btn btn-secondary" onClick={() => removerTelefone(telefone.id)}>
