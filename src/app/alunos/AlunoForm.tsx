@@ -48,7 +48,7 @@ const AlunoForm: React.FC = () => {
         estado,
         cep,
       },
-      telefones : telefones,
+      telefones: telefones,
     };
 
     AlunoController.adicionarAluno(aluno);
@@ -64,92 +64,131 @@ const AlunoForm: React.FC = () => {
 
   return (
     <div>
-      <h2>Adicionar Aluno</h2>
+      <h2>Cadastro</h2>
+
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Nome"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
-        />
-        <input
-          type="date"
-          placeholder="Data de Nascimento"
-          value={dataNascimento}
-          onChange={(e) => setDataNascimento(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Gênero"
-          value={genero}
-          onChange={(e) => setGenero(e.target.value)}
-        />
-        <h3>Endereço</h3>
-        <input
-          type="text"
-          placeholder="Rua"
-          value={rua}
-          onChange={(e) => setRua(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Número"
-          value={numero}
-          onChange={(e) => setNumero(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Cidade"
-          value={cidade}
-          onChange={(e) => setCidade(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Estado"
-          value={estado}
-          onChange={(e) => setEstado(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="CEP"
-          value={cep}
-          onChange={(e) => setCep(e.target.value)}
-        />
-
-<h3>Telefones</h3>
-        {telefones.map((telefone) => (
-          <div key={telefone.id}>
-            <input
-              type="text"
-              placeholder="DDD"
-              maxLength={2}
-              size={2}
-              value={telefone.ddd}
-              onChange={(e) => handleTelefoneChange(telefone.id, 'ddd', e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Número de Telefone"
-              value={telefone.numero}
-              onChange={(e) => handleTelefoneChange(telefone.id, 'numero', e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Tipo de Telefone"
-              value={telefone.tipo}
-              onChange={(e) => handleTelefoneChange(telefone.id, 'tipo', e.target.value)}
-            />
-            <button type="button" onClick={() => removerTelefone(telefone.id)}>
-              Remover
-            </button>
+        <div>
+          <div className="row">
+            <div className="form-group col-md-4 mx-sm-3">
+              <label>Nome</label>
+              <input
+                className="form-control"
+                type="text"
+                placeholder="Nome"
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
+              />
+            </div>
+            <div className="form-group col-md-2  mx-sm-3">
+              <label>Data de Nascimento</label>
+              <input
+                className="form-control"
+                type="date"
+                placeholder="Data de Nascimento"
+                value={dataNascimento}
+                onChange={(e) => setDataNascimento(e.target.value)}
+              />
+            </div>
+            <div className="form-group  col-md-2  mx-sm-3">
+              <label>Gênero</label>
+              <input
+                className="form-control"
+                type="text"
+                placeholder="Gênero"
+                value={genero}
+                onChange={(e) => setGenero(e.target.value)}
+              />
+            </div>
           </div>
-        ))}
-        <button type="button" onClick={adicionarTelefone}>
-          Adicionar Telefone
-        </button>
+          <br>
+          </br>
+          <h3>Endereço</h3>
+          <div className="row">
+            <div className="col mb-2 mx-sm-3">
+              <label>Rua</label>
+              <input
+                className="form-control"
+                type="text"
+                placeholder="Rua"
+                value={rua}
+                onChange={(e) => setRua(e.target.value)}
+              />
+            </div>
+            <input
+              type="text"
+              placeholder="Número"
+              value={numero}
+              onChange={(e) => setNumero(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Cidade"
+              value={cidade}
+              onChange={(e) => setCidade(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Estado"
+              value={estado}
+              onChange={(e) => setEstado(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="CEP"
+              value={cep}
+              onChange={(e) => setCep(e.target.value)}
+            />
+          </div>
+          <h3>Telefones</h3>
+          {telefones.map((telefone) => (
+            <div key={telefone.id}>
+              <input
+                type="text"
+                placeholder="DDD"
+                maxLength={2}
+                size={2}
+                value={telefone.ddd}
+                onChange={(e) => handleTelefoneChange(telefone.id, 'ddd', e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="Número de Telefone"
+                value={telefone.numero}
+                onChange={(e) => handleTelefoneChange(telefone.id, 'numero', e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="Tipo de Telefone"
+                value={telefone.tipo}
+                onChange={(e) => handleTelefoneChange(telefone.id, 'tipo', e.target.value)}
+              />
+              <button type="button" onClick={() => removerTelefone(telefone.id)}>
+                Remover
+              </button>
+            </div>
+          ))}
 
-        <button onClick={handleAdicionarAluno}>Adicionar</button>
+          <div className="row">
+            <div className="form-group col-md-2  mx-sm-3">
+              <button type="button" className="btn btn-primary" onClick={adicionarTelefone}>
+                Adicionar Telefone
+              </button>
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="form-group col-md-1  mx-sm-3">
+              <button type="button" className="btn btn-secondary">Limpar</button>
+            </div>
+            <div className="form-group col-md-1  mx-sm-3">
+              <button type="button" className="btn btn-primary" onClick={handleAdicionarAluno}>Adicionar</button>
+            </div>
+          </div>
+
+
+        </div>
       </form>
+
     </div>
 
   );

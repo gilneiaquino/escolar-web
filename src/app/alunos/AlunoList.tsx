@@ -1,7 +1,8 @@
 // AlunoList.tsx
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { Aluno } from "../modelos/Aluno";
 import { listarAlunos } from "./AlunoService";
+import './Aluno.css';
 
 const AlunoList: React.FC = () => {
 
@@ -22,16 +23,24 @@ const AlunoList: React.FC = () => {
 
 
   return (
-    <div>
-      <h1>Lista de Alunos</h1>
-      <ul>
-        {alunos.map((aluno : Aluno) => (
-          <li key={aluno.id}>
-            {aluno.nome} - {aluno.dataNascimento.toString()} - {aluno.genero}
-          </li>
+    <table className="table">
+      <thead>
+        <tr>
+          <th scope="col">Nome</th>
+          <th scope="col">Data de Nascimento</th>
+          <th scope="col">Genêro</th>
+        </tr>
+      </thead>
+      <tbody>
+        {alunos.map((aluno: Aluno) => (
+          <tr key={aluno.id}>
+            <td>{aluno.nome}</td>
+            <td>{aluno.dataNascimento.toString()}  </td>
+            <td>{aluno.genero} </td>
+          </tr>
         ))}
-      </ul>
-    </div>
+      </tbody>
+    </table>
   );
 };
 

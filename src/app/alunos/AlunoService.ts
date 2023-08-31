@@ -12,7 +12,7 @@ export const listarAlunos = async (): Promise<Aluno[]> => {
       headers: {
         'Content-Type': 'application/json',
       },
-    }); // Substitua pela URL correta da sua API
+    });
     if (!response.ok) {
       throw new Error('Não foi possível buscar os alunos.');
     }
