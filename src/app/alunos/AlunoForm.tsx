@@ -37,8 +37,8 @@ const estados = [
 ];
 
 const tipoTelefones = [
-  { nome: 'Residencial' },
-  { nome: 'Comercial' }
+  { nome: 'Fixo' },
+  { nome: 'Celular' }
 ];
 
 
@@ -117,49 +117,70 @@ const AlunoForm: React.FC = () => {
 
 
     <form onSubmit={handleSubmit}>
-      <div className="container card">
-        <div className="card-header mx-sm-3">
-          Dados Cadastrais
-        </div>
+      <div className="container">
+        <div className="card my-3">
+          <div className="card-header ">
+            Dados Cadastrais
+          </div>
 
-        <div className="card-body">
-          <div className="row col-12">
-            <div className="form-group col-md-5 mx-sm-3">
-              <label>Nome</label>
-              <input
-                className="form-control"
-                type="text"
-                placeholder="Nome"
-                value={nome}
-                onChange={(e) => setNome(e.target.value)}
-              />
+          <div className="card-body">
+            <div className="row col-12">
+              <div className="form-group col-md-5 mx-sm-3">
+                <label>Nome</label>
+                <input
+                  className="form-control"
+                  type="text"
+                  placeholder="Nome"
+                  value={nome}
+                  onChange={(e) => setNome(e.target.value)}
+                />
+              </div>
+              <div className="form-group col-md-2  mx-sm-3">
+                <label>Data de Nascimento</label>
+                <input
+                  className="form-control"
+                  type="date"
+                  placeholder="Data de Nascimento"
+                  value={dataNascimento}
+                  onChange={(e) => setDataNascimento(e.target.value)}
+                />
+              </div>
+              <div className="form-group  col-md-2  mx-sm-3">
+                <label>Gênero</label>
+                <input
+                  className="form-control"
+                  type="text"
+                  placeholder="Gênero"
+                  value={genero}
+                  onChange={(e) => setGenero(e.target.value)}
+                />
+              </div>
             </div>
-            <div className="form-group col-md-2  mx-sm-3">
-              <label>Data de Nascimento</label>
-              <input
-                className="form-control"
-                type="date"
-                placeholder="Data de Nascimento"
-                value={dataNascimento}
-                onChange={(e) => setDataNascimento(e.target.value)}
-              />
-            </div>
-            <div className="form-group  col-md-2  mx-sm-3">
-              <label>Gênero</label>
-              <input
-                className="form-control"
-                type="text"
-                placeholder="Gênero"
-                value={genero}
-                onChange={(e) => setGenero(e.target.value)}
-              />
+            <div className="row col-12 my-3">
+              <div className="form-group  col-md-5  mx-sm-3">
+
+                <label>Email</label>
+                <div className="input-group">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text" id="inputGroupPrepend">@</span>
+                  </div>
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="Email"
+                    value={genero}
+                    onChange={(e) => setGenero(e.target.value)}
+                  />
+                </div>
+              </div>
             </div>
           </div>
-          <div >
-            <div className="card-header">
-              Endereço
-            </div>
-
+        </div>
+        <div className="card my-3">
+          <div className="card-header">
+            Endereço
+          </div>
+          <div className="card-body">
             <div className="row col-12" >
               <div className="col-md-2 mx-sm-3">
                 <label>Cep</label>
@@ -184,7 +205,9 @@ const AlunoForm: React.FC = () => {
                 </select>
               </div>
             </div>
-            <div className="row col-12">
+
+
+            <div className="row col-12 my-3">
               <div className="col-md-2 mx-sm-3">
                 <label>Cidade</label>
                 <input
@@ -217,85 +240,84 @@ const AlunoForm: React.FC = () => {
                 />
               </div>
             </div>
-
           </div>
+        </div>
+        <div className="card my-3">
           <div className="card-header">
             Telefones
           </div>
-
           {telefones.map((telefone) => (
-            <div className="row col-12" key={telefone.id}>
-              <div className="col-md-2 mx-sm-3">
-                <label>Tipo de Telefone</label>
-                <select className="form-control"
-                  value={selectedTipoTelefone} onChange={handleChangeTipoTelefone}>
-                  {tipoTelefones.map((telefone) => (
-                    <option key={telefone.nome} value={telefone.nome}>
-                      {telefone.nome}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="col-md-2 mx-sm-3">
-                <label>DDD</label>
+            <div className="card-body">
+              <div className="row col-12" key={telefone.id}>
+                <div className="col-md-2 mx-sm-3">
+                  <label>Tipo de Telefone</label>
+                  <select className="form-control"
+                    value={selectedTipoTelefone} onChange={handleChangeTipoTelefone}>
+                    {tipoTelefones.map((telefone) => (
+                      <option key={telefone.nome} value={telefone.nome}>
+                        {telefone.nome}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="col-md-2 mx-sm-3">
+                  <label>DDD</label>
 
-                <InputMask
-                  className="form-control"
-                  mask="(99)"
-                  id="DDD"
-                  type="text"
-                  name="DDD"
-                  placeholder="(00)"
-                  value={telefone.ddd}
-                  onChange={(e) => handleTelefoneChange(telefone.id, 'ddd', e.target.value)}
-                />
+                  <InputMask
+                    className="form-control"
+                    mask="(99)"
+                    id="DDD"
+                    type="text"
+                    name="DDD"
+                    placeholder="(00)"
+                    value={telefone.ddd}
+                    onChange={(e) => handleTelefoneChange(telefone.id, 'ddd', e.target.value)}
+                  />
 
-              </div>
-              <div className="col-md-2 mx-sm-3">
+                </div>
+                <div className="col-md-2 mx-sm-3">
 
-                <label>Número de Telefone</label>
-                <InputMask
-                  className="form-control"
-                  mask="99999-9999"
-                  id="telefone"
-                  type="text"
-                  name="telefone"
-                  placeholder="00000-0000"
-                  value={telefone.numero}
-                  onChange={(e) => handleTelefoneChange(telefone.id, 'numero', e.target.value)}
-                />
-              </div>
+                  <label>Número de Telefone</label>
+                  <InputMask
+                    className="form-control"
+                    mask="99999-9999"
+                    id="telefone"
+                    type="text"
+                    name="telefone"
+                    placeholder="00000-0000"
+                    value={telefone.numero}
+                    onChange={(e) => handleTelefoneChange(telefone.id, 'numero', e.target.value)}
+                  />
+                </div>
 
 
-              <div className="col-md-2 mx-sm-3">
-                <label>&nbsp;</label>
-                <button type="button" className="btn btn-secondary" onClick={() => removerTelefone(telefone.id)}>
-                  Remover
-                </button>
+                <div className="col-md-2 d-flex justify-content-center align-items-end"
+                  onClick={() => removerTelefone(telefone.id)}>
+                  <button className="btn btn-primary">Remover</button>
+                </div>
               </div>
             </div>
           ))}
 
-          <div className="row">
-            <div className="form-group col-md-2  mx-sm-3">
+          <div className="row col-12 my-3">
+            <div className="col-md-2 d-flex justify-content-center align-items-center">
               <button type="button" className="btn btn-primary" onClick={adicionarTelefone}>
                 Adicionar Telefone
               </button>
             </div>
           </div>
-
-          <div className="row">
-            <div className="form-group col-md-1  mx-sm-3">
-              <button type="button" className="btn btn-secondary">Limpar</button>
-            </div>
-            <div className="form-group col-md-1  mx-sm-3">
-              <button type="button" className="btn btn-primary" onClick={handleAdicionarAluno}>Adicionar</button>
-            </div>
+        </div>
+        <div className="row col-12 my-3   d-flex justify-content-end align-items-center">
+          <div className="col-md-1  mx-sm-3">
+            <button type="button" className="btn btn-secondary">Limpar</button>
           </div>
-
-
+          <div className=" col-md-1  mx-sm-3">
+            <button type="button" className="btn btn-primary" onClick={handleAdicionarAluno}>Salvar</button>
+          </div>
         </div>
       </div>
+
+
     </form>
 
 
