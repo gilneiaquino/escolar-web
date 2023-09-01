@@ -1,7 +1,7 @@
 export interface Telefone {
       id?: number;
-      ddd: number;
-      numero: number;
+      ddd: string;
+      numero: string;
       tipo: string;
 }
 
