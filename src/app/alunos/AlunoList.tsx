@@ -1,8 +1,8 @@
 // AlunoList.tsx
 import React, { useEffect, useState } from "react";
 import { Aluno } from "../modelos/Aluno";
-import { listarAlunos } from "./AlunoService";
 import './Aluno.css';
+import { listarAlunos } from "./AlunoController";
 
 const AlunoList: React.FC = () => {
 

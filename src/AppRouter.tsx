@@ -10,8 +10,8 @@ const AppRouter = () => {
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/formularioAluno" element={<AlunoForm />} />
-        <Route path="/listaAlunos" element={<AlunoList />} />
+        <Route path="/aluno-form" element={<AlunoForm />} />
+        <Route path="/aluno-list" element={<AlunoList />} />
       </Routes>
     </Router>
   );

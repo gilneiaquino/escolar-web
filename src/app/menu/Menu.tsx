@@ -4,13 +4,13 @@ const Menu: React.FC = () => {
         <nav className="navbar navbar-dark bg-dark">
             <ul className="nav">
                 <li className="nav-item">
-                    <a className="nav-link active" href="/home">Home</a>
+                    <a className="nav-link active" href="/">Home</a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link" href="/formularioAluno">Cadastrar Aluno</a>
+                    <a className="nav-link" href="/aluno-form">Cadastrar Aluno</a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link" href="/listaAlunos">Listar alunos</a>
+                    <a className="nav-link" href="/aluno-list">Listar alunos</a>
                 </li>
                 <li className="nav-item">
                     <a className="nav-link" href="/home">Professor</a>
