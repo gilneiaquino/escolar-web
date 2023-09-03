@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import AlunoForm from './app/alunos/AlunoForm';
 import AlunoList from './app/alunos/AlunoList';
 import HomePage from './pages/HomePage';
+import PerguntasForm from './app/perguntas/PerguntasForm';
 
 const AppRouter = () => {
   return (
@@ -12,6 +13,7 @@ const AppRouter = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/aluno-form" element={<AlunoForm />} />
         <Route path="/aluno-list" element={<AlunoList />} />
+        <Route path="/perguntas-form" element={<PerguntasForm />} />
       </Routes>
     </Router>
   );

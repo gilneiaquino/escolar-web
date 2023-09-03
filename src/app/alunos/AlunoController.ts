@@ -1,22 +1,48 @@
-// AlunoController.ts
-import { Aluno } from "../modelos/Aluno";
-import * as AlunoService from "./AlunoService";
+import { Aluno } from '../modelos/Aluno';
+import AlunoService from './AlunoService';
 
 
-export const listarAlunos = () => {
-  return AlunoService.listarAlunos();
-};
+class AlunoController {
+  private alunoService: AlunoService;
 
-export const adicionarAluno = (aluno: Aluno) => {
-  console.log("aluno", aluno);
+  constructor() {
+    this.alunoService = new AlunoService();
+  }
 
-  AlunoService.adicionarAluno(aluno);
-};
+  public async criarAluno(aluno: Aluno): Promise<Aluno> {
+    try {
+      const novoAluno = await this.alunoService.criarAluno(aluno);
+      return novoAluno;
+    } catch (error) {
+      throw new Error('Erro ao criar aluno');
+    }
+  }
 
-export const atualizarAluno = (aluno: Aluno) => {
-  AlunoService.atualizarAluno(aluno);
-};
+  public async listarAlunos(): Promise<Aluno[]> {
+    try {
+      const alunos = await this.alunoService.listarAlunos();
+      return alunos;
+    } catch (error) {
+      throw new Error('Erro ao listar alunos');
+    }
+  }
 
-export const deletarAluno = (id: number) => {
-  AlunoService.deletarAluno(id);
-};
+  public async atualizarAluno(aluno: Aluno): Promise<Aluno> {
+    try {
+      const alunoAtualizado = await this.alunoService.atualizarAluno(aluno);
+      return alunoAtualizado;
+    } catch (error) {
+      throw new Error('Erro ao atualizar aluno');
+    }
+  }
+
+  public async excluirAluno(id: number): Promise<void> {
+    try {
+      await this.alunoService.excluirAluno(id);
+    } catch (error) {
+      throw new Error('Erro ao excluir aluno');
+    }
+  }
+}
+
+export default AlunoController;

@@ -11,6 +11,8 @@ export interface Aluno {
         cidade: string;
         estado: string;
         cep: string;
+        cpf: string;
+        email: string;
       };
       telefones: Telefone[]; 
  

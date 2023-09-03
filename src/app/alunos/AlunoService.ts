@@ -1,45 +1,65 @@
-import { Aluno } from "../modelos/Aluno";
 import axios from 'axios';
+import { Aluno } from '../modelos/Aluno';
+ 
+class AlunoService {
+  private readonly baseURL: string = 'http://localhost:8080/api/alunos';
+  private readonly axiosInstance;
 
-const API_URL = 'http://localhost:8080/api/alunos';
-
-let alunos: Aluno[] = [];  
-
-export const listarAlunos = async (): Promise<Aluno[]> => {
-  try {
-    const response = await fetch(API_URL, {
-      method: 'GET',
+   constructor() {
+    this.baseURL = 'http://localhost:8080/api/alunos'; // Defina a URL base aqui
+    this.axiosInstance = axios.create({
+      baseURL: this.baseURL,
       headers: {
         'Content-Type': 'application/json',
       },
     });
-    if (!response.ok) {
-      throw new Error('Não foi possível buscar os alunos.');
+  } 
+
+  private customConfig = {  
+    headers: {
+    'baseURL':  this.baseURL,
+    'Content-Type': 'application/json'
     }
-    const data: Aluno[] = await response.json();
-    return data;
-  } catch (error: any) {
-    throw new Error(`Erro ao listar alunos: ${error.message}`);
-  }
-};
+  };
 
-export const adicionarAluno = async (aluno: Omit<Aluno, 'id'>) => {
-  try {
-    const response = await axios.post(API_URL, aluno);
-    return response.data;
-  } catch (error) {
-    console.error('Erro ao adicionar aluno:', error);
-    throw error; // Você pode tratar o erro ou lançá-lo novamente para que o componente React trate
+  public async criarAluno(aluno: Aluno): Promise<Aluno> { 
+    try{    
+      const response  = await axios.post(this.baseURL, aluno, this.customConfig);
+      return response.data;
+     } catch (error: any) {
+      throw error;
+    }
   }
-};
 
-export const atualizarAluno = (aluno: Aluno): void => {
-  const index = alunos.findIndex((a) => a.id === aluno.id);
-  if (index !== -1) {
-    alunos[index] = aluno;
+  public async listarAlunos(): Promise<Aluno[]> {
+    try {
+      const response = await axios.get<Aluno[]>(this.baseURL, this.customConfig);
+      return response.data;
+    } catch (error: any) {
+      throw error;
+    }
   }
-};
+  
 
-export const deletarAluno = (id: number): void => {
-  alunos = alunos.filter((aluno) => aluno.id !== id);
-};
+  public async atualizarAluno(aluno: Aluno): Promise<Aluno> {
+    try {
+      const response = await this.axiosInstance.put<Aluno>(
+        `/${aluno.id}`,
+        aluno
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async excluirAluno(id: number): Promise<void> {
+    try {
+      await this.axiosInstance.delete(`/${id}`);
+    } catch (error) {
+      throw error;
+    }
+  }
+}
+
+export default AlunoService;

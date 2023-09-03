@@ -18,6 +18,11 @@ const Menu: React.FC = () => {
                 <li className="nav-item">
                     <a className="nav-link" href="/home">Matérias</a>
                 </li>
+
+                <li className="nav-item">
+                    <a className="nav-link" href="/perguntas-form">Perguntas</a>
+                </li>
+                
             </ul>
         </nav>
 

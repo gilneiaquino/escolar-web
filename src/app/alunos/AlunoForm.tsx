@@ -1,9 +1,10 @@
 // AlunoForm.tsx
 import React, { useState } from "react";
-import * as AlunoController from "./AlunoController";
 import { Aluno } from "../modelos/Aluno";
 import InputMask from "react-input-mask";
+import AlunoController from "./AlunoController";
 
+const alunoController = new AlunoController();
 
 
 const estados = [
@@ -53,6 +54,9 @@ const AlunoForm: React.FC = () => {
   const [cep, setCep] = useState("");
   const [telefones, setTelefones] = useState([{ id: 1, ddd: "", numero: "", tipo: 'Residencial' }]); // Inicializa com um campo de telefone vazio
   const [selectedTipoTelefone, setTipoTelefone] = useState('');
+  const [email, setEmail] = useState("");
+  const [cpf, setCpf] = useState("");
+
 
 
   const adicionarTelefone = () => {
@@ -98,11 +102,13 @@ const AlunoForm: React.FC = () => {
         cidade,
         estado,
         cep,
+        cpf,
+        email
       },
       telefones: telefones,
     };
 
-    AlunoController.adicionarAluno(aluno);
+    alunoController.criarAluno(aluno);
     setNome("");
     setDataNascimento("");
     setGenero("");
@@ -111,6 +117,8 @@ const AlunoForm: React.FC = () => {
     setCidade("");
     setEstado("");
     setCep("");
+    setEmail("");
+    setCpf("");
   };
 
   return (
@@ -157,8 +165,8 @@ const AlunoForm: React.FC = () => {
               </div>
             </div>
             <div className="row col-12 my-3">
-              <div className="form-group  col-md-5  mx-sm-3">
 
+              <div className="form-group  col-md-5  mx-sm-3">
                 <label>Email</label>
                 <div className="input-group">
                   <div className="input-group-prepend">
@@ -168,10 +176,22 @@ const AlunoForm: React.FC = () => {
                     className="form-control"
                     type="text"
                     placeholder="Email"
-                    value={genero}
-                    onChange={(e) => setGenero(e.target.value)}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
+              </div>
+              <div className="form-group  col-md-2  mx-sm-3">
+                <label>CPF</label>
+                <InputMask
+                  className="form-control"
+                  mask="999.999.999-99"
+                  id="cpf"
+                  type="text"
+                  name="cpf"
+                  placeholder="999.999.999-99"
+                  value={cpf}
+                  onChange={(e) => setCpf(e.target.value)} />
               </div>
             </div>
           </div>
@@ -309,7 +329,7 @@ const AlunoForm: React.FC = () => {
         </div>
         <div className="row col-12 my-3   d-flex justify-content-end align-items-center">
           <div className="col-md-1  mx-sm-3">
-            <button type="button" className="btn btn-secondary">Limpar</button>
+            <button type="button" className="btn btn-secondary" onClick={handleAdicionarAluno}>Limpar</button>
           </div>
           <div className=" col-md-1  mx-sm-3">
             <button type="button" className="btn btn-primary" onClick={handleAdicionarAluno}>Salvar</button>
