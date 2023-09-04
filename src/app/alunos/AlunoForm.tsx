@@ -5,44 +5,7 @@ import InputMask from "react-input-mask";
 import AlunoController from "./AlunoController";
 
 const alunoController = new AlunoController();
-
-
-const estados = [
-  { nome: 'Acre', uf: 'AC' },
-  { nome: 'Alagoas', uf: 'AL' },
-  { nome: 'Amapá', uf: 'AP' },
-  { nome: 'Amazonas', uf: 'AM' },
-  { nome: 'Bahia', uf: 'BA' },
-  { nome: 'Ceará', uf: 'CE' },
-  { nome: 'Distrito Federal', uf: 'DF' },
-  { nome: 'Espírito Santo', uf: 'ES' },
-  { nome: 'Goiás', uf: 'GO' },
-  { nome: 'Maranhão', uf: 'MA' },
-  { nome: 'Mato Grosso', uf: 'MT' },
-  { nome: 'Mato Grosso do Sul', uf: 'MS' },
-  { nome: 'Minas Gerais', uf: 'MG' },
-  { nome: 'Pará', uf: 'PA' },
-  { nome: 'Paraíba', uf: 'PB' },
-  { nome: 'Paraná', uf: 'PR' },
-  { nome: 'Pernambuco', uf: 'PE' },
-  { nome: 'Piauí', uf: 'PI' },
-  { nome: 'Rio de Janeiro', uf: 'RJ' },
-  { nome: 'Rio Grande do Norte', uf: 'RN' },
-  { nome: 'Rio Grande do Sul', uf: 'RS' },
-  { nome: 'Rondônia', uf: 'RO' },
-  { nome: 'Roraima', uf: 'RR' },
-  { nome: 'Santa Catarina', uf: 'SC' },
-  { nome: 'São Paulo', uf: 'SP' },
-  { nome: 'Sergipe', uf: 'SE' },
-  { nome: 'Tocantins', uf: 'TO' }
-];
-
-const tipoTelefones = [
-  { nome: 'Fixo' },
-  { nome: 'Celular' }
-];
-
-
+  
 const AlunoForm: React.FC = () => {
   const [nome, setNome] = useState("");
   const [dataNascimento, setDataNascimento] = useState("");
@@ -217,7 +180,7 @@ const AlunoForm: React.FC = () => {
                 <label>Estado</label>
                 <select className="form-control" value={estado} onChange={handleChangeEstado}>
                   <option value=""></option>
-                  {estados.map((estado) => (
+                  {alunoController.estados.map((estado) => (
                     <option key={estado.uf} value={estado.uf}>
                       {estado.nome} - {estado.uf}
                     </option>
@@ -266,14 +229,14 @@ const AlunoForm: React.FC = () => {
           <div className="card-header">
             Telefones
           </div>
-          {telefones.map((telefone) => (
-            <div className="card-body">
-              <div className="row col-12" key={telefone.id}>
+          {telefones.map((telefone, index) => (
+            <div className="card-body" key={index}>
+              <div className="row col-12" >
                 <div className="col-md-2 mx-sm-3">
                   <label>Tipo de Telefone</label>
                   <select className="form-control"
                     value={selectedTipoTelefone} onChange={handleChangeTipoTelefone}>
-                    {tipoTelefones.map((telefone) => (
+                    {alunoController.tipoTelefones.map((telefone) => (
                       <option key={telefone.nome} value={telefone.nome}>
                         {telefone.nome}
                       </option>
