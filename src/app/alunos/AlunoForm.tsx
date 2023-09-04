@@ -5,7 +5,14 @@ import InputMask from "react-input-mask";
 import AlunoController from "./AlunoController";
 
 const alunoController = new AlunoController();
-  
+ 
+
+const tipoTelefones = [
+  { nome: 'Fixo' },
+  { nome: 'Celular' }
+];
+
+
 const AlunoForm: React.FC = () => {
   const [nome, setNome] = useState("");
   const [dataNascimento, setDataNascimento] = useState("");
@@ -236,7 +243,7 @@ const AlunoForm: React.FC = () => {
                   <label>Tipo de Telefone</label>
                   <select className="form-control"
                     value={selectedTipoTelefone} onChange={handleChangeTipoTelefone}>
-                    {alunoController.tipoTelefones.map((telefone) => (
+                    {tipoTelefones.map((telefone) => (
                       <option key={telefone.nome} value={telefone.nome}>
                         {telefone.nome}
                       </option>

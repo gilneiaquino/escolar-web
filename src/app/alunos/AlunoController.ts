@@ -34,7 +34,7 @@ class AlunoController {
     { nome: 'Sergipe', uf: 'SE' },
     { nome: 'Tocantins', uf: 'TO' }
   ];
-
+ 
   constructor() {
     this.alunoService = new AlunoService();
   }
