@@ -1,11 +1,11 @@
 // AlunoForm.tsx
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { Aluno } from "../modelos/Aluno";
 import InputMask from "react-input-mask";
 import AlunoController from "./AlunoController";
 
 const alunoController = new AlunoController();
- 
+
 
 const tipoTelefones = [
   { nome: 'Fixo' },
@@ -14,6 +14,7 @@ const tipoTelefones = [
 
 
 const AlunoForm: React.FC = () => {
+  const [erro, setErro] = useState('');
   const [nome, setNome] = useState("");
   const [dataNascimento, setDataNascimento] = useState("");
   const [genero, setGenero] = useState("");
@@ -28,6 +29,10 @@ const AlunoForm: React.FC = () => {
   const [cpf, setCpf] = useState("");
 
 
+  const handleChangeNome = (event: ChangeEvent<HTMLInputElement>) => {
+    const valor = event.target.value;
+    setNome(valor);
+  };
 
   const adicionarTelefone = () => {
     const novoTelefone = { id: telefones.length + 1, ddd: "", numero: "", tipo: 'Comercial' };
@@ -62,6 +67,16 @@ const AlunoForm: React.FC = () => {
   };
 
   const handleAdicionarAluno = () => {
+
+    // Validando se o campo está vazio
+    console.log("nome campos: ", nome);
+    
+    if (nome.trim() === '') {
+      setErro('O campo nome não pode estar vazio.');
+    } else {
+      setErro('');
+    }
+
     const aluno: Aluno = {
       nome,
       dataNascimento: new Date(dataNascimento),
@@ -110,7 +125,7 @@ const AlunoForm: React.FC = () => {
                   type="text"
                   placeholder="Nome"
                   value={nome}
-                  onChange={(e) => setNome(e.target.value)}
+                  onChange={handleChangeNome}
                 />
               </div>
               <div className="form-group col-md-2  mx-sm-3">
@@ -250,7 +265,7 @@ const AlunoForm: React.FC = () => {
                     ))}
                   </select>
                 </div>
-                <div className="col-md-2 mx-sm-3">
+                <div className="col-md-1">
                   <label>DDD</label>
 
                   <InputMask
@@ -265,7 +280,7 @@ const AlunoForm: React.FC = () => {
                   />
 
                 </div>
-                <div className="col-md-2 mx-sm-3">
+                <div className="col-md-2">
 
                   <label>Número de Telefone</label>
                   <InputMask
