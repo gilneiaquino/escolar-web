@@ -198,13 +198,13 @@ const AlunoForm: React.FC = () => {
                   onChange={(e) => setCep(e.target.value)}
                 />
               </div>
-              <div className="col-md-1 mx-sm-3">
+              <div className="col-md-1">
                 <label>Estado</label>
                 <select className="form-control" value={estado} onChange={handleChangeEstado}>
                   <option value=""></option>
                   {alunoController.estados.map((estado) => (
                     <option key={estado.uf} value={estado.uf}>
-                      {estado.nome} - {estado.uf}
+                       {estado.uf}
                     </option>
                   ))}
                 </select>
@@ -223,7 +223,7 @@ const AlunoForm: React.FC = () => {
                   onChange={(e) => setCidade(e.target.value)}
                 />
               </div>
-              <div className="col-md-4 mx-sm-3">
+              <div className="col-md-4">
                 <label>Rua</label>
                 <input
                   className="form-control"
@@ -233,7 +233,7 @@ const AlunoForm: React.FC = () => {
                   onChange={(e) => setRua(e.target.value)}
                 />
               </div>
-              <div className="col-md-2 mx-sm-3">
+              <div className="col-md-2">
                 <label>Número</label>
                 <input
                   className="form-control"
@@ -296,7 +296,7 @@ const AlunoForm: React.FC = () => {
                 </div>
 
 
-                <div className="col-md-2 d-flex justify-content-center align-items-end"
+                <div className="col-md-1 d-flex justify-content-center align-items-end"
                   onClick={() => removerTelefone(telefone.id)}>
                   <button className="btn btn-primary">Remover</button>
                 </div>
