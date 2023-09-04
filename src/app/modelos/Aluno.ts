@@ -5,14 +5,14 @@ export interface Aluno {
     nome: string;
     dataNascimento: Date;
     genero: string;
+    cpf: string;
+    email: string;
     endereco: {
         rua: string;
         numero: string;
         cidade: string;
         estado: string;
         cep: string;
-        cpf: string;
-        email: string;
       };
       telefones: Telefone[]; 
  

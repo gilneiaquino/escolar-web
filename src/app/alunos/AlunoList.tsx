@@ -10,6 +10,7 @@ const AlunoList: React.FC = () => {
   const alunoController = new AlunoController();
 
   const [alunos, setAlunos] = useState<Aluno[]>([]);
+  
 
   useEffect(() => {
     const fetchAlunos = async () => {

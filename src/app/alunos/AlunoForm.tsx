@@ -96,14 +96,14 @@ const AlunoForm: React.FC = () => {
       nome,
       dataNascimento: new Date(dataNascimento),
       genero,
+      cpf,
+      email,
       endereco: {
         rua,
         numero,
         cidade,
         estado,
-        cep,
-        cpf,
-        email
+        cep
       },
       telefones: telefones,
     };
