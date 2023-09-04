@@ -128,7 +128,7 @@ const AlunoForm: React.FC = () => {
                   onChange={handleChangeNome}
                 />
               </div>
-              <div className="form-group col-md-2  mx-sm-3">
+              <div className="form-group col-md-2  ">
                 <label>Data de Nascimento</label>
                 <input
                   className="form-control"
@@ -138,7 +138,7 @@ const AlunoForm: React.FC = () => {
                   onChange={(e) => setDataNascimento(e.target.value)}
                 />
               </div>
-              <div className="form-group  col-md-2  mx-sm-3">
+              <div className="form-group  col-md-2  ">
                 <label>Gênero</label>
                 <input
                   className="form-control"
@@ -151,7 +151,7 @@ const AlunoForm: React.FC = () => {
             </div>
             <div className="row col-12 my-3">
 
-              <div className="form-group  col-md-5  mx-sm-3">
+              <div className="form-group  col-md-5  mx-sm-3  ">
                 <label>Email</label>
                 <div className="input-group">
                   <div className="input-group-prepend">
@@ -166,7 +166,7 @@ const AlunoForm: React.FC = () => {
                   />
                 </div>
               </div>
-              <div className="form-group  col-md-2  mx-sm-3">
+              <div className="form-group  col-md-2 ">
                 <label>CPF</label>
                 <InputMask
                   className="form-control"
