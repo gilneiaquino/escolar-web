@@ -1,11 +1,15 @@
 // AlunoList.tsx
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Aluno } from "../modelos/Aluno";
 import './Aluno.css';
 import AlunoController from "./AlunoController";
-
+import { adicionarMensagem, limparMensagens } from "../mensagens/mensagensSlice";
+  
+ 
 const AlunoList: React.FC = () => {
 
+  const dispatch = useDispatch();
 
   const alunoController = new AlunoController();
 
@@ -24,6 +28,22 @@ const AlunoList: React.FC = () => {
 
     fetchAlunos();
   }, []);
+
+  const handleClick = () => {
+    dispatch(
+      adicionarMensagem({
+        id: Date.now(),
+        texto: "Uma mensagem foi adicionada!",
+      })
+    );
+  };
+
+  const removerMensagem = () => {
+    dispatch(
+      limparMensagens()
+    );
+  };
+  
 
 
   return (
@@ -51,6 +71,16 @@ const AlunoList: React.FC = () => {
           </tbody>
         </table>
       </div>
+
+              
+      <button onClick={handleClick} className="btn btn-primary">
+        Adicionar Mensagem
+      </button>
+
+      <button onClick={removerMensagem} className="btn btn-primary">
+        Limpar mensagens
+      </button>
+      
     </div>
 
   );

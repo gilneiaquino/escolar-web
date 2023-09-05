@@ -3,14 +3,19 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './App.css';
 import Menu from './app/menu/Menu';
 import AppRouter from './AppRouter';
-import Mensagem from './app/mensagens/Mensagem';
+import { Provider } from "react-redux"; // Importe o Provider do react-redux
+import { store } from './app/mensagens/store';
+import ListaDeMensagens from './app/mensagens/ListaDeMensagens';
+ 
 
 function App() {
   return (
     <div>
-      <Menu />
-      <Mensagem/>
-      <AppRouter />
+      <Provider store={store}>
+        <Menu />
+        <ListaDeMensagens/>
+        <AppRouter />
+      </Provider>
     </div>
   );
 }
