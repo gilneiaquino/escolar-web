@@ -3,6 +3,9 @@ import React, { ChangeEvent, useState } from "react";
 import { Aluno } from "../modelos/Aluno";
 import InputMask from "react-input-mask";
 import AlunoController from "./AlunoController";
+import { useDispatch } from "react-redux";
+import { adicionarMensagem, limparMensagens } from "../mensagens/mensagensSlice";
+
 
 const alunoController = new AlunoController();
 
@@ -14,6 +17,9 @@ const tipoTelefones = [
 
 
 const AlunoForm: React.FC = () => {
+
+  const dispatch = useDispatch();
+
   const [erro, setErro] = useState('');
   const [nome, setNome] = useState("");
   const [dataNascimento, setDataNascimento] = useState("");
@@ -66,44 +72,56 @@ const AlunoForm: React.FC = () => {
     // Envie o formulário com nome e a matriz de telefones para onde você precisar
   };
 
-  const handleAdicionarAluno = () => {
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", 
+    });
+  }
 
-    // Validando se o campo está vazio
-    console.log("nome campos: ", nome);
-    
+  const handleAdicionarAluno = () => {
+    dispatch(
+      limparMensagens()
+    );
     if (nome.trim() === '') {
-      setErro('O campo nome não pode estar vazio.');
+      dispatch(
+        adicionarMensagem({
+          id: Date.now(),
+          texto: "O campo nome não pode estar vazio.",
+        })
+      );
+      scrollToTop();
     } else {
-      setErro('');
+      const aluno: Aluno = {
+        nome,
+        dataNascimento: new Date(dataNascimento),
+        genero,
+        cpf,
+        email,
+        endereco: {
+          rua,
+          numero,
+          cidade,
+          estado,
+          cep
+        },
+        telefones: telefones,
+      };
+
+      alunoController.criarAluno(aluno);
+      setNome("");
+      setDataNascimento("");
+      setGenero("");
+      setRua("");
+      setNumero("");
+      setCidade("");
+      setEstado("");
+      setCep("");
+      setEmail("");
+      setCpf("");
     }
 
-    const aluno: Aluno = {
-      nome,
-      dataNascimento: new Date(dataNascimento),
-      genero,
-      cpf,
-      email,
-      endereco: {
-        rua,
-        numero,
-        cidade,
-        estado,
-        cep
-      },
-      telefones: telefones,
-    };
 
-    alunoController.criarAluno(aluno);
-    setNome("");
-    setDataNascimento("");
-    setGenero("");
-    setRua("");
-    setNumero("");
-    setCidade("");
-    setEstado("");
-    setCep("");
-    setEmail("");
-    setCpf("");
   };
 
   return (
@@ -204,7 +222,7 @@ const AlunoForm: React.FC = () => {
                   <option value=""></option>
                   {alunoController.estados.map((estado) => (
                     <option key={estado.uf} value={estado.uf}>
-                       {estado.uf}
+                      {estado.uf}
                     </option>
                   ))}
                 </select>
@@ -317,7 +335,7 @@ const AlunoForm: React.FC = () => {
             <button type="button" className="btn btn-secondary" onClick={handleAdicionarAluno}>Limpar</button>
           </div>
           <div className=" col-md-1  mx-sm-3">
-            <button type="button" className="btn btn-primary" onClick={handleAdicionarAluno}>Salvar</button>
+            <button type="button" className="btn btn-primary"  onClick={handleAdicionarAluno}>Salvar</button>
           </div>
         </div>
       </div>
