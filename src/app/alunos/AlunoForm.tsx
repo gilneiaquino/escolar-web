@@ -348,14 +348,13 @@ const AlunoForm: React.FC = () => {
             </div>
           ))}
 
-          <div className="row col-12 my-3">
-            <div className="col-md-2 d-flex justify-content-center align-items-center">
+
+        </div>
+ 
               <button type="button" className="btn btn-primary" onClick={adicionarTelefone}>
                 Adicionar Telefone
               </button>
-            </div>
-          </div>
-        </div>
+     
         <div className="row col-12 my-3   d-flex justify-content-end align-items-center">
           <div className="col-md-1  mx-sm-3">
             <button type="button" className="btn btn-secondary" onClick={handleAdicionarAluno}>Limpar</button>
