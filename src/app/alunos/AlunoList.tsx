@@ -27,7 +27,7 @@ const AlunoList: React.FC = () => {
     };
 
     fetchAlunos();
-  }, []);
+  });
 
   const handleClick = () => {
     dispatch(

@@ -1,26 +1,15 @@
 // AlunoForm.tsx
 import React, { ChangeEvent, useState } from "react";
-import { Aluno } from "../modelos/Aluno";
 import InputMask from "react-input-mask";
 import AlunoController from "./AlunoController";
 import { useDispatch } from "react-redux";
-import { adicionarMensagem, limparMensagens } from "../mensagens/mensagensSlice";
 
-
-const alunoController = new AlunoController();
-
-
-const tipoTelefones = [
-  { nome: 'Fixo' },
-  { nome: 'Celular' }
-];
-
-
+ 
 const AlunoForm: React.FC = () => {
+  const alunoController = new AlunoController();
 
   const dispatch = useDispatch();
 
-  const [erro, setErro] = useState('');
   const [nome, setNome] = useState("");
   const [dataNascimento, setDataNascimento] = useState("");
   const [genero, setGenero] = useState("");
@@ -267,7 +256,7 @@ const AlunoForm: React.FC = () => {
                   <label>Tipo de Telefone</label>
                   <select className="form-control"
                     value={selectedTipoTelefone} onChange={handleChangeTipoTelefone}>
-                    {tipoTelefones.map((telefone) => (
+                    {alunoController.tipoTelefones.map((telefone) => (
                       <option key={telefone.nome} value={telefone.nome}>
                         {telefone.nome}
                       </option>

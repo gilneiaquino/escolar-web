@@ -1,6 +1,5 @@
 import { adicionarMensagem, limparMensagens } from '../mensagens/mensagensSlice';
 import { Aluno } from '../modelos/Aluno';
-import { Telefone } from '../modelos/Telefone';
 import AlunoService from './AlunoService';
 
 
@@ -35,6 +34,11 @@ class AlunoController {
     { nome: 'São Paulo', uf: 'SP' },
     { nome: 'Sergipe', uf: 'SE' },
     { nome: 'Tocantins', uf: 'TO' }
+  ];
+
+  tipoTelefones = [
+    { nome: 'Fixo' },
+    { nome: 'Celular' }
   ];
 
   constructor() {

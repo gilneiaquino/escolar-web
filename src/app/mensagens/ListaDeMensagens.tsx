@@ -1,7 +1,7 @@
 // ListaDeMensagens.tsx
 
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "./store";
 
 const ListaDeMensagens: React.FC = () => {
