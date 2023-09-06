@@ -34,6 +34,7 @@ const AlunoList: React.FC = () => {
       adicionarMensagem({
         id: Date.now(),
         texto: "Uma mensagem foi adicionada!",
+        tipo:"danger"
       })
     );
   };

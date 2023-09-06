@@ -10,8 +10,8 @@ const ListaDeMensagens: React.FC = () => {
   return (
     <div className="container">
       {mensagens.map((mensagem) => (
-        <div className="alert alert-primary" role="alert" key={mensagem.id}>
-          {mensagem.texto}{" "}
+        <div className={`alert alert-${mensagem.tipo}`} role="alert" key={mensagem.id}>
+          {mensagem.texto} {mensagem.tipo}
         </div>
       ))}
     </div>

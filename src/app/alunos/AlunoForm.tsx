@@ -88,6 +88,7 @@ const AlunoForm: React.FC = () => {
         adicionarMensagem({
           id: Date.now(),
           texto: "O campo nome não pode estar vazio.",
+          tipo: "danger"
         })
       );
       scrollToTop();
