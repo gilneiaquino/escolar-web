@@ -75,54 +75,37 @@ const AlunoForm: React.FC = () => {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth", 
+      behavior: "smooth",
     });
   }
 
   const handleAdicionarAluno = () => {
-    dispatch(
-      limparMensagens()
+    alunoController.handleAdicionarAluno(
+      dispatch,
+      scrollToTop,
+      nome,
+      cpf,
+      dataNascimento,
+      genero,
+      email,
+      rua,
+      numero,
+      cidade,
+      estado,
+      cep,
+      telefones
     );
-    if (nome.trim() === '') {
-      dispatch(
-        adicionarMensagem({
-          id: Date.now(),
-          texto: "O campo nome não pode estar vazio.",
-          tipo: "danger"
-        })
-      );
-      scrollToTop();
-    } else {
-      const aluno: Aluno = {
-        nome,
-        dataNascimento: new Date(dataNascimento),
-        genero,
-        cpf,
-        email,
-        endereco: {
-          rua,
-          numero,
-          cidade,
-          estado,
-          cep
-        },
-        telefones: telefones,
-      };
 
-      alunoController.criarAluno(aluno);
-      setNome("");
-      setDataNascimento("");
-      setGenero("");
-      setRua("");
-      setNumero("");
-      setCidade("");
-      setEstado("");
-      setCep("");
-      setEmail("");
-      setCpf("");
-    }
-
-
+    setNome("");
+    setDataNascimento("");
+    setGenero("");
+    setRua("");
+    setNumero("");
+    setCidade("");
+    setEstado("");
+    setCep("");
+    setEmail("");
+    setCpf(""); 
   };
 
   return (
@@ -336,7 +319,7 @@ const AlunoForm: React.FC = () => {
             <button type="button" className="btn btn-secondary" onClick={handleAdicionarAluno}>Limpar</button>
           </div>
           <div className=" col-md-1  mx-sm-3">
-            <button type="button" className="btn btn-primary"  onClick={handleAdicionarAluno}>Salvar</button>
+            <button type="button" className="btn btn-primary" onClick={handleAdicionarAluno}>Salvar</button>
           </div>
         </div>
       </div>

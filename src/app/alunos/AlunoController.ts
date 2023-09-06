@@ -1,10 +1,12 @@
+import { adicionarMensagem, limparMensagens } from '../mensagens/mensagensSlice';
 import { Aluno } from '../modelos/Aluno';
+import { Telefone } from '../modelos/Telefone';
 import AlunoService from './AlunoService';
 
 
 class AlunoController {
   private alunoService: AlunoService;
-  
+
   estados = [
     { nome: 'Acre', uf: 'AC' },
     { nome: 'Alagoas', uf: 'AL' },
@@ -34,7 +36,7 @@ class AlunoController {
     { nome: 'Sergipe', uf: 'SE' },
     { nome: 'Tocantins', uf: 'TO' }
   ];
- 
+
   constructor() {
     this.alunoService = new AlunoService();
   }
@@ -72,6 +74,89 @@ class AlunoController {
     } catch (error) {
       throw new Error('Erro ao excluir aluno');
     }
+  }
+
+
+  handleAdicionarAluno = (dispatch: Function,
+    scrollToTop: Function,
+    nome: string, cpf: string, dataNascimento: string, genero: string,
+    email: string, rua: string, numero: string, cidade: string, estado: string, cep: string,
+    telefones: Array<Telefone>) => {
+
+    dispatch(limparMensagens());
+
+    if (this.validarForm(dispatch,
+      scrollToTop,
+      nome, cpf, 
+      dataNascimento,
+      genero,
+      email, 
+      rua, 
+      numero, 
+      cidade, 
+      estado, 
+      cep,
+      telefones)) {
+        
+      const aluno = {
+        nome,
+        dataNascimento: new Date(dataNascimento),
+        genero,
+        cpf,
+        email,
+        endereco: {
+          rua,
+          numero,
+          cidade,
+          estado,
+          cep
+        },
+        telefones,
+      };
+
+      this.criarAluno(aluno);
+
+    }
+
+
+
+
+  }
+
+
+
+  public validarForm(
+    dispatch: Function,
+    scrollToTop: Function,
+    nome: string,
+    cpf: string,
+    dataNascimento: string,
+    genero: string,
+    email: string, rua: string, numero: string, cidade: string, estado: string, cep: string,
+    telefones: Array<Telefone>): Boolean {
+
+    if (nome.trim() === '') {
+      dispatch(
+        adicionarMensagem({
+          id: Date.now(),
+          texto: "O campo nome não pode estar vazio.",
+          tipo: "danger"
+        })
+      );
+      scrollToTop();
+    }
+
+    if (cpf.trim() === '') {
+      dispatch(
+        adicionarMensagem({
+          id: Date.now(),
+          texto: "O campo cpf não pode estar vazio.",
+          tipo: "danger"
+        })
+      );
+      scrollToTop();
+    }
+    return false;
   }
 }
 
