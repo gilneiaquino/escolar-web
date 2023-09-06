@@ -1,3 +1,4 @@
+import { Endereco } from "./Endereco";
 import { Telefone } from "./Telefone";
 
 export interface Aluno {
@@ -7,15 +8,7 @@ export interface Aluno {
     genero: string;
     cpf: string;
     email: string;
-    endereco: {
-        rua: string;
-        numero: string;
-        cidade: string;
-        estado: string;
-        cep: string;
-      };
-      telefones: Telefone[]; 
- 
-  }
+    enderecos: Endereco[];
+    telefones: Telefone[];
+}
 
-  

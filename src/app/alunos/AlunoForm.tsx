@@ -3,8 +3,9 @@ import React, { ChangeEvent, useState } from "react";
 import InputMask from "react-input-mask";
 import AlunoController from "./AlunoController";
 import { useDispatch } from "react-redux";
+import { Aluno } from "../modelos/Aluno";
 
- 
+
 const AlunoForm: React.FC = () => {
   const alunoController = new AlunoController();
 
@@ -18,7 +19,15 @@ const AlunoForm: React.FC = () => {
   const [cidade, setCidade] = useState("");
   const [estado, setEstado] = useState("");
   const [cep, setCep] = useState("");
-  const [telefones, setTelefones] = useState([{ id: 1, ddd: "", numero: "", tipo: 'Residencial' }]); // Inicializa com um campo de telefone vazio
+  const [telefones, setTelefones] = useState([{ id: 1, ddd: "", numero: "", tipo: 'Residencial' }]);
+  const [enderecos, setEnderecos] = useState([{
+    id: 1,
+    rua: "",
+    numero: "",
+    cidade: "",
+    estado: "",
+    cep: ""
+  }]);
   const [selectedTipoTelefone, setTipoTelefone] = useState('');
   const [email, setEmail] = useState("");
   const [cpf, setCpf] = useState("");
@@ -31,19 +40,46 @@ const AlunoForm: React.FC = () => {
 
   const adicionarTelefone = () => {
     const novoTelefone = { id: telefones.length + 1, ddd: "", numero: "", tipo: 'Comercial' };
-    setTelefones([...telefones, novoTelefone]); // Adiciona um novo campo de telefone vazio
+    setTelefones([...telefones, novoTelefone]);
+  }
+
+  const adicionarEndereco = () => {
+    const novoEndereco = {
+      id: telefones.length + 1,
+      rua: "",
+      numero: "",
+      cidade: "",
+      estado: "",
+      cep: ""
+    };
+    setEnderecos([...enderecos, novoEndereco]);
   };
+
+
 
   const removerTelefone = (id: number) => {
     const novosTelefones = telefones.filter((telefone) => telefone.id !== id);
     setTelefones(novosTelefones);
   };
 
+  const removerEndereco = (id: number) => {
+    const novosEnderecos = enderecos.filter((endereco) => endereco.id !== id);
+    setEnderecos(novosEnderecos);
+  };
+
+
   const handleTelefoneChange = (id: number, campo: any, value: any) => {
     const novosTelefones = telefones.map((telefone) =>
       telefone.id === id ? { ...telefone, [campo]: value } : telefone
     );
     setTelefones(novosTelefones);
+  };
+
+  const handleEndercoChange = (id: number, campo: any, value: any) => {
+    const novosEnderecos = enderecos.map((endereco) =>
+      endereco.id === id ? { ...endereco, [campo]: value } : endereco
+    );
+    setEnderecos(novosEnderecos);
   };
 
   const handleChangeEstado = (event: any) => {
@@ -54,11 +90,8 @@ const AlunoForm: React.FC = () => {
     setTipoTelefone(event.target.value);
   };
 
-
-
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    // Envie o formulário com nome e a matriz de telefones para onde você precisar
   };
 
   const scrollToTop = () => {
@@ -70,19 +103,13 @@ const AlunoForm: React.FC = () => {
 
   const handleAdicionarAluno = () => {
 
-    const aluno = {
+    const aluno: Aluno = {
       nome,
       dataNascimento: new Date(dataNascimento),
       genero,
       cpf,
       email,
-      endereco: {
-        rua,
-        numero,
-        cidade,
-        estado,
-        cep
-      },
+      enderecos,
       telefones,
     };
 
@@ -101,7 +128,7 @@ const AlunoForm: React.FC = () => {
     setEstado("");
     setCep("");
     setEmail("");
-    setCpf(""); 
+    setCpf("");
   };
 
   return (
@@ -118,7 +145,7 @@ const AlunoForm: React.FC = () => {
             <div className="row col-12">
               <div className="form-group col-md-5 mx-sm-3">
                 <label>Nome</label>
-                <input 
+                <input
                   className="form-control"
                   type="text"
                   placeholder="Nome"
@@ -179,72 +206,91 @@ const AlunoForm: React.FC = () => {
             </div>
           </div>
         </div>
+
         <div className="card my-3">
           <div className="card-header">
             Endereço
           </div>
           <div className="card-body">
-            <div className="row col-12" >
-              <div className="col-md-2 mx-sm-3">
-                <label>Cep</label>
-                <input
-                  className="form-control"
-                  type="text"
-                  maxLength={8}
-                  placeholder="CEP"
-                  value={cep}
-                  onChange={(e) => setCep(e.target.value)}
-                />
+            {enderecos.map((endereco, index) => (
+              <div className="card-body" key={index}>
+                <div className="row col-12" >
+
+                  <div className="row col-12" >
+                    <div className="col-md-2 mx-sm-3">
+                      <label>Cep</label>
+                      <input
+                        className="form-control"
+                        type="text"
+                        maxLength={8}
+                        placeholder="CEP"
+                        value={endereco.cep}
+                        onChange={(e) => handleEndercoChange(endereco.id, 'cep', e.target.value)}                       
+                      />
+                    </div>
+                    <div className="col-md-1">
+                      <label>Estado</label>
+                      <select className="form-control" value={estado} onChange={handleChangeEstado}>
+                        <option value=""></option>
+                        {alunoController.estados.map((estado) => (
+                          <option key={estado.uf} value={estado.uf}>
+                            {estado.uf}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="row col-12 my-3">
+                    <div className="col-md-2 mx-sm-3">
+                      <label>Cidade</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Cidade"
+                        value={endereco.cidade}
+                        onChange={(e) => handleEndercoChange(endereco.id, 'cidade', e.target.value)}                       
+                      />
+                    </div>
+                    <div className="col-md-4">
+                      <label>Rua</label>
+                      <input
+                        className="form-control"
+                        type="text"
+                        placeholder="Rua"
+                        value={endereco.rua}
+                        onChange={(e) => handleEndercoChange(endereco.id, 'rua', e.target.value)}                       
+                      />
+                    </div>
+                    <div className="col-md-2">
+                      <label>Número</label>
+                      <input
+                        className="form-control"
+                        type="text"
+                        maxLength={5}
+                        placeholder="Número"
+                        value={endereco.numero}
+                        onChange={(e) => handleEndercoChange(endereco.id, 'numero', e.target.value)}                       
+                      />
+                    </div>
+                    <div className="col-md-1 d-flex justify-content-center align-items-end"
+                      onClick={() => removerEndereco(endereco.id)}>
+                      <button className="btn btn-primary">Remover</button>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="col-md-1">
-                <label>Estado</label>
-                <select className="form-control" value={estado} onChange={handleChangeEstado}>
-                  <option value=""></option>
-                  {alunoController.estados.map((estado) => (
-                    <option key={estado.uf} value={estado.uf}>
-                      {estado.uf}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
+            ))}
 
 
-            <div className="row col-12 my-3">
-              <div className="col-md-2 mx-sm-3">
-                <label>Cidade</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Cidade"
-                  value={cidade}
-                  onChange={(e) => setCidade(e.target.value)}
-                />
-              </div>
-              <div className="col-md-4">
-                <label>Rua</label>
-                <input
-                  className="form-control"
-                  type="text"
-                  placeholder="Rua"
-                  value={rua}
-                  onChange={(e) => setRua(e.target.value)}
-                />
-              </div>
-              <div className="col-md-2">
-                <label>Número</label>
-                <input
-                  className="form-control"
-                  type="text"
-                  maxLength={5}
-                  placeholder="Número"
-                  value={numero}
-                  onChange={(e) => setNumero(e.target.value)}
-                />
-              </div>
-            </div>
           </div>
         </div>
+
+        <button type="button" className="btn btn-primary" onClick={adicionarEndereco}>
+          Adicionar Endereço
+        </button>
+
+
         <div className="card my-3">
           <div className="card-header">
             Telefones
@@ -321,7 +367,7 @@ const AlunoForm: React.FC = () => {
       </div>
 
 
-    </form>
+    </form >
 
 
 
