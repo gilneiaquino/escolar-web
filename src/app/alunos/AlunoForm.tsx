@@ -14,6 +14,7 @@ const AlunoForm: React.FC = () => {
   const [nome, setNome] = useState("");
   const [dataNascimento, setDataNascimento] = useState("");
   const [genero, setGenero] = useState("");
+  const [matricula, setMatricula] = useState("");  
   const [rua, setRua] = useState("");
   const [numero, setNumero] = useState("");
   const [cidade, setCidade] = useState("");
@@ -111,6 +112,7 @@ const AlunoForm: React.FC = () => {
       email,
       enderecos,
       telefones,
+      matricula
     };
 
     alunoController.handleAdicionarAluno(
@@ -203,6 +205,16 @@ const AlunoForm: React.FC = () => {
                   value={cpf}
                   onChange={(e) => setCpf(e.target.value)} />
               </div>
+              <div className="form-group  col-md-2  ">
+                <label>Matricula</label>
+                <input
+                  className="form-control"
+                  type="text"
+                  placeholder="Matricula"
+                  value={matricula}
+                  onChange={(e) => setMatricula(e.target.value)}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -225,7 +237,7 @@ const AlunoForm: React.FC = () => {
                         maxLength={8}
                         placeholder="CEP"
                         value={endereco.cep}
-                        onChange={(e) => handleEndercoChange(endereco.id, 'cep', e.target.value)}                       
+                        onChange={(e) => handleEndercoChange(endereco.id, 'cep', e.target.value)}
                       />
                     </div>
                     <div className="col-md-1">
@@ -249,7 +261,7 @@ const AlunoForm: React.FC = () => {
                         className="form-control"
                         placeholder="Cidade"
                         value={endereco.cidade}
-                        onChange={(e) => handleEndercoChange(endereco.id, 'cidade', e.target.value)}                       
+                        onChange={(e) => handleEndercoChange(endereco.id, 'cidade', e.target.value)}
                       />
                     </div>
                     <div className="col-md-4">
@@ -259,7 +271,7 @@ const AlunoForm: React.FC = () => {
                         type="text"
                         placeholder="Rua"
                         value={endereco.rua}
-                        onChange={(e) => handleEndercoChange(endereco.id, 'rua', e.target.value)}                       
+                        onChange={(e) => handleEndercoChange(endereco.id, 'rua', e.target.value)}
                       />
                     </div>
                     <div className="col-md-2">
@@ -270,7 +282,7 @@ const AlunoForm: React.FC = () => {
                         maxLength={5}
                         placeholder="Número"
                         value={endereco.numero}
-                        onChange={(e) => handleEndercoChange(endereco.id, 'numero', e.target.value)}                       
+                        onChange={(e) => handleEndercoChange(endereco.id, 'numero', e.target.value)}
                       />
                     </div>
                     <div className="col-md-1 d-flex justify-content-center align-items-end"
@@ -350,11 +362,11 @@ const AlunoForm: React.FC = () => {
 
 
         </div>
- 
-              <button type="button" className="btn btn-primary" onClick={adicionarTelefone}>
-                Adicionar Telefone
-              </button>
-     
+
+        <button type="button" className="btn btn-primary" onClick={adicionarTelefone}>
+          Adicionar Telefone
+        </button>
+
         <div className="row col-12 my-3   d-flex justify-content-end align-items-center">
           <div className="col-md-1  mx-sm-3">
             <button type="button" className="btn btn-secondary" onClick={handleAdicionarAluno}>Limpar</button>

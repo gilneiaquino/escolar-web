@@ -10,5 +10,6 @@ export interface Aluno {
     email: string;
     enderecos: Endereco[];
     telefones: Telefone[];
+    matricula: string;
 }
 
