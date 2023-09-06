@@ -116,11 +116,10 @@ class AlunoController {
 
       this.criarAluno(aluno);
 
+    }else{
+      scrollToTop();
     }
-
-
-
-
+ 
   }
 
 
@@ -135,6 +134,7 @@ class AlunoController {
     email: string, rua: string, numero: string, cidade: string, estado: string, cep: string,
     telefones: Array<Telefone>): Boolean {
 
+    let retorno  = true;
     if (nome.trim() === '') {
       dispatch(
         adicionarMensagem({
@@ -143,7 +143,7 @@ class AlunoController {
           tipo: "danger"
         })
       );
-      scrollToTop();
+      retorno = false;
     }
 
     if (cpf.trim() === '') {
@@ -154,9 +154,10 @@ class AlunoController {
           tipo: "danger"
         })
       );
-      scrollToTop();
+      retorno = false;
     }
-    return false;
+
+    return retorno;
   }
 }
 
