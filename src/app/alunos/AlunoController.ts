@@ -108,7 +108,7 @@ class AlunoController {
       dispatch(
         adicionarMensagem({
           id: Date.now(),
-          texto: "O campo nome não pode estar vazio.",
+          texto: "O campo Nome não pode estar vazio.",
           tipo: "danger"
         })
       );
@@ -119,12 +119,44 @@ class AlunoController {
       dispatch(
         adicionarMensagem({
           id: Date.now(),
-          texto: "O campo cpf não pode estar vazio.",
+          texto: "O campo CPF não pode estar vazio.",
           tipo: "danger"
         })
       );
       retorno = false;
     }
+
+    if (aluno.email.trim() === '') {
+      dispatch(
+        adicionarMensagem({
+          id: Date.now(),
+          texto: "O campo E-mail não pode estar vazio.",
+          tipo: "danger"
+        })
+      );
+
+      if (aluno.genero.trim() === '') {
+        dispatch(
+          adicionarMensagem({
+            id: Date.now(),
+            texto: "O campo Gênero não pode estar vazio.",
+            tipo: "danger"
+          })
+        );
+      };
+
+      if (!(aluno.dataNascimento instanceof Date) || isNaN(aluno.dataNascimento.getTime())) {
+        dispatch(
+          adicionarMensagem({
+            id: Date.now(),
+            texto: "O campo Data de Nascimento não pode estar vazio.",
+            tipo: "danger"
+          })
+        );
+      };
+      retorno = false;
+    }
+
 
     return retorno;
   }

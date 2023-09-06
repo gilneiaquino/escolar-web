@@ -129,7 +129,7 @@ const AlunoForm: React.FC = () => {
             <div className="row col-12">
               <div className="form-group col-md-5 mx-sm-3">
                 <label>Nome</label>
-                <input
+                <input 
                   className="form-control"
                   type="text"
                   placeholder="Nome"
