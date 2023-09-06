@@ -88,12 +88,19 @@ class AlunoController {
     dispatch(limparMensagens());
 
     if (this.validarForm(dispatch,
-      scrollToTop,
       aluno)) {
          
 
       this.criarAluno(aluno);
 
+      dispatch(
+        adicionarMensagem({
+          id: Date.now(),
+          texto: "Aluno cadastrado com sucesso.",
+          tipo: "success"
+        })
+      );
+      scrollToTop();
     }else{
       scrollToTop();
     }
@@ -104,7 +111,6 @@ class AlunoController {
 
   public validarForm(
     dispatch: Function,
-    scrollToTop: Function,
     aluno: Aluno): Boolean {
 
     let retorno  = true;
