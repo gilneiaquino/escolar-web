@@ -79,40 +79,14 @@ class AlunoController {
 
   handleAdicionarAluno = (dispatch: Function,
     scrollToTop: Function,
-    nome: string, cpf: string, dataNascimento: string, genero: string,
-    email: string, rua: string, numero: string, cidade: string, estado: string, cep: string,
-    telefones: Array<Telefone>) => {
+     aluno: Aluno) => {
 
     dispatch(limparMensagens());
 
     if (this.validarForm(dispatch,
       scrollToTop,
-      nome, cpf, 
-      dataNascimento,
-      genero,
-      email, 
-      rua, 
-      numero, 
-      cidade, 
-      estado, 
-      cep,
-      telefones)) {
-        
-      const aluno = {
-        nome,
-        dataNascimento: new Date(dataNascimento),
-        genero,
-        cpf,
-        email,
-        endereco: {
-          rua,
-          numero,
-          cidade,
-          estado,
-          cep
-        },
-        telefones,
-      };
+      aluno)) {
+         
 
       this.criarAluno(aluno);
 
@@ -127,15 +101,10 @@ class AlunoController {
   public validarForm(
     dispatch: Function,
     scrollToTop: Function,
-    nome: string,
-    cpf: string,
-    dataNascimento: string,
-    genero: string,
-    email: string, rua: string, numero: string, cidade: string, estado: string, cep: string,
-    telefones: Array<Telefone>): Boolean {
+    aluno: Aluno): Boolean {
 
     let retorno  = true;
-    if (nome.trim() === '') {
+    if (aluno.nome.trim() === '') {
       dispatch(
         adicionarMensagem({
           id: Date.now(),
@@ -146,7 +115,7 @@ class AlunoController {
       retorno = false;
     }
 
-    if (cpf.trim() === '') {
+    if (aluno.cpf.trim() === '') {
       dispatch(
         adicionarMensagem({
           id: Date.now(),

@@ -80,20 +80,27 @@ const AlunoForm: React.FC = () => {
   }
 
   const handleAdicionarAluno = () => {
+
+    const aluno = {
+      nome,
+      dataNascimento: new Date(dataNascimento),
+      genero,
+      cpf,
+      email,
+      endereco: {
+        rua,
+        numero,
+        cidade,
+        estado,
+        cep
+      },
+      telefones,
+    };
+
     alunoController.handleAdicionarAluno(
       dispatch,
       scrollToTop,
-      nome,
-      cpf,
-      dataNascimento,
-      genero,
-      email,
-      rua,
-      numero,
-      cidade,
-      estado,
-      cep,
-      telefones
+      aluno
     );
 
     setNome("");
