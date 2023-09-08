@@ -1,10 +1,10 @@
 // AppRouter.js
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import AlunoForm from './app/AlunoForm/AlunoForm';
 import HomePage from './pages/HomePage';
 import PerguntasForm from './app/perguntas/PerguntasForm';
-import AlunoConsultaList from './app/AlunoForm/AlunoConsultaList';
+import AlunoConsultaList from './app/Aluno/AlunoConsultaList';
+import AlunoForm from './app/Aluno/AlunoForm';
 
 const AppRouter = () => {
   return (
