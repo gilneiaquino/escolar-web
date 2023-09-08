@@ -4,6 +4,7 @@ import AlunoService from './AlunoService';
 
 
 class AlunoController {
+
   private alunoService: AlunoService;
 
   estados = [
@@ -41,6 +42,8 @@ class AlunoController {
     { nome: 'Celular' }
   ];
 
+  alunos: Aluno[] = [];
+
   constructor() {
     this.alunoService = new AlunoService();
   }
@@ -53,7 +56,7 @@ class AlunoController {
       throw new Error('Erro ao criar aluno');
     }
   }
- 
+
   public async atualizarAluno(aluno: Aluno): Promise<Aluno> {
     try {
       const alunoAtualizado = await this.alunoService.atualizarAluno(aluno);
@@ -74,13 +77,13 @@ class AlunoController {
 
   handleAdicionarAluno = (dispatch: Function,
     scrollToTop: Function,
-     aluno: Aluno) => {
+    aluno: Aluno) => {
 
     dispatch(limparMensagens());
 
     if (this.validarForm(dispatch,
       aluno)) {
-         
+
 
       this.criarAluno(aluno);
 
@@ -92,19 +95,35 @@ class AlunoController {
         })
       );
       scrollToTop();
-    }else{
+    } else {
       scrollToTop();
     }
- 
+
   }
 
+  public async consultar(
+    nome: string,
+    cpf: string,
+    matricula: string
+  ): Promise<Aluno[] | null> {
+    try {
+      this.alunos = await this.alunoService.consultar(nome, cpf, matricula);
 
-
+      if (this.alunos.length > 0) {
+        return this.alunos;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      throw new Error('Erro ao consultar aluno');
+    }
+  }
+ 
   public validarForm(
     dispatch: Function,
     aluno: Aluno): Boolean {
 
-    let retorno  = true;
+    let retorno = true;
     if (aluno.nome.trim() === '') {
       dispatch(
         adicionarMensagem({

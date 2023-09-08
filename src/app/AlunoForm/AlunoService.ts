@@ -50,6 +50,27 @@ class AlunoService {
       throw error;
     }
   }
+
+  
+
+  public async consultar(nome: string, cpf: string, matricula: string): Promise<Aluno[]> {
+    try {
+      const queryParams = new URLSearchParams({
+        nome: nome,
+        cpf: cpf,
+        matricula: matricula,
+      });
+  
+      const url = `http://localhost:8080/api/alunos/consultar?${queryParams.toString()}`;
+  
+      const response = await axios.get<Aluno[]>(url, this.customConfig);
+  
+      return response.data;
+    } catch (error: any) {
+      throw error;
+    }
+  }
+  
 }
 
 export default AlunoService;
