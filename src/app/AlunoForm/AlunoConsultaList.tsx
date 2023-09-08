@@ -27,10 +27,14 @@ function AlunoConsultaList() {
     // Você pode abrir um modal de edição ou navegar para uma página de edição, por exemplo.
   };
   
-  const handleExcluirAluno = (id : any) => {
-    // Implemente a lógica para excluir o aluno com o ID alunoId
-    console.log(`Excluir aluno com ID ${id}`);
-    // Você pode mostrar um modal de confirmação de exclusão ou realizar a exclusão diretamente.
+  const handleExcluirAluno = async (id: any) => {
+    try {
+       await alunoController.excluirAluno(id);
+       const alunosConsultados = await alunoController.consultar(nome, cpf, matricula);
+       setAlunos(alunosConsultados || []);  
+     } catch (error) {
+      console.error('Erro ao excluir aluno:', error);
+    }
   };
   
 
@@ -110,7 +114,7 @@ function AlunoConsultaList() {
               <th scope="col">Matricula</th>
               <th scope="col">Data de Nascimento</th>
               <th scope="col">Genêro</th>
-              <th scope="col">Ações</th> {/* Nova coluna para as ações */}
+              <th scope="col">Ações</th> 
             </tr>
           </thead>
           <tbody>
