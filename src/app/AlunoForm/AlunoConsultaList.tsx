@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Aluno } from '../modelos/Aluno';
 import AlunoController from './AlunoController';
 import InputMask from "react-input-mask";
-
+ 
 
 function AlunoConsultaList() {
   const [nome, setNome] = useState('');
@@ -20,6 +20,19 @@ function AlunoConsultaList() {
       console.error('Erro ao consultar alunos:', error);
     }
   };
+
+  const handleEditarAluno = (id : any) => {
+    // Implemente a lógica para editar o aluno com o ID alunoId
+    console.log(`Editar aluno com ID ${id}`);
+    // Você pode abrir um modal de edição ou navegar para uma página de edição, por exemplo.
+  };
+  
+  const handleExcluirAluno = (id : any) => {
+    // Implemente a lógica para excluir o aluno com o ID alunoId
+    console.log(`Excluir aluno com ID ${id}`);
+    // Você pode mostrar um modal de confirmação de exclusão ou realizar a exclusão diretamente.
+  };
+  
 
   const limpar = () => {
     setNome('');
@@ -75,13 +88,14 @@ function AlunoConsultaList() {
 
       </div>
 
-
-      <button className="btn btn-primary" onClick={consultarAlunos}>
-        Consultar
-      </button>
-      <button className="btn btn-secondary" onClick={limpar}>
-        Limpar
-      </button>
+      <div className="row col-12 my-3   d-flex justify-content-end align-items-center">
+        <div className="col-md-1  mx-sm-3">
+          <button type="button" className="btn btn-secondary" onClick={limpar}>Limpar</button>
+        </div>
+        <div className=" col-md-1 ">
+          <button type="button" className="btn btn-primary" onClick={consultarAlunos}>Salvar</button>
+        </div>
+      </div>
 
 
       <div className="card my-3">
@@ -96,6 +110,7 @@ function AlunoConsultaList() {
               <th scope="col">Matricula</th>
               <th scope="col">Data de Nascimento</th>
               <th scope="col">Genêro</th>
+              <th scope="col">Ações</th> {/* Nova coluna para as ações */}
             </tr>
           </thead>
           <tbody>
@@ -106,6 +121,17 @@ function AlunoConsultaList() {
                 <td>{aluno.matricula} </td>
                 <td>{aluno.dataNascimento.toString()}  </td>
                 <td>{aluno.genero} </td>
+                <td>
+                  {/* Ícones de edição e exclusão */}
+                  <i 
+                    className="bi bi-pencil me-2 icon-hover" 
+                    onClick={() => handleEditarAluno(aluno.id)}
+                  ></i>
+                  <i
+                    className="bi bi-trash icon-hover" 
+                    onClick={() => handleExcluirAluno(aluno.id)}
+                  ></i>
+                 </td>
               </tr>
             ))}
           </tbody>

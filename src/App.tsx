@@ -1,5 +1,5 @@
 
-import 'bootstrap/dist/js/bootstrap.bundle.min';
+
 import './App.css';
 import Menu from './app/menu/Menu';
 import AppRouter from './AppRouter';
