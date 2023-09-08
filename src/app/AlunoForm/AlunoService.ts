@@ -6,7 +6,7 @@ class AlunoService {
   private readonly axiosInstance;
 
    constructor() {
-    this.baseURL = 'http://localhost:8080/api/alunos'; // Defina a URL base aqui
+    this.baseURL = 'http://localhost:8080/api/alunos';  
     this.axiosInstance = axios.create({
       baseURL: this.baseURL,
       headers: {
@@ -29,17 +29,7 @@ class AlunoService {
      } catch (error: any) {
       throw error;
     }
-  }
-
-  public async listarAlunos(): Promise<Aluno[]> {
-    try {
-      const response = await axios.get<Aluno[]>(this.baseURL, this.customConfig);
-      return response.data;
-    } catch (error: any) {
-      throw error;
-    }
-  }
-  
+  } 
 
   public async atualizarAluno(aluno: Aluno): Promise<Aluno> {
     try {

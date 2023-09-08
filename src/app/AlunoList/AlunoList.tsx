@@ -1,17 +1,16 @@
-// AlunoList.tsx
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Aluno } from "../modelos/Aluno";
-import './Aluno.css';
-import AlunoController from "./AlunoController";
 import { adicionarMensagem, limparMensagens } from "../mensagens/mensagensSlice";
-  
+import AlunoListController from "./AlunoListController";
+   
  
 const AlunoList: React.FC = () => {
+  const alunoListController = new AlunoListController();
+
 
   const dispatch = useDispatch();
 
-  const alunoController = new AlunoController();
 
   const [alunos, setAlunos] = useState<Aluno[]>([]);
   
@@ -19,7 +18,7 @@ const AlunoList: React.FC = () => {
   useEffect(() => {
     const fetchAlunos = async () => {
       try {
-        const alunos = await alunoController.listarAlunos();
+        const alunos = await alunoListController.listarAlunos();
         setAlunos(alunos);
       } catch (error) {
         console.error('Erro ao buscar alunos:', error);

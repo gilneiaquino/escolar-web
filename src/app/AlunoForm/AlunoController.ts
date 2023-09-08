@@ -53,16 +53,7 @@ class AlunoController {
       throw new Error('Erro ao criar aluno');
     }
   }
-
-  public async listarAlunos(): Promise<Aluno[]> {
-    try {
-      const alunos = await this.alunoService.listarAlunos();
-      return alunos;
-    } catch (error) {
-      throw new Error('Erro ao listar alunos');
-    }
-  }
-
+ 
   public async atualizarAluno(aluno: Aluno): Promise<Aluno> {
     try {
       const alunoAtualizado = await this.alunoService.atualizarAluno(aluno);
