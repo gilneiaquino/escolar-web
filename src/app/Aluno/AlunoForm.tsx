@@ -34,6 +34,9 @@ const AlunoForm: React.FC = () => {
   const [cpf, setCpf] = useState("");
 
 
+  const [erroNome, setErroNome] = useState('');
+
+
   const handleChangeNome = (event: ChangeEvent<HTMLInputElement>) => {
     const valor = event.target.value;
     setNome(valor);
@@ -93,6 +96,18 @@ const AlunoForm: React.FC = () => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
+
+    if (!nome) {
+      setErroNome('O campo nome é obrigatório.');
+      scrollToTop();
+    } else {
+      // Realize a ação de envio do formulário
+      console.log('Formulário válido, enviado com sucesso:', nome);
+      // Limpe o erro após o envio bem-sucedido
+      setErroNome('');
+
+      adicionarAluno();
+    }
   };
 
   const scrollToTop = () => {
@@ -102,7 +117,7 @@ const AlunoForm: React.FC = () => {
     });
   }
 
-  const handleAdicionarAluno = () => {
+  const adicionarAluno = () => {
 
     const aluno: Aluno = {
       nome,
@@ -161,12 +176,13 @@ const AlunoForm: React.FC = () => {
               <div className="form-group col-md-5 mx-sm-3">
                 <label>Nome</label>
                 <input
-                  className="form-control"
+                  className={`form-control ${erroNome && 'is-invalid'}`}
                   type="text"
                   placeholder="Nome"
                   value={nome}
                   onChange={handleChangeNome}
                 />
+                {erroNome && <div className="invalid-feedback">{erroNome}</div>}
               </div>
               <div className="form-group col-md-2  ">
                 <label>Data de Nascimento</label>
@@ -385,7 +401,7 @@ const AlunoForm: React.FC = () => {
             <button type="button" className="btn btn-secondary" onClick={limpar}>Limpar</button>
           </div>
           <div className=" col-md-1  mx-sm-3">
-            <button type="button" className="btn btn-primary" onClick={handleAdicionarAluno}>Salvar</button>
+            <button type="submit" className="btn btn-primary">Salvar</button>
           </div>
         </div>
       </div>
