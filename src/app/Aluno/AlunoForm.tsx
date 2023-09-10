@@ -1,9 +1,11 @@
 // AlunoForm.tsx
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import InputMask from "react-input-mask";
 import AlunoController from "./AlunoController";
 import { useDispatch } from "react-redux";
 import { Aluno } from "../modelos/Aluno";
+import { useParams } from 'react-router-dom';
+
 
 
 const AlunoForm: React.FC = () => {
@@ -11,98 +13,118 @@ const AlunoForm: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const [nome, setNome] = useState("");
-  const [dataNascimento, setDataNascimento] = useState("");
-  const [genero, setGenero] = useState("");
-  const [matricula, setMatricula] = useState("");  
-  const [rua, setRua] = useState("");
-  const [numero, setNumero] = useState("");
-  const [cidade, setCidade] = useState("");
-  const [estado, setEstado] = useState("");
-  const [cep, setCep] = useState("");
-  const [telefones, setTelefones] = useState([{ id: 1, ddd: "", numero: "", tipo: 'Residencial' }]);
-  const [enderecos, setEnderecos] = useState([{
+  const [aluno, setAluno] = useState({
     id: 1,
-    rua: "",
-    numero: "",
-    cidade: "",
-    estado: "",
-    cep: ""
-  }]);
-  const [selectedTipoTelefone, setTipoTelefone] = useState('');
-  const [email, setEmail] = useState("");
-  const [cpf, setCpf] = useState("");
+    nome: '',
+    dataNascimento: '',
+    genero: '',
+    matricula: '',
+    enderecos: [{
+      id: 1,
+      rua: '',
+      numero: '',
+      cidade: '',
+      estado: '',
+      cep: ''
+    }],
+    telefones: [{
+      id: 1,
+      ddd: '',
+      numero: '',
+      tipo: 'Residencial'
+    }],
+    email: '',
+    cpf: ''
+  });
+
 
 
   const [erroNome, setErroNome] = useState('');
 
-
-  const handleChangeNome = (event: ChangeEvent<HTMLInputElement>) => {
-    const valor = event.target.value;
-    setNome(valor);
-  };
+  const { id } = useParams();
 
   const adicionarTelefone = () => {
-    const novoTelefone = { id: telefones.length + 1, ddd: "", numero: "", tipo: 'Comercial' };
-    setTelefones([...telefones, novoTelefone]);
-  }
-
-  const adicionarEndereco = () => {
-    const novoEndereco = {
-      id: telefones.length + 1,
-      rua: "",
-      numero: "",
-      cidade: "",
-      estado: "",
-      cep: ""
-    };
-    setEnderecos([...enderecos, novoEndereco]);
+    setAluno((prevAluno) => ({
+      ...prevAluno,
+      telefones: [
+        ...prevAluno.telefones,
+        { id: prevAluno.telefones.length + 1, ddd: "", numero: "", tipo: 'Comercial' }
+      ]
+    }));
   };
 
-
+  const adicionarEndereco = () => {
+    setAluno((prevAluno) => ({
+      ...prevAluno,
+      enderecos: [
+        ...prevAluno.enderecos,
+        {
+          id: prevAluno.enderecos.length + 1,
+          rua: "",
+          numero: "",
+          cidade: "",
+          estado: "",
+          cep: ""
+        }
+      ]
+    }));
+  };
 
   const removerTelefone = (id: number) => {
-    const novosTelefones = telefones.filter((telefone) => telefone.id !== id);
-    setTelefones(novosTelefones);
+    setAluno((prevAluno) => ({
+      ...prevAluno,
+      telefones: prevAluno.telefones.filter((telefone) => telefone.id !== id)
+    }));
   };
 
   const removerEndereco = (id: number) => {
-    const novosEnderecos = enderecos.filter((endereco) => endereco.id !== id);
-    setEnderecos(novosEnderecos);
+    setAluno((prevAluno) => ({
+      ...prevAluno,
+      enderecos: prevAluno.enderecos.filter((endereco) => endereco.id !== id)
+    }));
   };
 
-
-  const handleTelefoneChange = (id: number, campo: any, value: any) => {
-    const novosTelefones = telefones.map((telefone) =>
-      telefone.id === id ? { ...telefone, [campo]: value } : telefone
-    );
-    setTelefones(novosTelefones);
+  const handleTelefoneChange = (id: number, campo: string, value: string) => {
+    setAluno((prevAluno) => ({
+      ...prevAluno,
+      telefones: prevAluno.telefones.map((telefone) =>
+        telefone.id === id ? { ...telefone, [campo]: value } : telefone
+      )
+    }));
   };
 
-  const handleEndercoChange = (id: number, campo: any, value: any) => {
-    const novosEnderecos = enderecos.map((endereco) =>
-      endereco.id === id ? { ...endereco, [campo]: value } : endereco
-    );
-    setEnderecos(novosEnderecos);
+  const handleEnderecoChange = (id: number, campo: string, value: string) => {
+    setAluno((prevAluno) => ({
+      ...prevAluno,
+      enderecos: prevAluno.enderecos.map((endereco) =>
+        endereco.id === id ? { ...endereco, [campo]: value } : endereco
+      )
+    }));
   };
 
-  const handleChangeEstado = (event: any) => {
-    setEstado(event.target.value);
+  const handleChangeEstado = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setAluno((prevAluno) => ({
+      ...prevAluno,
+      estado: event.target.value
+    }));
   };
 
-  const handleChangeTipoTelefone = (event: any) => {
-    setTipoTelefone(event.target.value);
+  const handleTipoTelefoneChange = (index: number, tipoTelefone: string) => {
+    const novosTelefones = [...aluno.telefones];
+    novosTelefones[index].tipo = tipoTelefone;
+    setAluno({ ...aluno, telefones: novosTelefones });
   };
+
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
 
-    if (!nome) {
+    if (!aluno.nome) {
       setErroNome('O campo nome é obrigatório.');
       scrollToTop();
     } else {
       // Realize a ação de envio do formulário
-      console.log('Formulário válido, enviado com sucesso:', nome);
+      console.log('Formulário válido, enviado com sucesso:', aluno.nome);
       // Limpe o erro após o envio bem-sucedido
       setErroNome('');
 
@@ -118,49 +140,81 @@ const AlunoForm: React.FC = () => {
   }
 
   const adicionarAluno = () => {
-
-    const aluno: Aluno = {
-      nome,
-      dataNascimento: new Date(dataNascimento),
-      genero,
-      cpf,
-      email,
-      enderecos,
-      telefones,
-      matricula
+    const novoAluno: Aluno = {
+      nome: aluno.nome,
+      dataNascimento: new Date(aluno.dataNascimento),
+      genero: aluno.genero,
+      cpf: aluno.cpf,
+      email: aluno.email,
+      enderecos: aluno.enderecos,
+      telefones: aluno.telefones,
+      matricula: aluno.matricula
     };
 
     alunoController.handleAdicionarAluno(
       dispatch,
       scrollToTop,
-      aluno
+      novoAluno
     );
 
-    setNome("");
-    setDataNascimento("");
-    setGenero("");
-    setRua("");
-    setNumero("");
-    setCidade("");
-    setEstado("");
-    setCep("");
-    setEmail("");
-    setCpf("");
+    limpar();
   };
 
-  const limpar = () => { 
-    setNome("");
-    setDataNascimento("");
-    setGenero("");
-    setRua("");
-    setNumero("");
-    setCidade("");
-    setEstado("");
-    setCep("");
-    setEmail("");
-    setCpf("");
+
+  const limpar = () => {
+    setAluno({
+      id: 1,
+      nome: '',
+      dataNascimento: '',
+      genero: '',
+      matricula: '',
+      enderecos: [{
+        id: 1,
+        rua: '',
+        numero: '',
+        cidade: '',
+        estado: '',
+        cep: ''
+      }],
+      telefones: [{
+        id: 1,
+        ddd: '',
+        numero: '',
+        tipo: 'Residencial'
+      }],
+      email: '',
+      cpf: ''
+    });
   };
 
+
+
+/* 
+  useEffect(() => {
+    async function fetchAluno() {
+      try {
+
+        if (id) {
+          
+          const alunoRecuperado: Aluno = await alunoController.recuperar(id); // Suponha que você tenha um objeto alunoController
+            if (alunoRecuperado) {
+            // Formate a data de alunoRecuperado para uma string no formato desejado (por exemplo, 'yyyy-MM-dd')
+            const dataNascimentoFormatada = alunoRecuperado.dataNascimento.toISOString().split('T')[0];
+ 
+            // Defina o novo objeto aluno no estado
+            setAluno(alunoFormatado);
+          }  
+        }
+
+      } catch (error) {
+        console.error('Erro ao recuperar aluno:', error);
+      }
+    }
+
+    if (id) {
+      fetchAluno();
+    }
+  }, [id]); */
   return (
 
 
@@ -179,8 +233,8 @@ const AlunoForm: React.FC = () => {
                   className={`form-control ${erroNome && 'is-invalid'}`}
                   type="text"
                   placeholder="Nome"
-                  value={nome}
-                  onChange={handleChangeNome}
+                  value={aluno.nome}
+                  onChange={(e) => setAluno({ ...aluno, nome: e.target.value })}
                 />
                 {erroNome && <div className="invalid-feedback">{erroNome}</div>}
               </div>
@@ -190,8 +244,8 @@ const AlunoForm: React.FC = () => {
                   className="form-control"
                   type="date"
                   placeholder="Data de Nascimento"
-                  value={dataNascimento}
-                  onChange={(e) => setDataNascimento(e.target.value)}
+                  value={aluno.dataNascimento}
+                  onChange={(e) => setAluno({ ...aluno, dataNascimento: e.target.value })}
                 />
               </div>
               <div className="form-group  col-md-2  ">
@@ -200,8 +254,8 @@ const AlunoForm: React.FC = () => {
                   className="form-control"
                   type="text"
                   placeholder="Gênero"
-                  value={genero}
-                  onChange={(e) => setGenero(e.target.value)}
+                  value={aluno.genero}
+                  onChange={(e) => setAluno({ ...aluno, genero: e.target.value })}
                 />
               </div>
             </div>
@@ -217,8 +271,8 @@ const AlunoForm: React.FC = () => {
                     className="form-control"
                     type="text"
                     placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    value={aluno.email}
+                    onChange={(e) => setAluno({ ...aluno, email: e.target.value })}
                   />
                 </div>
               </div>
@@ -231,8 +285,9 @@ const AlunoForm: React.FC = () => {
                   type="text"
                   name="cpf"
                   placeholder="999.999.999-99"
-                  value={cpf}
-                  onChange={(e) => setCpf(e.target.value)} />
+                  value={aluno.cpf}
+                  onChange={(e) => setAluno({ ...aluno, cpf: e.target.value })}
+                />
               </div>
               <div className="form-group  col-md-2  ">
                 <label>Matricula</label>
@@ -240,8 +295,8 @@ const AlunoForm: React.FC = () => {
                   className="form-control"
                   type="text"
                   placeholder="Matricula"
-                  value={matricula}
-                  onChange={(e) => setMatricula(e.target.value)}
+                  value={aluno.matricula}
+                  onChange={(e) => setAluno({ ...aluno, matricula: e.target.value })}
                 />
               </div>
             </div>
@@ -253,7 +308,7 @@ const AlunoForm: React.FC = () => {
             Endereço
           </div>
           <div className="card-body">
-            {enderecos.map((endereco, index) => (
+            {aluno.enderecos.map((endereco, index) => (
               <div className="card-body" key={index}>
                 <div className="row col-12" >
 
@@ -266,12 +321,14 @@ const AlunoForm: React.FC = () => {
                         maxLength={8}
                         placeholder="CEP"
                         value={endereco.cep}
-                        onChange={(e) => handleEndercoChange(endereco.id, 'cep', e.target.value)}
+                        onChange={(e) => handleEnderecoChange(endereco.id, 'cep', e.target.value)}
                       />
                     </div>
                     <div className="col-md-1">
                       <label>Estado</label>
-                      <select className="form-control" value={estado} onChange={handleChangeEstado}>
+                      <select className="form-control" value={endereco.estado}
+                        onChange={(e) => handleEnderecoChange(endereco.id, 'estado', e.target.value)}
+                      >
                         <option value=""></option>
                         {alunoController.estados.map((estado) => (
                           <option key={estado.uf} value={estado.uf}>
@@ -290,7 +347,7 @@ const AlunoForm: React.FC = () => {
                         className="form-control"
                         placeholder="Cidade"
                         value={endereco.cidade}
-                        onChange={(e) => handleEndercoChange(endereco.id, 'cidade', e.target.value)}
+                        onChange={(e) => handleEnderecoChange(endereco.id, 'cidade', e.target.value)}
                       />
                     </div>
                     <div className="col-md-4">
@@ -300,7 +357,7 @@ const AlunoForm: React.FC = () => {
                         type="text"
                         placeholder="Rua"
                         value={endereco.rua}
-                        onChange={(e) => handleEndercoChange(endereco.id, 'rua', e.target.value)}
+                        onChange={(e) => handleEnderecoChange(endereco.id, 'rua', e.target.value)}
                       />
                     </div>
                     <div className="col-md-2">
@@ -311,7 +368,7 @@ const AlunoForm: React.FC = () => {
                         maxLength={5}
                         placeholder="Número"
                         value={endereco.numero}
-                        onChange={(e) => handleEndercoChange(endereco.id, 'numero', e.target.value)}
+                        onChange={(e) => handleEnderecoChange(endereco.id, 'numero', e.target.value)}
                       />
                     </div>
                     <div className="col-md-1 d-flex justify-content-center align-items-end"
@@ -336,13 +393,15 @@ const AlunoForm: React.FC = () => {
           <div className="card-header">
             Telefones
           </div>
-          {telefones.map((telefone, index) => (
+          {aluno.telefones.map((telefone, index) => (
             <div className="card-body" key={index}>
               <div className="row col-12" >
                 <div className="col-md-2 mx-sm-3">
                   <label>Tipo de Telefone</label>
                   <select className="form-control"
-                    value={selectedTipoTelefone} onChange={handleChangeTipoTelefone}>
+                    value={telefone.tipo}
+                    onChange={(e) => handleTipoTelefoneChange(index, e.target.value)} // Aqui você precisa passar o índice correto
+                  >
                     {alunoController.tipoTelefones.map((telefone) => (
                       <option key={telefone.nome} value={telefone.nome}>
                         {telefone.nome}

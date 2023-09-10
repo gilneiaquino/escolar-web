@@ -66,6 +66,15 @@ class AlunoController {
     }
   }
 
+  public async recuperar(id: string): Promise<Aluno> {
+    try {
+      const aluno = await this.alunoService.recuperar(id);
+      return aluno;
+    } catch (error) {
+      throw new Error('Erro ao recuperar aluno');
+    }
+  }
+
   public async excluirAluno(id: number): Promise<void> {
     try {
       await this.alunoService.excluirAluno(id);

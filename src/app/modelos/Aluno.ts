@@ -13,6 +13,7 @@ export interface Aluno {
     matricula: string;
 }
 
+
 export interface AlunoConsulta {
     id?: number;
     nome: string;

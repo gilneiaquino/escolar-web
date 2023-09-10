@@ -70,6 +70,23 @@ class AlunoService {
       throw error;
     }
   }
+
+  
+  public async recuperar(id: string): Promise<Aluno> {
+    try {
+      const queryParams = new URLSearchParams({
+        id: id
+      });
+  
+      const url = `http://localhost:8080/api/alunos?${queryParams.toString()}`;
+  
+      const response = await axios.get<Aluno>(url, this.customConfig);
+  
+      return response.data;
+    } catch (error: any) {
+      throw error;
+    }
+  }
   
 }
 
