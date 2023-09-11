@@ -1,5 +1,5 @@
 // AlunoForm.tsx
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import InputMask from "react-input-mask";
 import AlunoController from "./AlunoController";
 import { useDispatch } from "react-redux";
@@ -13,10 +13,10 @@ const AlunoForm: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const [aluno, setAluno] = useState({
-    id: 1,
+  const initialState: Aluno = {
+    id: undefined, // Define como undefined inicialmente
     nome: '',
-    dataNascimento: '',
+    dataNascimento: new Date(),
     genero: '',
     matricula: '',
     enderecos: [{
@@ -35,8 +35,9 @@ const AlunoForm: React.FC = () => {
     }],
     email: '',
     cpf: ''
-  });
+  };
 
+  const [aluno, setAluno] = useState(initialState);
 
 
   const [erroNome, setErroNome] = useState('');
@@ -70,43 +71,44 @@ const AlunoForm: React.FC = () => {
     }));
   };
 
-  const removerTelefone = (id: number) => {
-    setAluno((prevAluno) => ({
-      ...prevAluno,
-      telefones: prevAluno.telefones.filter((telefone) => telefone.id !== id)
-    }));
+  const removerTelefone = (id: number | undefined) => {
+    if (id) {
+      setAluno((prevAluno) => ({
+        ...prevAluno,
+        telefones: prevAluno.telefones.filter((telefone) => telefone.id !== id)
+      }));
+    }
   };
 
-  const removerEndereco = (id: number) => {
-    setAluno((prevAluno) => ({
-      ...prevAluno,
-      enderecos: prevAluno.enderecos.filter((endereco) => endereco.id !== id)
-    }));
+  const removerEndereco = (id: number | undefined) => {
+    if (id) {
+      setAluno((prevAluno) => ({
+        ...prevAluno,
+        enderecos: prevAluno.enderecos.filter((endereco) => endereco.id !== id)
+      }));
+    }
   };
 
-  const handleTelefoneChange = (id: number, campo: string, value: string) => {
-    setAluno((prevAluno) => ({
-      ...prevAluno,
-      telefones: prevAluno.telefones.map((telefone) =>
-        telefone.id === id ? { ...telefone, [campo]: value } : telefone
-      )
-    }));
+  const handleTelefoneChange = (id: number | undefined, campo: string, value: string) => {
+    if (id) {
+      setAluno((prevAluno) => ({
+        ...prevAluno,
+        telefones: prevAluno.telefones.map((telefone) =>
+          telefone.id === id ? { ...telefone, [campo]: value } : telefone
+        )
+      }));
+    }
   };
 
-  const handleEnderecoChange = (id: number, campo: string, value: string) => {
-    setAluno((prevAluno) => ({
-      ...prevAluno,
-      enderecos: prevAluno.enderecos.map((endereco) =>
-        endereco.id === id ? { ...endereco, [campo]: value } : endereco
-      )
-    }));
-  };
-
-  const handleChangeEstado = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAluno((prevAluno) => ({
-      ...prevAluno,
-      estado: event.target.value
-    }));
+  const handleEnderecoChange = (id: number | undefined, campo: string, value: string) => {
+    if (id) {
+      setAluno((prevAluno) => ({
+        ...prevAluno,
+        enderecos: prevAluno.enderecos.map((endereco) =>
+          endereco.id === id ? { ...endereco, [campo]: value } : endereco
+        )
+      }));
+    }
   };
 
   const handleTipoTelefoneChange = (index: number, tipoTelefone: string) => {
@@ -165,7 +167,7 @@ const AlunoForm: React.FC = () => {
     setAluno({
       id: 1,
       nome: '',
-      dataNascimento: '',
+      dataNascimento: new Date(),
       genero: '',
       matricula: '',
       enderecos: [{
@@ -187,25 +189,29 @@ const AlunoForm: React.FC = () => {
     });
   };
 
-
-
-/* 
   useEffect(() => {
     async function fetchAluno() {
       try {
-
         if (id) {
-          
-          const alunoRecuperado: Aluno = await alunoController.recuperar(id); // Suponha que você tenha um objeto alunoController
-            if (alunoRecuperado) {
-            // Formate a data de alunoRecuperado para uma string no formato desejado (por exemplo, 'yyyy-MM-dd')
-            const dataNascimentoFormatada = alunoRecuperado.dataNascimento.toISOString().split('T')[0];
- 
-            // Defina o novo objeto aluno no estado
-            setAluno(alunoFormatado);
-          }  
-        }
+          const alunoRecuperado = await alunoController.recuperar(id); // Suponha que você tenha um objeto alunoController
+          alunoRecuperado.dataNascimento = new Date(alunoRecuperado.dataNascimento);
 
+          if (alunoRecuperado.enderecos[0] === null) {
+            alunoRecuperado.enderecos = [{
+              id: 1,
+              rua: "",
+              numero: "",
+              cidade: "",
+              estado: "",
+              cep: ""
+            }];
+          }
+
+          if (alunoRecuperado.telefones[0] === null) {
+            alunoRecuperado.telefones = [{ id: 1, ddd: "", numero: "", tipo: 'Comercial' }]
+          }
+          setAluno(alunoRecuperado);
+        }
       } catch (error) {
         console.error('Erro ao recuperar aluno:', error);
       }
@@ -214,7 +220,7 @@ const AlunoForm: React.FC = () => {
     if (id) {
       fetchAluno();
     }
-  }, [id]); */
+  }, [id]);
   return (
 
 
@@ -244,8 +250,8 @@ const AlunoForm: React.FC = () => {
                   className="form-control"
                   type="date"
                   placeholder="Data de Nascimento"
-                  value={aluno.dataNascimento}
-                  onChange={(e) => setAluno({ ...aluno, dataNascimento: e.target.value })}
+                  value={aluno.dataNascimento.toISOString().split('T')[0]}
+                  onChange={(e) => setAluno({ ...aluno, dataNascimento: new Date(e.target.value) })}
                 />
               </div>
               <div className="form-group  col-md-2  ">

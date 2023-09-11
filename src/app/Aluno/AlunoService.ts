@@ -74,11 +74,8 @@ class AlunoService {
   
   public async recuperar(id: string): Promise<Aluno> {
     try {
-      const queryParams = new URLSearchParams({
-        id: id
-      });
   
-      const url = `http://localhost:8080/api/alunos?${queryParams.toString()}`;
+      const url = `http://localhost:8080/api/alunos/recuperar/${id}`;
   
       const response = await axios.get<Aluno>(url, this.customConfig);
   

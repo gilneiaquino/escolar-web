@@ -12,11 +12,3 @@ export interface Aluno {
     telefones: Telefone[];
     matricula: string;
 }
-
-
-export interface AlunoConsulta {
-    id?: number;
-    nome: string;
-    cpf: string;
-    matricula: string;
-}
