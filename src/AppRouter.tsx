@@ -11,6 +11,7 @@ const AppRouter = () => {
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/aluno-form" element={<AlunoForm />} />
         <Route path="/aluno-form/:id" element={<AlunoForm />} />
         <Route path="/aluno-list-consulta" element={<AlunoConsultaList />} />
         <Route path="/perguntas-form" element={<PerguntasForm />} />
