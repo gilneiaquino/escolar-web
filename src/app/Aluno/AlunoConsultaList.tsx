@@ -3,7 +3,6 @@ import { Aluno } from '../modelos/Aluno';
 import AlunoController from './AlunoController';
 import InputMask from "react-input-mask";
 import { useNavigate } from 'react-router-dom';
-import Modal from '../Modal/Modal';
 
 
 function AlunoConsultaList() {
@@ -14,16 +13,8 @@ function AlunoConsultaList() {
 
   const navigate = useNavigate();
   const alunoController = new AlunoController();
+  const [alunoIdParaExcluir, setAlunoIdParaExcluir] = useState(null);
 
-  const [modalAberto, setModalAberto] = useState(false);
-
-  const abrirModal = () => {
-    setModalAberto(true);
-  };
-
-  const fecharModal = () => {
-    setModalAberto(false);
-  };
 
   const consultarAlunos = async () => {
     try {
@@ -40,14 +31,21 @@ function AlunoConsultaList() {
     // Você pode abrir um modal de edição ou navegar para uma página de edição, por exemplo.
   };
 
+  const abrirModalExcluir = (id: any) => {
+    setAlunoIdParaExcluir(id);
+
+  };
+
+
+
   const handleExcluirAluno = async (id: any) => {
-    try {
-      await alunoController.excluirAluno(id);
-      const alunosConsultados = await alunoController.consultar(nome, cpf, matricula);
-      setAlunos(alunosConsultados || []);
-    } catch (error) {
-      console.error('Erro ao excluir aluno:', error);
-    }
+       try {
+          await alunoController.excluirAluno(id);
+          const alunosConsultados = await alunoController.consultar(nome, cpf, matricula);
+          setAlunos(alunosConsultados || []);
+        } catch (error) {
+          console.error('Erro ao excluir aluno:', error);
+        }  
   };
 
 
@@ -146,7 +144,9 @@ function AlunoConsultaList() {
                   ></i>
                   <i
                     className="bi bi-trash icon-hover"
-                    onClick={() => handleExcluirAluno(aluno.id)}
+                    onClick={() => abrirModalExcluir(aluno.id)}
+                    data-bs-toggle="modal"
+                    data-bs-target="#ExemploModalCentralizado"
                   ></i>
                 </td>
               </tr>
@@ -155,17 +155,33 @@ function AlunoConsultaList() {
         </table>
       </div>
 
-
-
-      <div>
-      <button onClick={abrirModal}>Abrir Modal</button>
-      <Modal isOpen={modalAberto} onClose={fecharModal}>
-        {/* Conteúdo do modal */}
-        <h2>Este é o meu modal</h2>
-        <p>Qualquer conteúdo que você deseja exibir no modal.</p>
-      </Modal>
+      <div className="modal fade" id="ExemploModalCentralizado" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="TituloModalCentralizado">Excluir</h5>
+              <button type="button" className="close" data-bs-dismiss="modal" aria-label="Fechar">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              Tem certeza que gostaria de excluir o aluno?
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+              <button
+                type="button"
+                className="btn btn-primary"
+                data-bs-dismiss="modal"
+                onClick={() => handleExcluirAluno(alunoIdParaExcluir)}>
+                Salvar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    </div>
+
 
 
 
