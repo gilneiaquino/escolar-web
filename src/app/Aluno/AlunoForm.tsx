@@ -40,7 +40,16 @@ const AlunoForm: React.FC = () => {
   const [aluno, setAluno] = useState(initialState);
 
 
-  const [erroNome, setErroNome] = useState('');
+  const [erroNome, setErroNome] = useState<string>('');
+  const [erroDataNascimento, setErroDataNascimento] = useState<string>('');
+  const [erroGenero, setErroGenero] = useState<string>('');
+  const [erroMatricula, setErroMatricula] = useState<string>('');
+  const [erroCpf, setErroCpf] = useState<string>('');
+  const [erroEmail, setErroEmail] = useState<string>('');
+
+
+
+
 
   const { id } = useParams();
 
@@ -119,20 +128,50 @@ const AlunoForm: React.FC = () => {
 
 
   const handleSubmit = (e: any) => {
-    e.preventDefault();
 
-    if (!aluno.nome) {
-      setErroNome('O campo nome é obrigatório.');
-      scrollToTop();
-    } else {
-      // Realize a ação de envio do formulário
-      console.log('Formulário válido, enviado com sucesso:', aluno.nome);
-      // Limpe o erro após o envio bem-sucedido
-      setErroNome('');
-
+    if (validarForm(aluno)) {
       adicionarAluno();
+    } else {
+      e.preventDefault();
     }
   };
+
+  function validarForm(aluno: Aluno): boolean {
+    let retorno = true;
+    if (!aluno.nome) {
+      setErroNome('O campo nome é obrigatório.');
+      retorno = false;
+    }
+
+    if (!aluno.cpf) {
+      setErroCpf('O campo CPF é obrigatório.');
+      retorno = false;
+    }
+
+    if (aluno.email.trim() === '') {
+      setErroEmail('O campo Email é obrigatório.');
+
+    }
+    if (aluno.genero.trim() === '') {
+      setErroGenero('O campo Genero é obrigatório.');
+
+    };
+
+    if (!(aluno.dataNascimento instanceof Date) || isNaN(aluno.dataNascimento.getTime())) {
+      setErroDataNascimento('O campo Data de Nascimento é obrigatório.');
+    };
+
+    if (!aluno.matricula) {
+      setErroMatricula('O campo Matricula é obrigatório.');
+    };
+
+    if (retorno === false) {
+      scrollToTop();
+    }
+
+    return retorno;
+  };
+
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -247,22 +286,24 @@ const AlunoForm: React.FC = () => {
               <div className="form-group col-md-2  ">
                 <label>Data de Nascimento</label>
                 <input
-                  className="form-control"
+                  className={`form-control ${erroDataNascimento && 'is-invalid'}`}
                   type="date"
                   placeholder="Data de Nascimento"
                   value={aluno.dataNascimento.toISOString().split('T')[0]}
                   onChange={(e) => setAluno({ ...aluno, dataNascimento: new Date(e.target.value) })}
                 />
+                {erroDataNascimento && <div className="invalid-feedback">{erroDataNascimento}</div>}
               </div>
               <div className="form-group  col-md-2  ">
                 <label>Gênero</label>
                 <input
-                  className="form-control"
+                  className={`form-control ${erroGenero && 'is-invalid'}`}
                   type="text"
                   placeholder="Gênero"
                   value={aluno.genero}
                   onChange={(e) => setAluno({ ...aluno, genero: e.target.value })}
                 />
+                {erroGenero && <div className="invalid-feedback">{erroGenero}</div>}
               </div>
             </div>
             <div className="row col-12 my-3">
@@ -274,18 +315,19 @@ const AlunoForm: React.FC = () => {
                     <span className="input-group-text" id="inputGroupPrepend">@</span>
                   </div>
                   <input
-                    className="form-control"
-                    type="text"
+                  className={`form-control ${erroEmail && 'is-invalid'}`}
+                  type="text"
                     placeholder="Email"
                     value={aluno.email}
                     onChange={(e) => setAluno({ ...aluno, email: e.target.value })}
                   />
+                  {erroEmail && <div className="invalid-feedback">{erroEmail}</div>}
                 </div>
               </div>
               <div className="form-group  col-md-2 ">
                 <label>CPF</label>
                 <InputMask
-                  className="form-control"
+                  className={`form-control ${erroCpf && 'is-invalid'}`}
                   mask="999.999.999-99"
                   id="cpf"
                   type="text"
@@ -294,16 +336,20 @@ const AlunoForm: React.FC = () => {
                   value={aluno.cpf}
                   onChange={(e) => setAluno({ ...aluno, cpf: e.target.value })}
                 />
+                {erroCpf && <div className="invalid-feedback">{erroCpf}</div>}
+
               </div>
               <div className="form-group  col-md-2  ">
                 <label>Matricula</label>
                 <input
-                  className="form-control"
+                  className={`form-control ${erroMatricula && 'is-invalid'}`}
                   type="text"
                   placeholder="Matricula"
                   value={aluno.matricula}
                   onChange={(e) => setAluno({ ...aluno, matricula: e.target.value })}
                 />
+                {erroMatricula && <div className="invalid-feedback">{erroMatricula}</div>}
+
               </div>
             </div>
           </div>

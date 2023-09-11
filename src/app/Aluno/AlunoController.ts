@@ -90,23 +90,15 @@ class AlunoController {
 
     dispatch(limparMensagens());
 
-    if (this.validarForm(dispatch,
-      aluno)) {
+    this.criarAluno(aluno);
 
-
-      this.criarAluno(aluno);
-
-      dispatch(
-        adicionarMensagem({
-          id: Date.now(),
-          texto: "Aluno cadastrado com sucesso.",
-          tipo: "success"
-        })
-      );
-      scrollToTop();
-    } else {
-      scrollToTop();
-    }
+    dispatch(
+      adicionarMensagem({
+        id: Date.now(),
+        texto: "Aluno cadastrado com sucesso.",
+        tipo: "success"
+      })
+    );
 
   }
 
@@ -127,68 +119,8 @@ class AlunoController {
       throw new Error('Erro ao consultar aluno');
     }
   }
- 
-  public validarForm(
-    dispatch: Function,
-    aluno: Aluno): Boolean {
-
-    let retorno = true;
-    if (aluno.nome.trim() === '') {
-      dispatch(
-        adicionarMensagem({
-          id: Date.now(),
-          texto: "O campo Nome não pode estar vazio.",
-          tipo: "danger"
-        })
-      );
-      retorno = false;
-    }
-
-    if (aluno.cpf.trim() === '') {
-      dispatch(
-        adicionarMensagem({
-          id: Date.now(),
-          texto: "O campo CPF não pode estar vazio.",
-          tipo: "danger"
-        })
-      );
-      retorno = false;
-    }
-
-    if (aluno.email.trim() === '') {
-      dispatch(
-        adicionarMensagem({
-          id: Date.now(),
-          texto: "O campo E-mail não pode estar vazio.",
-          tipo: "danger"
-        })
-      );
-
-      if (aluno.genero.trim() === '') {
-        dispatch(
-          adicionarMensagem({
-            id: Date.now(),
-            texto: "O campo Gênero não pode estar vazio.",
-            tipo: "danger"
-          })
-        );
-      };
-
-      if (!(aluno.dataNascimento instanceof Date) || isNaN(aluno.dataNascimento.getTime())) {
-        dispatch(
-          adicionarMensagem({
-            id: Date.now(),
-            texto: "O campo Data de Nascimento não pode estar vazio.",
-            tipo: "danger"
-          })
-        );
-      };
-      retorno = false;
-    }
 
 
-    return retorno;
-  }
 }
 
 export default AlunoController;
