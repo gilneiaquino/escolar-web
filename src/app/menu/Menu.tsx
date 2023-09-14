@@ -12,8 +12,10 @@ const Menu: React.FC = () => {
                 <li className="nav-item">
                     <a className="nav-link" href="/aluno-list-consulta">Listar alunos</a>
                 </li>
-            
-                
+                <li className="nav-item">
+                    <a className="nav-link" href="/Sair">Sair</a>
+                </li>        
+             
             </ul>
         </nav>
         

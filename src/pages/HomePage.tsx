@@ -1,11 +1,13 @@
 import React from 'react';
-import UserProfile from '../app/painel/UserProfile';
-import ResumoDoProgresso from '../app/painel/ResumoDoProgresso';
+import ResumoDoProgresso from '../app/painel/CursosIncritos';
+import PerfilUsuario from '../app/painel/PerfilUsuario';
+import MateriaisCurso from '../app/painel/MateriaisCurso';
 
 const HomePage: React.FC = () => {
   return (
     <div>
-       <UserProfile></UserProfile>
+       <PerfilUsuario></PerfilUsuario>
+       <MateriaisCurso></MateriaisCurso>
        <ResumoDoProgresso></ResumoDoProgresso>
     </div>
   );
