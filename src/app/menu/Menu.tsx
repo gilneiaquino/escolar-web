@@ -1,28 +1,36 @@
+import React from 'react';
 
 const Menu: React.FC = () => {
     return (
-        <nav className="navbar navbar-dark bg-dark">
-            <ul className="nav">
-                <li className="nav-item">
-                    <a className="nav-link active" href="/">Home</a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link" href="/aluno-form">Cadastrar Aluno</a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link" href="/aluno-list-consulta">Listar alunos</a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link" href="/cursos">Cursos</a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link" href="/Sair">Sair</a>
-                </li>        
-             
-            </ul>
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            <div className="container"> 
+                <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul className="navbar-nav me-auto">
+                        <li className="nav-item">
+                            <a className="nav-link active" href="/">Inico</a>
+                        </li>
+                        <li className="nav-item dropdown">
+                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Aluno
+                            </a>
+                            <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a className="dropdown-item" href="/aluno-form">Cadastrar</a></li>
+                                <li><a className="dropdown-item" href="/aluno-list-consulta">Consultar</a></li>
+                                <li><hr className="dropdown-divider" /></li>
+                                <li><a className="dropdown-item" href="/Sair">Sair</a></li>
+                            </ul>
+                        </li>  
+                        <li className="nav-item">
+                            <a className="nav-link active" href="/cursos">Cursos</a>
+                        </li>             
+                    </ul>
+                    <form className="d-flex">
+                        <input className="form-control me-2" type="search" placeholder="busca" aria-label="Search" />
+                        <button className="btn btn-outline-success" type="submit">Busca</button>
+                    </form>
+                </div>
+            </div>
         </nav>
-        
-
     );
 };
 

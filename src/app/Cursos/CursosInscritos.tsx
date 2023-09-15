@@ -7,32 +7,50 @@ const CursosIncritos = () => {
 
     // Simulando dados de cursos, progresso e conquistas
     const cursos = [
-        { titulo: 'Curso de React', progresso: 75, conquistas: ['Certificado de Iniciante'], texto: 'Aprenda a criar aplicativos incríveis com React.', cor: 'bg-primary' },
-        { titulo: 'Curso de JavaScript', progresso: 50, conquistas: [], texto: 'Domine a linguagem de programação JavaScript.', cor: 'bg-secondary' },
-        { titulo: 'Curso de CSS', progresso: 10, conquistas: ['Certificado de Conclusão'], texto: 'Aprenda a estilizar páginas da web com CSS.', cor: 'bg-success' },
-        { titulo: 'Curso de JAVA', progresso: 15, conquistas: ['Certificado de Conclusão'], texto: 'Desenvolva aplicativos Java de alto desempenho.', cor: 'bg-info' },
-        { titulo: 'Curso de PHP', progresso: 20, conquistas: ['Certificado de Conclusão'], texto: 'Construa aplicativos web dinâmicos com PHP.', cor: 'bg-warning' },
-        { titulo: 'Curso de REACT', progresso: 7, conquistas: ['Certificado de Conclusão'], texto: 'Aprofunde-se no desenvolvimento React.', cor: 'bg-danger' },
-        { titulo: 'Curso de HTML', progresso: 100, conquistas: ['Certificado de Conclusão'], texto: 'Aprenda a criar estruturas HTML eficientes.', cor: 'bg-primary' },
-        { titulo: 'Curso de JUNIT', progresso: 100, conquistas: ['Certificado de Conclusão'], texto: 'Domine a criação de testes com JUnit.', cor: 'bg-secondary' },
-        { titulo: 'Curso de Canvas', progresso: 100, conquistas: ['Certificado de Conclusão'], texto: 'Explore as possibilidades do HTML Canvas.', cor: 'bg-success' },
+        { titulo: 'Curso de React', progresso: 75, conquistas: ['Certificado de Iniciante'], texto: 'Aprenda a criar aplicativos incríveis com React.', cor: 'bg-primary', agrupamento: 'Frontend' },
+        { titulo: 'Curso de JavaScript', progresso: 50, conquistas: [], texto: 'Domine a linguagem de programação JavaScript.', cor: 'bg-secondary', agrupamento: 'Frontend' },
+        { titulo: 'Curso de CSS', progresso: 10, conquistas: ['Certificado de Conclusão'], texto: 'Aprenda a estilizar páginas da web com CSS.', cor: 'bg-success', agrupamento: 'Frontend' },
+        { titulo: 'Curso de JAVA', progresso: 15, conquistas: ['Certificado de Conclusão'], texto: 'Desenvolva aplicativos Java de alto desempenho.', cor: 'bg-info', agrupamento: 'Backend' },
+        { titulo: 'Curso de PHP', progresso: 20, conquistas: ['Certificado de Conclusão'], texto: 'Construa aplicativos web dinâmicos com PHP.', cor: 'bg-warning', agrupamento: 'Backend' },
+        { titulo: 'Curso de REACT', progresso: 7, conquistas: ['Certificado de Conclusão'], texto: 'Aprofunde-se no desenvolvimento React.', cor: 'bg-danger', agrupamento: 'Frontend' },
+        { titulo: 'Curso de HTML', progresso: 100, conquistas: ['Certificado de Conclusão'], texto: 'Aprenda a criar estruturas HTML eficientes.', cor: 'bg-primary', agrupamento: 'Frontend' },
+        { titulo: 'Curso de JUNIT', progresso: 100, conquistas: ['Certificado de Conclusão'], texto: 'Domine a criação de testes com JUnit.', cor: 'bg-secondary', agrupamento: 'Backend' },
+        { titulo: 'Curso de Canvas', progresso: 100, conquistas: ['Certificado de Conclusão'], texto: 'Explore as possibilidades do HTML Canvas.', cor: 'bg-success', agrupamento: 'Frontend' },
     ];
 
-    // Dividir os cursos em grupos de 4
+    const [filtroAgrupamento, setFiltroAgrupamento] = useState('Todos');
+
     const gruposDeCursos = [];
     for (let i = 0; i < cursos.length; i += cursosPorPagina) {
         gruposDeCursos.push(cursos.slice(i, i + cursosPorPagina));
     }
 
+    const opcoesAgrupamento = ['Todos', 'Frontend', 'Backend'];
+
+    const cursosFiltrados = filtroAgrupamento === 'Todos' ? cursos : cursos.filter(curso => curso.agrupamento === filtroAgrupamento);
+
     return (
         <div className='container'>
             <h3 className='my-3 mx-2'>Meus cursos Inscritos</h3>
+            <div className='my-3 mx-2'>
+                <label htmlFor='filtroAgrupamento' className='form-label'>Filtrar por Agrupamento:</label>
+                <select
+                    id='filtroAgrupamento'
+                    className='form-select'
+                    value={filtroAgrupamento}
+                    onChange={(e) => setFiltroAgrupamento(e.target.value)}
+                >
+                    {opcoesAgrupamento.map((opcao, index) => (
+                        <option key={index} value={opcao}>{opcao}</option>
+                    ))}
+                </select>
+            </div>
             {gruposDeCursos.map((grupo, index) => (
                 <div key={index} className='row row-cols-1 row-cols-md-2 row-cols-lg-4 mb-3'>
                     {grupo.map((curso, cursoIndex) => (
                         <div key={cursoIndex} className="col">
-                            <div className="card card-completo mb-3">
-                                <div className={`card-header text-white ${curso.cor}`}>
+                            <div className="card card-curso mb-3">
+                                <div className={`card-header card-header-curso text-white ${curso.cor}`}>
                                     <h5 className="card-title d-flex justify-content-center">{curso.titulo}</h5>
                                 </div>
                                 <div className="card-body">
