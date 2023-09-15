@@ -20,10 +20,11 @@ const CursosConcluidos = () => {
         { titulo: 'Curso de ASP', progresso: 15, conquistas: ['Certificado de Conclusão'], texto: 'Desenvolva aplicativos Java de alto desempenho.', cor: 'bg-info' },
         { titulo: 'Curso de C++', progresso: 100, conquistas: ['Certificado de Conclusão'], texto: 'Explore as possibilidades do HTML Canvas.', cor: 'bg-primary' },
         { titulo: 'Curso de GIT', progresso: 100, conquistas: ['Certificado de Conclusão'], texto: 'Explore as possibilidades do HTML Canvas.', cor: 'bg-warning' },
-
-
-
     ];
+    // Função para verificar se um curso possui a conquista "Certificado de Conclusão"
+    const possuiCertificado = (curso: any) => {
+        return curso.conquistas.includes('Certificado de Conclusão');
+    };
 
     // Dividir os cursos em grupos de 4
     const gruposDeCursos = [];
@@ -38,12 +39,17 @@ const CursosConcluidos = () => {
                 <div key={index} className='row row-cols-1 row-cols-md-2 row-cols-lg-4 mb-3'>
                     {grupo.map((curso, cursoIndex) => (
                         <div key={cursoIndex} className="col">
-                            <div className="card card-curso mb-3">
+                            <div className={`card card-curso mb-3 ${possuiCertificado(curso) ? 'com-certificado' : ''}`}>
                                 <div className={`card-header card-header-curso text-white ${curso.cor}`}>
                                     <h5 className="card-title d-flex justify-content-center">{curso.titulo}</h5>
                                 </div>
-                                <div className="card-body">                        
+                                <div className="card-body">
                                     <p className="card-text">{curso.texto}</p>
+                                    {possuiCertificado(curso) && (
+                                        <div className="certificado-indicativo">
+                                            <span className="badge bg-success">Certificado</span>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
