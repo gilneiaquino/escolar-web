@@ -1,0 +1,25 @@
+.avatar {
+  width: 100px; /* Largura da esfera */
+  height: 100px; /* Altura da esfera */
+  border-radius: 50%; /* Transforma o elemento em um círculo (forma de esfera) */
+  overflow: hidden; /* Oculta qualquer parte da imagem que esteja fora do círculo */
+  position: relative; /* Permite ajustar a posição da imagem dentro do círculo */
+
+  /* Estilos adicionais, como sombra e borda, podem ser aplicados aqui */
+}
+
+.avatar-circle {
+  width: 100%; /* A imagem preencherá completamente o círculo */
+  height: 100%; /* A imagem preencherá completamente o círculo */
+  object-fit: cover; /* A imagem será redimensionada para preencher o círculo sem distorção */
+}
+
+.initials {
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+}
