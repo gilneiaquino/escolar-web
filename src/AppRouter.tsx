@@ -7,6 +7,7 @@ import AlunoConsultaList from './app/Aluno/AlunoConsultaList';
 import AlunoForm from './app/Aluno/AlunoForm';
 import CalendarioEventos from './app/painel/CalendarioEventos';
 import Dashboard from './app/painel/Dashboard';
+import Cursos from './app/Cursos/Cursos';
 
 const AppRouter = () => {
   return (
@@ -19,6 +20,8 @@ const AppRouter = () => {
         <Route path="/perguntas-form" element={<PerguntasForm />} />
         <Route path="/calendario-entrega-trabalhos" element={<CalendarioEventos />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/cursos" element={<Cursos />} />
+
 
       </Routes>
     </Router>

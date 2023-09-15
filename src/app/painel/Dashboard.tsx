@@ -1,7 +1,6 @@
 import CalendarioEventos from './CalendarioEventos';
 import MateriaisCurso from './MateriaisCurso';
-import CursosIncritos from './CursosIncritos';
-import CursosDisponiveis from './CursosDisponiveis';
+import PerfilUsuario from './PerfilUsuario';
 
 const Dashboard = () => {
     return (
@@ -9,13 +8,14 @@ const Dashboard = () => {
             <h1>Painel do Aluno</h1>
 
             <div className="row">
-                <div className="col-md-4">
-                    <CursosIncritos></CursosIncritos>
+                 <div className="col-md-3">
+                    <PerfilUsuario></PerfilUsuario>
                 </div>
-                <div className="col-md-4">
-                    <CursosDisponiveis></CursosDisponiveis>
+                <div className="col-md-3">
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-3">
+                </div>
+                <div className="col-md-3">
                     <CalendarioEventos></CalendarioEventos>
                 </div>
             </div>

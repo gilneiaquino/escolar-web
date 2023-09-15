@@ -1,6 +1,7 @@
 import React from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import { Link } from 'react-router-dom';
 
 const CalendarioEventos = () => {
   // Dados fictícios de eventos (prazos de entrega e datas de exames)
@@ -20,6 +21,7 @@ const CalendarioEventos = () => {
           events={eventos}
         />
       </div>
+      <div><Link to='/calendario-entrega-trabalhos'>Ampliar calendário</Link></div>
     </div>
   );
 };

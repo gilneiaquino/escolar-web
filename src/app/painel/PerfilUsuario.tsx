@@ -30,7 +30,6 @@ const PerfilUsuario: React.FC = () => {
             <h6 className="card-subtitle mt-4 mb-2 text-muted">Informações de Perfil</h6>
             <p className="card-text">Área de Estudo: {usuario.areaDeEstudo}</p>
             <p className="card-text">Interesses: {usuario.interesses.join(', ')}</p>
-            <div><Link to='/calendario-entrega-trabalhos'>Calendário Atividades</Link></div>
           </div>
         </div>
       </div>
