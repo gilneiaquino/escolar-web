@@ -3,7 +3,7 @@ import React from 'react';
 const Menu: React.FC = () => {
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <div className="container"> 
+            <div className="container">
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto">
                         <li className="nav-item">
@@ -14,15 +14,27 @@ const Menu: React.FC = () => {
                                 Aluno
                             </a>
                             <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a className="dropdown-item" href="/aluno-form">Cadastrar</a></li>
+                                <li><a className="dropdown-item" href="/aluno-form">Cadastrar</a></li>
                                 <li><a className="dropdown-item" href="/aluno-list-consulta">Consultar</a></li>
                                 <li><hr className="dropdown-divider" /></li>
                                 <li><a className="dropdown-item" href="/Sair">Sair</a></li>
                             </ul>
-                        </li>  
-                        <li className="nav-item">
-                            <a className="nav-link active" href="/cursos">Cursos</a>
-                        </li>             
+                        </li>
+                        <li className="nav-item dropdown">
+                            <a className="nav-link dropdown-toggle" href="/cursos" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Curso
+                            </a>
+                            <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li className="nav-item">
+                                    <a className="nav-link active" href="/cursos">Cursos</a>
+                                </li>
+                                <li className="nav-item">
+                                    <a className="nav-link active" href="/certificado">Certificado</a>
+                                </li>
+
+                            </ul>
+                        </li>
+             
                     </ul>
                     <form className="d-flex">
                         <input className="form-control me-2" type="search" placeholder="busca" aria-label="Search" />
