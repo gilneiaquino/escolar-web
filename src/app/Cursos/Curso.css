@@ -1,0 +1,12 @@
+.card-completo {
+    padding: 0px;
+    margin: 10px;
+    border-radius: 17px !important;
+    width: 18rem;
+ }  
+
+.card-footer{
+    border-radius: 17px 17px 0px 0px;
+    padding: 10px;
+    margin: 10px;
+}
