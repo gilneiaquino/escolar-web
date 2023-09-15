@@ -26,7 +26,7 @@ const CursosIncritos = () => {
 
     return (
         <div className='container'>
-            <h3 className='my-3'>Meus cursos Inscritos</h3>
+            <h3 className='my-3 mx-2'>Meus cursos Inscritos</h3>
             {gruposDeCursos.map((grupo, index) => (
                 <div key={index} className='row row-cols-1 row-cols-md-2 row-cols-lg-4 mb-3'>
                     {grupo.map((curso, cursoIndex) => (
