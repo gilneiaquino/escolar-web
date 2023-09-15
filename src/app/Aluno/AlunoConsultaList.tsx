@@ -27,8 +27,6 @@ function AlunoConsultaList() {
 
   const handleEditarAluno = (id: any) => {
     navigate(`/aluno-form/${id}`);
-    console.log(`Editar aluno com ID ${id}`);
-    // Você pode abrir um modal de edição ou navegar para uma página de edição, por exemplo.
   };
 
   const abrirModalExcluir = (id: any) => {
@@ -39,13 +37,13 @@ function AlunoConsultaList() {
 
 
   const handleExcluirAluno = async (id: any) => {
-       try {
-          await alunoController.excluirAluno(id);
-          const alunosConsultados = await alunoController.consultar(nome, cpf, matricula);
-          setAlunos(alunosConsultados || []);
-        } catch (error) {
-          console.error('Erro ao excluir aluno:', error);
-        }  
+    try {
+      await alunoController.excluirAluno(id);
+      const alunosConsultados = await alunoController.consultar(nome, cpf, matricula);
+      setAlunos(alunosConsultados || []);
+    } catch (error) {
+      console.error('Erro ao excluir aluno:', error);
+    }
   };
 
 

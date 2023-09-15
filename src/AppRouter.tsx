@@ -9,6 +9,9 @@ import CalendarioEventos from './app/painel/CalendarioEventos';
 import Dashboard from './app/painel/Dashboard';
 import Cursos from './app/Curso/Cursos';
 import Certificado from './app/Curso/Certificado';
+import Login from './app/Login/Login';
+import EsqueciMinhaSenha from './app/Login/EsqueciMinhaSenha';
+import AlterarSenha from './app/Login/AlterarSenha';
 
 const AppRouter = () => {
   return (
@@ -23,7 +26,9 @@ const AppRouter = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/cursos" element={<Cursos />} />
         <Route path="/certificado" element={<Certificado />} />
-
+        <Route path="/login" element={<Login />} />
+        <Route path="/esqueci-minha-senha" element={<EsqueciMinhaSenha />} />
+        <Route path="/alterar-minha-senha" element={<AlterarSenha />} />
       </Routes>
     </Router>
   );

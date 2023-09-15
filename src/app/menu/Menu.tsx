@@ -34,7 +34,9 @@ const Menu: React.FC = () => {
 
                             </ul>
                         </li>
-             
+                        <li className="nav-item">
+                            <a className="nav-link active" href="/login">Login</a>
+                        </li>                        
                     </ul>
                     <form className="d-flex">
                         <input className="form-control me-2" type="search" placeholder="busca" aria-label="Search" />
