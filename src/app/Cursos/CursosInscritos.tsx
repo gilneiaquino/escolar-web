@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import ProgressBar from '../Progress/ProgressBar';
 import './Curso.css';
 
-
 const CursosIncritos = () => {
     const [paginaAtual, setPaginaAtual] = useState(1);
-    const cursosPorPagina = 3; // Define o número de cursos por página
+    const cursosPorPagina = 4; // Define o número de cursos por página
 
     // Simulando dados de cursos, progresso e conquistas
     const cursos = [
@@ -23,33 +22,41 @@ const CursosIncritos = () => {
     const indiceInicial = (paginaAtual - 1) * cursosPorPagina;
     const indiceFinal = paginaAtual * cursosPorPagina;
 
+    // Dividir os cursos em grupos de 4
+    const gruposDeCursos = [];
+    for (let i = 0; i < cursos.length; i += cursosPorPagina) {
+        gruposDeCursos.push(cursos.slice(i, i + cursosPorPagina));
+    }
+
     return (
         <div className='container'>
              <h3 className='my-3'>Meus cursos Inscritos</h3>
-            <div className='d-flex'>
-                     {cursos.slice(indiceInicial, indiceFinal).map((curso, index) => (
-                        <div key={index} className=" card card-completo m-0 mx-1">
-                            <div className="card-header">
-                                <h5 className="card-title d-flex justify-content-center">{curso.titulo}</h5>
-                            </div>
-                            <div className="card-body">
-                                <div className='my-2'>
-                                    <ProgressBar progress={curso.progresso} />
+            {gruposDeCursos.map((grupo, index) => (
+                <div key={index} className='row mb-3'>
+                    {grupo.map((curso, cursoIndex) => (
+                        <div key={cursoIndex} className="col-3">
+                            <div className="card card-completo m-0 mx-1">
+                                <div className="card-header">
+                                    <h5 className="card-title d-flex justify-content-center">{curso.titulo}</h5>
                                 </div>
-                                <p className="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                            </div>
-                            <div className="card-footer text-muted m-0">
-                                2 days ago
+                                <div className="card-body">
+                                    <div className='my-2'>
+                                        <ProgressBar progress={curso.progresso} />
+                                    </div>
+                                    <p className="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                                </div>
+                                <div className="card-footer text-muted m-0">
+                                    2 days ago
+                                </div>
                             </div>
                         </div>
                     ))}
-               
-
-            </div>
+                </div>
+            ))}
             <div className="d-flex justify-content-center mt-3">
                 <nav aria-label="Page navigation">
                     <ul className="pagination">
-                        {Array.from({ length: Math.ceil(cursos.length / cursosPorPagina) }, (_, i) => (
+                        {Array.from({ length: gruposDeCursos.length }, (_, i) => (
                             <li key={i} className={`page-item ${i + 1 === paginaAtual ? 'active' : ''}`}>
                                 <button className="page-link" onClick={() => setPaginaAtual(i + 1)}>
                                     {i + 1}
