@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Curso } from '../modelos/Curso';
 import { Conquista } from '../modelos/Conquista';
+import CursoPreVisualizacao from './CursoPrevisualizacao';
 
 const CursoForm: React.FC<{}> = () => {
     const [novoCurso, setNovoCurso] = useState<Curso>({
@@ -66,15 +67,6 @@ const CursoForm: React.FC<{}> = () => {
                                     value={novoCurso.titulo}
                                     onChange={handleChange} required />
                             </div>
-                            <div className="col-md-1 mb-3">
-                                <label htmlFor="progresso" className="form-label">Progresso</label>
-                                <input type="number"
-                                    className="form-control"
-                                    id="progresso"
-                                    name="progresso"
-                                    value={novoCurso.progresso}
-                                    onChange={handleChange} required />
-                            </div>
                             <div className="col-md-2 mb-3">
                                 <label htmlFor="cor" className="form-label">Cor do Curso:</label>
                                 <select
@@ -134,6 +126,7 @@ const CursoForm: React.FC<{}> = () => {
                                     id="descricaoResumida"
                                     name="descricaoResumida"
                                     value={novoCurso.descricaoResumida}
+                                    maxLength={100}
                                     onChange={handleChange} required />
                             </div>
                         </div>
@@ -147,6 +140,17 @@ const CursoForm: React.FC<{}> = () => {
                                     onChange={handleChange} required />
                             </div>
                         </div>
+                        <div className="row">
+                            <div className="col-md-12 d-flex justify-content-center">
+
+                                {novoCurso.titulo ? (
+                                    <CursoPreVisualizacao curso={novoCurso} />
+                                ) : (
+                                    <p>Preencha o título do curso para visualizar a pré-visualização.</p>
+                                )}
+                            </div>
+                        </div>
+
                         <div className="row">
                             <div className="col-md-12 d-flex justify-content-end">
                                 <button type="submit" className="btn btn-primary">Salvar</button>
