@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import ProgressBar from '../Progress/ProgressBar';
 import './Curso.css';
+import { Curso } from '../modelos/Curso';
 
 const CursosIncritos = () => {
     const cursosPorPagina = 4; // Define o número de cursos por página
 
     // Simulando dados de cursos, progresso e conquistas
-    const cursos = [
+    const cursos : Curso[] = [
         { titulo: 'Curso de React', progresso: 75, conquistas: ['Certificado de Iniciante'], texto: 'Aprenda a criar aplicativos incríveis com React.', cor: 'bg-primary', agrupamento: 'Frontend' },
         { titulo: 'Curso de JavaScript', progresso: 50, conquistas: [], texto: 'Domine a linguagem de programação JavaScript.', cor: 'bg-secondary', agrupamento: 'Frontend' },
         { titulo: 'Curso de CSS', progresso: 10, conquistas: ['Certificado de Conclusão'], texto: 'Aprenda a estilizar páginas da web com CSS.', cor: 'bg-success', agrupamento: 'Frontend' },
