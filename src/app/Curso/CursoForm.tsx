@@ -21,11 +21,19 @@ const CursoForm: React.FC<{}> = () => {
         { titulo: 'Conquista Avançada', descricao: 'Alcançou o nível avançado neste curso.' },
     ];
 
+    const coresPredefinidas = [
+        { nome: 'Azul', valor: 'bg-primary' },
+        { nome: 'Verde', valor: 'bg-success' },
+        { nome: 'Vermelho', valor: 'bg-danger' },
+        { nome: 'Amarelo', valor: 'bg-warning' },
+        { nome: 'Cinza', valor: 'bg-secondary' },
+    ];
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setNovoCurso({ ...novoCurso, [name]: value });
-    }; 
-    
+    };
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         // Limpar o estado após o envio
@@ -68,13 +76,22 @@ const CursoForm: React.FC<{}> = () => {
                                     onChange={handleChange} required />
                             </div>
                             <div className="col-md-2 mb-3">
-                                <label htmlFor="cor" className="form-label">Cor</label>
-                                <input type="text"
-                                    className="form-control"
+                                <label htmlFor="cor" className="form-label">Cor do Curso:</label>
+                                <select
                                     id="cor"
                                     name="cor"
+                                    className="form-select"
                                     value={novoCurso.cor}
-                                    onChange={handleChange} required />
+                                    onChange={handleChange}
+                                    required
+                                >
+                                    <option value="" disabled>Selecione</option>
+                                    {coresPredefinidas.map((cor, index) => (
+                                        <option key={index} value={cor.valor}>
+                                            {cor.nome}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
                             <div className="col-md-2 mb-3">
                                 <label htmlFor="agrupamento" className="form-label">Agrupamento</label>
@@ -100,7 +117,7 @@ const CursoForm: React.FC<{}> = () => {
                                     className="form-select"
                                     value={novoCurso.conquistas}
                                     onChange={handleChange}
-                                 >
+                                >
                                     <option value="" disabled>Selecione</option>
                                     {exemplosConquistas.map((conquista, index) => (
                                         <option key={index} value={conquista.titulo}>
