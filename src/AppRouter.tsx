@@ -12,6 +12,7 @@ import Certificado from './app/Curso/Certificado';
 import Login from './app/Login/Login';
 import EsqueciMinhaSenha from './app/Login/EsqueciMinhaSenha';
 import AlterarSenha from './app/Login/AlterarSenha';
+import CursoForm from './app/Curso/CursoForm';
 
 const AppRouter = () => {
   return (
@@ -25,6 +26,8 @@ const AppRouter = () => {
         <Route path="/calendario-entrega-trabalhos" element={<CalendarioEventos />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/cursos" element={<Cursos />} />
+        <Route path="/curso-form" element={<CursoForm />} />        
+        <Route path="/curso-form/:id" element={<CursoForm />} />        
         <Route path="/certificado" element={<Certificado />} />
         <Route path="/login" element={<Login />} />
         <Route path="/esqueci-minha-senha" element={<EsqueciMinhaSenha />} />
