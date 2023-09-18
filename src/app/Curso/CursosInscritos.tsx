@@ -101,10 +101,7 @@ const CursosIncritos = () => {
     const opcoesAgrupamento = ['Todos', 'Frontend', 'Backend'];
 
     const [cursoExpandido, setCursoExpandido] = useState<number | null>(null);
-
-
-    const cursosFiltrados = filtroAgrupamento === 'Todos' ? cursos : cursos.filter(curso => curso.agrupamento === filtroAgrupamento);
-
+ 
     return (
         <div className='container'>
             <h3 className='my-3 mx-2'>Meus cursos Inscritos</h3>

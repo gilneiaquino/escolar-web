@@ -10,7 +10,7 @@ const Menu: React.FC = () => {
                             <a className="nav-link active" href="/">Inicio</a>
                         </li>
                         <li className="nav-item dropdown">
-                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a className="nav-link dropdown-toggle"   id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Aluno
                             </a>
                             <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -21,7 +21,7 @@ const Menu: React.FC = () => {
                             </ul>
                         </li>
                         <li className="nav-item dropdown">
-                            <a className="nav-link dropdown-toggle" href="/cursos" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a className="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Curso
                             </a>
                             <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
