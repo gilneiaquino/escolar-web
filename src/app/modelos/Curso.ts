@@ -1,4 +1,5 @@
 export interface Curso {
+    id?: string,
     titulo: string,
     progresso: number,
     conquistas: string[],
