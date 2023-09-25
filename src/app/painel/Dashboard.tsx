@@ -1,4 +1,3 @@
-import CalendarioEventos from './CalendarioEventos';
 import MateriaisCurso from './MateriaisCurso';
 import PerfilUsuario from './PerfilUsuario';
 
@@ -16,7 +15,6 @@ const Dashboard = () => {
                 <div className="col-md-3">
                 </div>
                 <div className="col-md-3">
-                    <CalendarioEventos></CalendarioEventos>
                 </div>
             </div>
 

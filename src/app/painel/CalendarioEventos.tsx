@@ -1,6 +1,4 @@
 import React from 'react';
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
 import { Link } from 'react-router-dom';
 
 const CalendarioEventos = () => {
@@ -13,15 +11,7 @@ const CalendarioEventos = () => {
 
   return (
     <div className="container">
-      <h1 className="mt-4">Calendário de Eventos</h1>
-      <div className="mt-3">
-        <FullCalendar
-          plugins={[dayGridPlugin]}
-          initialView="dayGridMonth"
-          events={eventos}
-        />
-      </div>
-      <div><Link to='/calendario-entrega-trabalhos'>Ampliar calendário</Link></div>
+
     </div>
   );
 };
