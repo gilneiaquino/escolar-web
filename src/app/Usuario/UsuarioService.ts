@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Usuario } from '../modelos/Usuario';
+import { UsuarioDto } from '../modelos/UsuarioDto';
  
 class UsuarioService {
   private readonly baseURL: string = 'http://localhost:8080/api/usuarios';
@@ -79,6 +80,15 @@ class UsuarioService {
 
       const response = await axios.get<Usuario>(url, this.customConfig);
 
+      return response.data;
+    } catch (error: any) {
+      throw error;
+    }
+  }
+
+  public async login(usuarioDto: UsuarioDto): Promise<UsuarioDto> {
+    try {
+      const response = await axios.post("http://localhost:8080/api/usuarios/login", usuarioDto, this.customConfig);
       return response.data;
     } catch (error: any) {
       throw error;

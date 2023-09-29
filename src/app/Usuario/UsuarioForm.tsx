@@ -181,7 +181,6 @@ const UsuarioForm: React.FC = () => {
 
     usuarioController.handleAdicionarUsuario(
       dispatch,
-      scrollToTop,
       novoUsuario
     );
 

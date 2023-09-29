@@ -1,9 +1,14 @@
+import { useNavigate } from 'react-router-dom';
 import { adicionarMensagem, limparMensagens } from '../mensagens/mensagensSlice';
 import { Usuario } from '../modelos/Usuario';
+import { UsuarioDto } from '../modelos/UsuarioDto';
 import UsuarioService from './UsuarioService';
 
 class UsuarioController {
+
   private usuarioService: UsuarioService;
+  private navigate = useNavigate();
+
 
   estados = [
     { nome: 'Acre', uf: 'AC' },
@@ -82,7 +87,6 @@ class UsuarioController {
   }
 
   handleAdicionarUsuario = (dispatch: Function,
-    scrollToTop: Function,
     usuario: Usuario) => {
 
     dispatch(limparMensagens());
@@ -99,6 +103,24 @@ class UsuarioController {
 
   }
 
+  public async login(usuarioDto: UsuarioDto,dispatch: Function ) {
+
+ 
+    try {
+      const novoUsuario = await this.usuarioService.login(usuarioDto);
+      this.navigate(`/`);
+    } catch (error) {
+      throw new Error('Erro ao criar usuário');
+    }
+
+    
+    console.log('Dados do usuário LOOGIN:', usuarioDto);
+
+    
+
+  }
+ 
+ 
   public async consultar(
     nome: string,
     cpf: string,

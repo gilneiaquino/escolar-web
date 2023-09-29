@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import InputMask from "react-input-mask";
+import UsuarioController from '../Usuario/UsuarioController';
 
 function Login() {
     const navigate = useNavigate();
 
+    const usuarioController = new UsuarioController();
+
     const [formData, setFormData] = useState({
-        username: '',
-        password: '',
+        nomeUsuario: '',
+        senha: '',
+        tipoLogin: 'email', // Defina o valor padrão como 'email'
     });
 
     const handleInputChange = (e: any) => {
@@ -20,15 +24,38 @@ function Login() {
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        console.log('Dados do formulário enviados:', formData);
+
+        const { tipoLogin, nomeUsuario, senha } = formData;
+
+        let usuarioDto = {
+            nomeUsuario: '',
+            senha: '',
+            email: '',
+            cpf: '',
+        };
+
+        if (tipoLogin === 'email') {
+            usuarioDto.senha = senha;
+            usuarioDto.nomeUsuario = nomeUsuario;
+            usuarioDto.email = nomeUsuario; // Defina o e-mail com o valor de nomeUsuario
+        } else if (tipoLogin === 'cpf') {
+            const cpf = nomeUsuario.replace(/\D/g, '');
+            usuarioDto.senha = senha;
+            usuarioDto.cpf = cpf;
+        } else if (tipoLogin === 'username') {
+            usuarioDto.senha = senha;
+            usuarioDto.nomeUsuario = nomeUsuario;
+        }
+
+        usuarioController.login(usuarioDto, dispatchEvent);
     };
 
-    const handleForgotPasswordClick = () => {        
+    const handleForgotPasswordClick = () => {
         navigate(`/esqueci-minha-senha`);
     };
 
     const handleChangePasswordClick = () => {
-        navigate(`/alterar-minha-senha`);        
+        navigate(`/alterar-minha-senha`);
     };
 
     const handleGoogleLoginClick = () => {
@@ -37,6 +64,16 @@ function Login() {
 
     const handleFacebookLoginClick = () => {
         // Adicione a lógica para o login com Facebook aqui
+    };
+
+    const limparCamposLoginEnviados = () => {
+        const { tipoLogin } = formData;
+        if (tipoLogin === 'email') {
+            setFormData({ ...formData, nomeUsuario: '' });
+        } 
+        else {
+            setFormData({ ...formData, nomeUsuario: '' });
+        }
     };
 
     return (
@@ -48,25 +85,59 @@ function Login() {
                         <div className="card-body">
                             <form onSubmit={handleSubmit}>
                                 <div className="form-group">
-                                    <label htmlFor="username">Nome de Usuário ou E-mail:</label>
-                                    <input
-                                        type="text"
+                                    <label htmlFor="tipoLogin">Tipo de Entrada:</label>
+                                    <select
                                         className="form-control"
-                                        id="username"
-                                        name="username"
-                                        value={formData.username}
+                                        id="tipoLogin"
+                                        name="tipoLogin"
+                                        value={formData.tipoLogin}
                                         onChange={handleInputChange}
-                                        required
-                                    />
+                                        onBlur={limparCamposLoginEnviados}
+                                    >
+                                        <option value="email">E-mail</option>
+                                        <option value="cpf">CPF</option>
+                                        <option value="username">Nome de Usuário</option>
+                                    </select>
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="password">Senha:</label>
+                                    {formData.tipoLogin === 'cpf' ? (
+                                        <label htmlFor="nomeUsuario">CPF:</label>
+                                    ) : (
+                                        <label htmlFor="nomeUsuario">
+                                            {formData.tipoLogin === 'email' ? 'E-mail:' : 'Nome de Usuário ou E-mail:'}
+                                        </label>
+                                    )}
+                                    {formData.tipoLogin === 'cpf' ? (
+                                        <InputMask
+                                            mask="999.999.999-99"
+                                            className="form-control"
+                                            id="nomeUsuario"
+                                            name="nomeUsuario"
+                                            value={formData.nomeUsuario}
+                                            onChange={handleInputChange}
+                                            required
+                                        />
+                                    ) : (
+                                        <input
+                                            type={formData.tipoLogin === 'email' ? 'email' : 'text'}
+                                            className="form-control"
+                                            id="nomeUsuario"
+                                            name="nomeUsuario"
+                                            value={formData.nomeUsuario}
+                                            onChange={handleInputChange}
+                                            required
+                                            pattern={formData.tipoLogin === 'email' ? '[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$' : undefined}
+                                        />
+                                    )}
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="senha">Senha:</label>
                                     <input
                                         type="password"
                                         className="form-control"
-                                        id="password"
-                                        name="password"
-                                        value={formData.password}
+                                        id="senha"
+                                        name="senha"
+                                        value={formData.senha}
                                         onChange={handleInputChange}
                                         required
                                     />
@@ -75,7 +146,7 @@ function Login() {
                                     <button type="submit" className="btn btn-primary btn-block">
                                         Entrar
                                     </button>
-                                </div> 
+                                </div>
                             </form>
                             <div className="mt-3">
                                 <button
