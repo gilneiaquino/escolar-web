@@ -20,7 +20,7 @@ const AppRouter = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<Login />} />
         <Route path="/aluno-form" element={<AlunoForm />} />
         <Route path="/aluno-form/:id" element={<AlunoForm />} />
         <Route path="/aluno-list-consulta" element={<AlunoConsultaList />} />
