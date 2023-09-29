@@ -21,6 +21,16 @@ const Menu: React.FC = () => {
                             </ul>
                         </li>
                         <li className="nav-item dropdown">
+                            <a className="nav-link dropdown-toggle"   id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Usuário
+                            </a>
+                            <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a className="dropdown-item" href="/usuario-form">Cadastrar</a></li>
+                                <li><a className="dropdown-item" href="/usuario-list-consulta">Consultar</a></li>
+                                <li><hr className="dropdown-divider" /></li>
+                             </ul>
+                        </li>
+                        <li className="nav-item dropdown">
                             <a className="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Curso
                             </a>

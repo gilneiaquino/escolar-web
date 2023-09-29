@@ -13,6 +13,8 @@ import Login from './app/Login/Login';
 import EsqueciMinhaSenha from './app/Login/EsqueciMinhaSenha';
 import AlterarSenha from './app/Login/AlterarSenha';
 import CursoForm from './app/Curso/CursoForm';
+import UsuarioForm from './app/Usuario/UsuarioForm';
+import UsuarioConsultaList from './app/Usuario/UsuarioConsultaList';
 
 const AppRouter = () => {
   return (
@@ -32,6 +34,9 @@ const AppRouter = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/esqueci-minha-senha" element={<EsqueciMinhaSenha />} />
         <Route path="/alterar-minha-senha" element={<AlterarSenha />} />
+        <Route path="/usuario-form" element={<UsuarioForm />} />
+        <Route path="/usuario-form/:id" element={<UsuarioForm />} />
+        <Route path="/usuario-list-consulta" element={<UsuarioConsultaList />} />
       </Routes>
     </Router>
   );
