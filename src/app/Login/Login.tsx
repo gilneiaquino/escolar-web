@@ -5,13 +5,11 @@ import UsuarioController from '../Usuario/UsuarioController';
 
 function Login() {
     const navigate = useNavigate();
-
     const usuarioController = new UsuarioController();
 
     const [formData, setFormData] = useState({
-        nomeUsuario: '',
+        email: '',
         senha: '',
-        tipoLogin: 'email', // Defina o valor padrão como 'email'
     });
 
     const handleInputChange = (e: any) => {
@@ -25,27 +23,12 @@ function Login() {
     const handleSubmit = (e: any) => {
         e.preventDefault();
 
-        const { tipoLogin, nomeUsuario, senha } = formData;
+        const { email, senha } = formData;
 
-        let usuarioDto = {
-            nomeUsuario: '',
-            senha: '',
-            email: '',
-            cpf: '',
+        const usuarioDto = {
+            email: email,
+            senha: senha,
         };
-
-        if (tipoLogin === 'email') {
-            usuarioDto.senha = senha;
-            usuarioDto.nomeUsuario = nomeUsuario;
-            usuarioDto.email = nomeUsuario; // Defina o e-mail com o valor de nomeUsuario
-        } else if (tipoLogin === 'cpf') {
-            const cpf = nomeUsuario.replace(/\D/g, '');
-            usuarioDto.senha = senha;
-            usuarioDto.cpf = cpf;
-        } else if (tipoLogin === 'username') {
-            usuarioDto.senha = senha;
-            usuarioDto.nomeUsuario = nomeUsuario;
-        }
 
         usuarioController.login(usuarioDto, dispatchEvent);
     };
@@ -60,20 +43,16 @@ function Login() {
 
     const handleGoogleLoginClick = () => {
         // Adicione a lógica para o login com Google aqui
+        // Redirecione para a página de autenticação do Google
     };
 
     const handleFacebookLoginClick = () => {
         // Adicione a lógica para o login com Facebook aqui
+        // Redirecione para a página de autenticação do Facebook
     };
 
     const limparCamposLoginEnviados = () => {
-        const { tipoLogin } = formData;
-        if (tipoLogin === 'email') {
-            setFormData({ ...formData, nomeUsuario: '' });
-        } 
-        else {
-            setFormData({ ...formData, nomeUsuario: '' });
-        }
+        setFormData({ email: '', senha: '' });
     };
 
     return (
@@ -85,50 +64,16 @@ function Login() {
                         <div className="card-body">
                             <form onSubmit={handleSubmit}>
                                 <div className="form-group">
-                                    <label htmlFor="tipoLogin">Tipo de Entrada:</label>
-                                    <select
+                                    <label htmlFor="email">E-mail:</label>
+                                    <input
+                                        type="email"
                                         className="form-control"
-                                        id="tipoLogin"
-                                        name="tipoLogin"
-                                        value={formData.tipoLogin}
+                                        id="email"
+                                        name="email"
+                                        value={formData.email}
                                         onChange={handleInputChange}
-                                        onBlur={limparCamposLoginEnviados}
-                                    >
-                                        <option value="email">E-mail</option>
-                                        <option value="cpf">CPF</option>
-                                        <option value="username">Nome de Usuário</option>
-                                    </select>
-                                </div>
-                                <div className="form-group">
-                                    {formData.tipoLogin === 'cpf' ? (
-                                        <label htmlFor="nomeUsuario">CPF:</label>
-                                    ) : (
-                                        <label htmlFor="nomeUsuario">
-                                            {formData.tipoLogin === 'email' ? 'E-mail:' : 'Nome de Usuário ou E-mail:'}
-                                        </label>
-                                    )}
-                                    {formData.tipoLogin === 'cpf' ? (
-                                        <InputMask
-                                            mask="999.999.999-99"
-                                            className="form-control"
-                                            id="nomeUsuario"
-                                            name="nomeUsuario"
-                                            value={formData.nomeUsuario}
-                                            onChange={handleInputChange}
-                                            required
-                                        />
-                                    ) : (
-                                        <input
-                                            type={formData.tipoLogin === 'email' ? 'email' : 'text'}
-                                            className="form-control"
-                                            id="nomeUsuario"
-                                            name="nomeUsuario"
-                                            value={formData.nomeUsuario}
-                                            onChange={handleInputChange}
-                                            required
-                                            pattern={formData.tipoLogin === 'email' ? '[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$' : undefined}
-                                        />
-                                    )}
+                                        required
+                                    />
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="senha">Senha:</label>

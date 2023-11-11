@@ -1,5 +1,5 @@
 export interface UsuarioDto {
-    nomeUsuario?: string;
+    nome?: string;
     senha: string; 
     email?: string;
     cpf?: string; 

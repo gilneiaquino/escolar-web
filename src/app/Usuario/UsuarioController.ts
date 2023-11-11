@@ -108,7 +108,7 @@ class UsuarioController {
  
     try {
       const novoUsuario = await this.usuarioService.login(usuarioDto);
-      this.navigate(`/`);
+     // this.navigate(`/`);
     } catch (error) {
       throw new Error('Erro ao criar usuário');
     }

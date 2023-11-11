@@ -7,7 +7,7 @@ class UsuarioService {
   private readonly axiosInstance;
 
   constructor() {
-    this.baseURL = 'http://localhost:8080/api/usuarios';
+    this.baseURL = 'http://localhost:8080';
     this.axiosInstance = axios.create({
       baseURL: this.baseURL,
       headers: {
@@ -86,12 +86,13 @@ class UsuarioService {
     }
   }
 
-  public async login(usuarioDto: UsuarioDto): Promise<UsuarioDto> {
+  async login(usuarioDto: UsuarioDto) {
     try {
-      const response = await axios.post("http://localhost:8080/api/usuarios/login", usuarioDto, this.customConfig);
-      return response.data;
-    } catch (error: any) {
-      throw error;
+     // const response = await this.axiosInstance.post('/api/usuarios/login', usuarioDto);
+      const response = await this.axiosInstance.post('/api/usuarios/login');
+      return response.data; // Se a solicitação foi bem-sucedida, a resposta pode conter dados do usuário logado
+    } catch (error) {
+      throw new Error('Erro ao fazer login');
     }
   }
 }
