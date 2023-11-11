@@ -88,13 +88,13 @@ class UsuarioService {
 
   async login(usuarioDto: UsuarioDto) {
     try {
-     // const response = await this.axiosInstance.post('/api/usuarios/login', usuarioDto);
-      const response = await this.axiosInstance.post('/api/usuarios/login');
-      return response.data; // Se a solicitação foi bem-sucedida, a resposta pode conter dados do usuário logado
+        const response = await this.axiosInstance.get('/api/usuarios/autenticacao', { params: usuarioDto });
+        return response.data; // Se a solicitação foi bem-sucedida, a resposta pode conter dados do usuário logado
     } catch (error) {
-      throw new Error('Erro ao fazer login');
+        throw new Error('Erro ao fazer login');
     }
-  }
+}
+
 }
 
 export default UsuarioService;
