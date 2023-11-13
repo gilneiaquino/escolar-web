@@ -31,7 +31,8 @@ const UsuarioForm: React.FC = () => {
     }],
     email: '',
     cpf: '',
-    senha: ''
+    senha: '',
+    confirmacaoSenha: ''
   };
 
   const [usuario, setUsuario] = useState(initialState);
@@ -43,8 +44,9 @@ const UsuarioForm: React.FC = () => {
   const [erroCpf, setErroCpf] = useState<string>('');
   const [erroEmail, setErroEmail] = useState<string>('');
   const [erroSenha, setErroSenha] = useState<string>('');
+  const [erroConfirmacaoSenha, setErroConfirmacaoSenha] = useState<string>('');
 
-  
+
 
   const { id } = useParams();
 
@@ -123,7 +125,13 @@ const UsuarioForm: React.FC = () => {
 
   const handleSubmit = (e: any) => {
     if (validarForm(usuario)) {
-      adicionarUsuario();
+      if (usuario.senha !== usuario.confirmacaoSenha) {
+        setErroConfirmacaoSenha('As senhas não coincidem.');
+        e.preventDefault();
+      } else {
+        setErroConfirmacaoSenha(''); // Limpa a mensagem de erro se as senhas coincidirem
+        adicionarUsuario();
+      }
     } else {
       e.preventDefault();
     }
@@ -148,7 +156,7 @@ const UsuarioForm: React.FC = () => {
     if (usuario.email.trim() === '') {
       setErroSenha('O campo Senha é obrigatório.');
     }
-   
+
 
     if (usuario.genero.trim() === '') {
       setErroGenero('O campo Gênero é obrigatório.');
@@ -300,35 +308,8 @@ const UsuarioForm: React.FC = () => {
                 {erroGenero && <div className="invalid-feedback">{erroGenero}</div>}
               </div>
             </div>
-            <div className="row col-12 my-3">
-              <div className="form-group col-md-5 mx-sm-3">
-                <label>Email</label>
-                <div className="input-group">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text" id="inputGroupPrepend">@</span>
-                  </div>
-                  <input
-                    className={`form-control ${erroEmail && 'is-invalid'}`}
-                    type="text"
-                    placeholder="Email"
-                    value={usuario.email}
-                    onChange={(e) => setUsuario({ ...usuario, email: e.target.value })}
-                  />
-                  {erroEmail && <div className="invalid-feedback">{erroEmail}</div>}
-                </div>
-              </div>
-              <div className="form-group col-md-2">
-                <label>Senha</label>
-                <input
-                  className={`form-control ${erroSenha && 'is-invalid'}`}
-                  type="password"
-                  placeholder="Senha"
-                  value={usuario.senha}
-                  onChange={(e) => setUsuario({ ...usuario, senha: e.target.value })}
-                />
-                {erroSenha && <div className="invalid-feedback">{erroSenha}</div>}
-              </div>
-              <div className="form-group col-md-2">
+            <div className="row col-12 my-3 ">
+            <div className="form-group col-md-2 mx-sm-3">
                 <label>CPF</label>
                 <InputMask
                   className={`form-control ${erroCpf && 'is-invalid'}`}
@@ -354,6 +335,55 @@ const UsuarioForm: React.FC = () => {
                 {erroMatricula && <div className="invalid-feedback">{erroMatricula}</div>}
               </div>
             </div>
+          </div>
+        </div>
+
+
+        <div className="card my-3">
+          <div className="card-header">
+            Acesso
+          </div>
+          <div className="card-body">
+          <div className="row col-12">
+            <div className="form-group col-md-5 mx-sm-3">
+              <label>Email</label>
+              <div className="input-group">
+                <div className="input-group-prepend">
+                  <span className="input-group-text" id="inputGroupPrepend">@</span>
+                </div>
+                <input
+                  className={`form-control ${erroEmail && 'is-invalid'}`}
+                  type="text"
+                  placeholder="Email"
+                  value={usuario.email}
+                  onChange={(e) => setUsuario({ ...usuario, email: e.target.value })}
+                />
+                {erroEmail && <div className="invalid-feedback">{erroEmail}</div>}
+              </div>
+            </div>
+            <div className="form-group col-md-2">
+              <label>Senha</label>
+              <input
+                className={`form-control ${erroSenha && 'is-invalid'}`}
+                type="password"
+                placeholder="Senha"
+                value={usuario.senha}
+                onChange={(e) => setUsuario({ ...usuario, senha: e.target.value })}
+              />
+              {erroSenha && <div className="invalid-feedback">{erroSenha}</div>}
+            </div>
+            <div className="form-group col-md-2">
+              <label>Confirmação de Senha</label>
+              <input
+                className={`form-control ${erroConfirmacaoSenha && 'is-invalid'}`}
+                type="password"
+                placeholder="Confirmação de Senha"
+                value={usuario.confirmacaoSenha}
+                onChange={(e) => setUsuario({ ...usuario, confirmacaoSenha: e.target.value })}
+              />
+              {erroConfirmacaoSenha && <div className="invalid-feedback">{erroConfirmacaoSenha}</div>}
+            </div>
+          </div>
           </div>
         </div>
 

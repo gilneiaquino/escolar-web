@@ -12,5 +12,6 @@ export interface Usuario {
     telefones: Telefone[];
     matricula: string;
     senha: string;
+    confirmacaoSenha?: string
 
 }
