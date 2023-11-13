@@ -13,5 +13,5 @@ export interface Usuario {
     matricula: string;
     senha: string;
     confirmacaoSenha?: string
-
+    perfil: string
 }

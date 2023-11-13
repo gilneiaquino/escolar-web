@@ -32,7 +32,8 @@ const UsuarioForm: React.FC = () => {
     email: '',
     cpf: '',
     senha: '',
-    confirmacaoSenha: ''
+    confirmacaoSenha: '',
+    perfil: ''
   };
 
   const [usuario, setUsuario] = useState(initialState);
@@ -45,7 +46,14 @@ const UsuarioForm: React.FC = () => {
   const [erroEmail, setErroEmail] = useState<string>('');
   const [erroSenha, setErroSenha] = useState<string>('');
   const [erroConfirmacaoSenha, setErroConfirmacaoSenha] = useState<string>('');
+  const [erroPerfil, setErroPerfil] = useState<string>('');
 
+
+  const opcoesPerfil = [
+    { valor: 1, rotulo: 'Admin' },
+    { valor: 2, rotulo: 'Estudante' },
+    { valor: 3, rotulo: 'Professor' },
+  ]
 
 
   const { id } = useParams();
@@ -123,6 +131,18 @@ const UsuarioForm: React.FC = () => {
     setUsuario({ ...usuario, telefones: novosTelefones });
   };
 
+  const handleChangePerfil = (e: any) => {
+    const perfilSelecionado = e.target.value;
+    setUsuario((prevUsuario) => ({ ...prevUsuario, perfil: perfilSelecionado }));
+    
+    // Lógica de validação para o perfil
+    if (perfilSelecionado === '') {
+      setErroPerfil('Selecione o perfil');
+    } else {
+      setErroPerfil('');
+    }
+  };
+
   const handleSubmit = (e: any) => {
     if (validarForm(usuario)) {
       if (usuario.senha !== usuario.confirmacaoSenha) {
@@ -194,7 +214,9 @@ const UsuarioForm: React.FC = () => {
       enderecos: usuario.enderecos,
       telefones: usuario.telefones,
       matricula: usuario.matricula,
-      senha: usuario.senha
+      senha: usuario.senha,
+      perfil: usuario.perfil
+
     };
 
     usuarioController.handleAdicionarUsuario(
@@ -228,7 +250,8 @@ const UsuarioForm: React.FC = () => {
       }],
       email: '',
       cpf: '',
-      senha: ''
+      senha: '',
+      perfil: ''
     });
   };
 
@@ -309,7 +332,7 @@ const UsuarioForm: React.FC = () => {
               </div>
             </div>
             <div className="row col-12 my-3 ">
-            <div className="form-group col-md-2 mx-sm-3">
+              <div className="form-group col-md-2 mx-sm-3">
                 <label>CPF</label>
                 <InputMask
                   className={`form-control ${erroCpf && 'is-invalid'}`}
@@ -344,46 +367,65 @@ const UsuarioForm: React.FC = () => {
             Acesso
           </div>
           <div className="card-body">
-          <div className="row col-12">
-            <div className="form-group col-md-5 mx-sm-3">
-              <label>Email</label>
-              <div className="input-group">
-                <div className="input-group-prepend">
-                  <span className="input-group-text" id="inputGroupPrepend">@</span>
+            <div className="row col-12">
+              <div className="form-group col-md-5 mx-sm-3">
+                <label>Email</label>
+                <div className="input-group">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text" id="inputGroupPrepend">@</span>
+                  </div>
+                  <input
+                    className={`form-control ${erroEmail && 'is-invalid'}`}
+                    type="text"
+                    placeholder="Email"
+                    value={usuario.email}
+                    onChange={(e) => setUsuario({ ...usuario, email: e.target.value })}
+                  />
+                  {erroEmail && <div className="invalid-feedback">{erroEmail}</div>}
                 </div>
+              </div>
+              <div className="form-group col-md-2">
+                <label>Senha</label>
                 <input
-                  className={`form-control ${erroEmail && 'is-invalid'}`}
-                  type="text"
-                  placeholder="Email"
-                  value={usuario.email}
-                  onChange={(e) => setUsuario({ ...usuario, email: e.target.value })}
+                  className={`form-control ${erroSenha && 'is-invalid'}`}
+                  type="password"
+                  placeholder="Senha"
+                  value={usuario.senha}
+                  onChange={(e) => setUsuario({ ...usuario, senha: e.target.value })}
                 />
-                {erroEmail && <div className="invalid-feedback">{erroEmail}</div>}
+                {erroSenha && <div className="invalid-feedback">{erroSenha}</div>}
+              </div>
+              <div className="form-group col-md-2">
+                <label>Confirmação de Senha</label>
+                <input
+                  className={`form-control ${erroConfirmacaoSenha && 'is-invalid'}`}
+                  type="password"
+                  placeholder="Confirmação de Senha"
+                  value={usuario.confirmacaoSenha}
+                  onChange={(e) => setUsuario({ ...usuario, confirmacaoSenha: e.target.value })}
+                />
+                {erroConfirmacaoSenha && <div className="invalid-feedback">{erroConfirmacaoSenha}</div>}
+              </div>
+
+              <div className="form-group col-md-2 mx-sm-3">
+                <label>Perfil</label>
+                <select
+                  className={`form-control ${erroPerfil && 'is-invalid'}`}
+                  value={usuario.perfil}
+                  onChange={handleChangePerfil}
+                >
+                  <option value="" disabled>
+                    Selecione o perfil
+                  </option>
+                  {opcoesPerfil.map((opcao) => (
+                    <option key={opcao.valor} value={opcao.valor}>
+                      {opcao.rotulo}
+                    </option>
+                  ))}
+                </select>
+                {erroPerfil && <div className="invalid-feedback">{erroPerfil}</div>}
               </div>
             </div>
-            <div className="form-group col-md-2">
-              <label>Senha</label>
-              <input
-                className={`form-control ${erroSenha && 'is-invalid'}`}
-                type="password"
-                placeholder="Senha"
-                value={usuario.senha}
-                onChange={(e) => setUsuario({ ...usuario, senha: e.target.value })}
-              />
-              {erroSenha && <div className="invalid-feedback">{erroSenha}</div>}
-            </div>
-            <div className="form-group col-md-2">
-              <label>Confirmação de Senha</label>
-              <input
-                className={`form-control ${erroConfirmacaoSenha && 'is-invalid'}`}
-                type="password"
-                placeholder="Confirmação de Senha"
-                value={usuario.confirmacaoSenha}
-                onChange={(e) => setUsuario({ ...usuario, confirmacaoSenha: e.target.value })}
-              />
-              {erroConfirmacaoSenha && <div className="invalid-feedback">{erroConfirmacaoSenha}</div>}
-            </div>
-          </div>
           </div>
         </div>
 
