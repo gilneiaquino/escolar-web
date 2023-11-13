@@ -23,9 +23,9 @@ class UsuarioService {
     },
   };
 
-  public async criar(usuario: Usuario): Promise<Usuario> {
+  public async cadastrar(usuario: Usuario): Promise<Usuario> {
     try {
-      const response = await axios.post(this.baseURL, usuario, this.customConfig);
+      const response = await axios.post<Usuario>('http://localhost:8080/api/usuarios/cadastro', usuario, this.customConfig);
       return response.data;
     } catch (error: any) {
       throw error;

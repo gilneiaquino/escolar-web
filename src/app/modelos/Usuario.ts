@@ -2,7 +2,7 @@ import { Endereco } from "./Endereco";
 import { Telefone } from "./Telefone";
 
 export interface Usuario {
-    id?: number;
+    id?: string;
     nome: string;
     dataNascimento: Date;
     genero: string;
@@ -11,4 +11,6 @@ export interface Usuario {
     enderecos: Endereco[];
     telefones: Telefone[];
     matricula: string;
+    senha: string;
+
 }

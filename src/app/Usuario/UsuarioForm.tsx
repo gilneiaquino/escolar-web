@@ -10,7 +10,7 @@ const UsuarioForm: React.FC = () => {
   const dispatch = useDispatch();
 
   const initialState: Usuario = {
-    id: undefined,
+    id: '',
     nome: '',
     dataNascimento: new Date(),
     genero: '',
@@ -30,7 +30,8 @@ const UsuarioForm: React.FC = () => {
       tipo: 'Residencial'
     }],
     email: '',
-    cpf: ''
+    cpf: '',
+    senha: ''
   };
 
   const [usuario, setUsuario] = useState(initialState);
@@ -41,6 +42,9 @@ const UsuarioForm: React.FC = () => {
   const [erroMatricula, setErroMatricula] = useState<string>('');
   const [erroCpf, setErroCpf] = useState<string>('');
   const [erroEmail, setErroEmail] = useState<string>('');
+  const [erroSenha, setErroSenha] = useState<string>('');
+
+  
 
   const { id } = useParams();
 
@@ -141,6 +145,11 @@ const UsuarioForm: React.FC = () => {
       setErroEmail('O campo Email é obrigatório.');
     }
 
+    if (usuario.email.trim() === '') {
+      setErroSenha('O campo Senha é obrigatório.');
+    }
+   
+
     if (usuario.genero.trim() === '') {
       setErroGenero('O campo Gênero é obrigatório.');
     }
@@ -176,7 +185,8 @@ const UsuarioForm: React.FC = () => {
       email: usuario.email,
       enderecos: usuario.enderecos,
       telefones: usuario.telefones,
-      matricula: usuario.matricula
+      matricula: usuario.matricula,
+      senha: usuario.senha
     };
 
     usuarioController.handleAdicionarUsuario(
@@ -209,7 +219,8 @@ const UsuarioForm: React.FC = () => {
         tipo: 'Residencial'
       }],
       email: '',
-      cpf: ''
+      cpf: '',
+      senha: ''
     });
   };
 
@@ -305,6 +316,17 @@ const UsuarioForm: React.FC = () => {
                   />
                   {erroEmail && <div className="invalid-feedback">{erroEmail}</div>}
                 </div>
+              </div>
+              <div className="form-group col-md-2">
+                <label>Senha</label>
+                <input
+                  className={`form-control ${erroSenha && 'is-invalid'}`}
+                  type="password"
+                  placeholder="Senha"
+                  value={usuario.senha}
+                  onChange={(e) => setUsuario({ ...usuario, senha: e.target.value })}
+                />
+                {erroSenha && <div className="invalid-feedback">{erroSenha}</div>}
               </div>
               <div className="form-group col-md-2">
                 <label>CPF</label>

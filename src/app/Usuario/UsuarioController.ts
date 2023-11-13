@@ -53,7 +53,7 @@ class UsuarioController {
 
   public async criarUsuario(usuario: Usuario): Promise<Usuario> {
     try {
-      const novoUsuario = await this.usuarioService.criar(usuario);
+      const novoUsuario = await this.usuarioService.cadastrar(usuario);
       return novoUsuario;
     } catch (error) {
       throw new Error('Erro ao criar usuário');
