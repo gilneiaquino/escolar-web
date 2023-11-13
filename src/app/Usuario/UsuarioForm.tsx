@@ -338,7 +338,7 @@ const UsuarioForm: React.FC = () => {
                   name="cpf"
                   placeholder="999.999.999-99"
                   value={usuario.cpf}
-                  onChange={(e) => setUsuario({ ...usuario, cpf: e.target.value })}
+                  onChange={(e) => setUsuario({ ...usuario, cpf: e.target.value.replace(/[^\d]/g, '') })}
                 />
                 {erroCpf && <div className="invalid-feedback">{erroCpf}</div>}
               </div>
@@ -468,7 +468,7 @@ const UsuarioForm: React.FC = () => {
                     name="DDD"
                     placeholder="(00)"
                     value={telefone.ddd}
-                    onChange={(e) => handleTelefoneChange(telefone.id, 'ddd', e.target.value)}
+                    onChange={(e) => handleTelefoneChange(telefone.id, 'ddd', e.target.value.replace(/[^\d]/g, ''))}
                   />
                 </div>
                 <div className="col-md-2">
@@ -481,7 +481,7 @@ const UsuarioForm: React.FC = () => {
                     name="telefone"
                     placeholder="00000-0000"
                     value={telefone.numero}
-                    onChange={(e) => handleTelefoneChange(telefone.id, 'numero', e.target.value)}
+                    onChange={(e) => handleTelefoneChange(telefone.id, 'numero', e.target.value.replace(/[^\d]/g, ''))}
                   />
                 </div>
                 <div className="col-md-1 d-flex justify-content-center align-items-end"

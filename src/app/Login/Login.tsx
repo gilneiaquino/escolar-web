@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import InputMask from "react-input-mask";
 import UsuarioController from '../Usuario/UsuarioController';
 
 function Login() {
@@ -50,11 +49,7 @@ function Login() {
         // Adicione a lógica para o login com Facebook aqui
         // Redirecione para a página de autenticação do Facebook
     };
-
-    const limparCamposLoginEnviados = () => {
-        setFormData({ email: '', senha: '' });
-    };
-
+ 
     return (
         <div className="container">
             <div className="row justify-content-center mt-5">
