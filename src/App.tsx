@@ -4,8 +4,8 @@ import './App.css';
 import Menu from './app/menu/Menu';
 import AppRouter from './AppRouter';
 import { Provider } from "react-redux"; // Importe o Provider do react-redux
-import { store } from './app/mensagens/store';
-import ListaDeMensagens from './app/mensagens/ListaDeMensagens';
+ import ListaDeMensagens from './app/mensagens/ListaDeMensagens';
+import store from './app/reduce/store';
  
 
 function App() {

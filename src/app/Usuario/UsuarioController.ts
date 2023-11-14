@@ -104,30 +104,23 @@ class UsuarioController {
   }
 
   public async login(usuarioDto: UsuarioDto,dispatch: Function ) {
-
- 
     try {
-      const novoUsuario = await this.usuarioService.login(usuarioDto);
-     // this.navigate(`/`);
+      this.usuarioService.login(usuarioDto);
+      this.navigate('/usuario-list-consulta');
     } catch (error) {
       throw new Error('Erro ao criar usuário');
     }
-
-    
-    console.log('Dados do usuário LOOGIN:', usuarioDto);
-
-    
-
   }
  
  
   public async consultar(
     nome: string,
     cpf: string,
-    matricula: string
+    matricula: string,
+    token: string
   ): Promise<Usuario[] | null> {
     try {
-      this.usuarios = await this.usuarioService.consultar(nome, cpf, matricula);
+      this.usuarios = await this.usuarioService.consultar(nome, cpf, matricula,token);
 
       if (this.usuarios.length > 0) {
         return this.usuarios;

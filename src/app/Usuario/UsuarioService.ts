@@ -1,8 +1,14 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { Usuario } from '../modelos/Usuario';
 import { UsuarioDto } from '../modelos/UsuarioDto';
- 
+import { setToken } from '../jwt/tokenSlice';
+import { useDispatch} from 'react-redux';
+
+
+
 class UsuarioService {
+  private dispatch = useDispatch();
+
   private readonly baseURL: string = 'http://localhost:8080/api/usuarios';
   private readonly axiosInstance;
 
@@ -25,6 +31,7 @@ class UsuarioService {
 
   public async cadastrar(usuario: Usuario): Promise<Usuario> {
     try {
+
       const response = await axios.post<Usuario>('http://localhost:8080/api/usuarios/cadastro', usuario, this.customConfig);
       return response.data;
     } catch (error: any) {
@@ -51,11 +58,11 @@ class UsuarioService {
       throw error;
     }
   }
-
   public async consultar(
     nome: string,
     cpf: string,
-    matricula: string
+    matricula: string,
+    token: string // Adiciona o token como parâmetro
   ): Promise<Usuario[]> {
     try {
       const queryParams = new URLSearchParams({
@@ -63,16 +70,22 @@ class UsuarioService {
         cpf: cpf,
         matricula: matricula,
       });
-
+  
+      const headers = {
+        Authorization: `Bearer ${token}`, // Inclui o token no cabeçalho Authorization
+        'Content-Type': 'application/json',
+      };
+  
       const url = `http://localhost:8080/api/usuarios/consultar?${queryParams.toString()}`;
-
-      const response = await axios.get<Usuario[]>(url, this.customConfig);
-
+  
+      const response: AxiosResponse<Usuario[]> = await axios.get(url, { headers });
+  
       return response.data;
     } catch (error: any) {
       throw error;
     }
   }
+  
 
   public async recuperar(id: string): Promise<Usuario> {
     try {
@@ -88,12 +101,14 @@ class UsuarioService {
 
   async login(usuarioDto: UsuarioDto) {
     try {
-        const response = await this.axiosInstance.post('/api/usuarios/autenticacao', { params: usuarioDto });
-        return response.data; // Se a solicitação foi bem-sucedida, a resposta pode conter dados do usuário logado
+      const response = await this.axiosInstance.post('/api/usuarios/autenticacao', usuarioDto);
+      const { token } = response.data;
+      this.dispatch(setToken(token));
+      return token;
     } catch (error) {
-        throw new Error('Erro ao fazer login');
+      throw new Error('Erro ao fazer login');
     }
-}
+  }
 
 }
 
