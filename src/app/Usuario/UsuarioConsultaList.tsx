@@ -43,7 +43,7 @@ function UsuarioConsultaList() {
   const handleExcluirUsuario = async (id: any) => {
     try {
       if (token) {
-        await usuarioController.excluirUsuario(id);
+        await usuarioController.excluirUsuario(id,token);
         const usuariosConsultados = await usuarioController.consultar(nome, cpf, matricula, token);
         setUsuarios(usuariosConsultados || []);
       } else {

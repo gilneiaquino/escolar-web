@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import { Usuario } from '../modelos/Usuario';
 import { UsuarioDto } from '../modelos/UsuarioDto';
 import { setToken } from '../jwt/tokenSlice';
-import { useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 
 
@@ -29,21 +29,35 @@ class UsuarioService {
     },
   };
 
-  public async cadastrar(usuario: Usuario): Promise<Usuario> {
+  public async cadastrar(usuario: Usuario, token: string): Promise<Usuario> {
     try {
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      };
 
-      const response = await axios.post<Usuario>('http://localhost:8080/api/usuarios/cadastro', usuario, this.customConfig);
+      const response = await axios.post<Usuario>(
+        'http://localhost:8080/api/usuarios/cadastro',
+        usuario,
+        { headers }
+      );
       return response.data;
     } catch (error: any) {
       throw error;
     }
   }
 
-  public async atualizar(usuario: Usuario): Promise<Usuario> {
+  public async atualizar(usuario: Usuario, token: string): Promise<Usuario> {
     try {
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      };
+
       const response = await this.axiosInstance.put<Usuario>(
         `/${usuario.id}`,
-        usuario
+        usuario,
+        { headers }
       );
       return response.data;
     } catch (error) {
@@ -51,13 +65,19 @@ class UsuarioService {
     }
   }
 
-  public async excluir(id: string): Promise<void> {
+  public async excluir(id: string, token: string): Promise<void> {
     try {
-      await this.axiosInstance.delete(`/${id}`);
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      };
+
+      await this.axiosInstance.delete(`/${id}`, { headers });
     } catch (error) {
       throw error;
     }
   }
+
   public async consultar(
     nome: string,
     cpf: string,
@@ -70,28 +90,31 @@ class UsuarioService {
         cpf: cpf,
         matricula: matricula,
       });
-  
+
       const headers = {
         Authorization: `Bearer ${token}`, // Inclui o token no cabeçalho Authorization
         'Content-Type': 'application/json',
       };
-  
+
       const url = `http://localhost:8080/api/usuarios/consultar?${queryParams.toString()}`;
-  
+
       const response: AxiosResponse<Usuario[]> = await axios.get(url, { headers });
-  
+
       return response.data;
     } catch (error: any) {
       throw error;
     }
   }
-  
 
-  public async recuperar(id: string): Promise<Usuario> {
+  public async recuperar(id: string, token: string): Promise<Usuario> {
     try {
-      const url = `http://localhost:8080/api/usuarios/recuperar/${id}`;
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      };
 
-      const response = await axios.get<Usuario>(url, this.customConfig);
+      const url = `http://localhost:8080/api/usuarios/recuperar/${id}`;
+      const response = await axios.get<Usuario>(url, { headers });
 
       return response.data;
     } catch (error: any) {

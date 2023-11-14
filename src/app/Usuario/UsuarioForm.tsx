@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import InputMask from "react-input-mask";
 import UsuarioController from "./UsuarioController";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Usuario } from "../modelos/Usuario";
 import { useParams } from 'react-router-dom';
+import { selectToken } from "../jwt/tokenSlice";
 
 const UsuarioForm: React.FC = () => {
   const usuarioController = new UsuarioController();
   const dispatch = useDispatch();
+  const token = useSelector(selectToken);
+
 
   const initialState: Usuario = {
     id: '',
@@ -134,7 +137,7 @@ const UsuarioForm: React.FC = () => {
   const handleChangePerfil = (e: any) => {
     const perfilSelecionado = e.target.value;
     setUsuario((prevUsuario) => ({ ...prevUsuario, perfil: perfilSelecionado }));
-    
+
     // Lógica de validação para o perfil
     if (perfilSelecionado === '') {
       setErroPerfil('Selecione o perfil');
@@ -205,26 +208,30 @@ const UsuarioForm: React.FC = () => {
   };
 
   const adicionarUsuario = () => {
-    const novoUsuario: Usuario = {
-      nome: usuario.nome,
-      dataNascimento: new Date(usuario.dataNascimento),
-      genero: usuario.genero,
-      cpf: usuario.cpf,
-      email: usuario.email,
-      enderecos: usuario.enderecos,
-      telefones: usuario.telefones,
-      matricula: usuario.matricula,
-      senha: usuario.senha,
-      perfil: usuario.perfil
 
-    };
+    if (token) {
+      const novoUsuario: Usuario = {
+        nome: usuario.nome,
+        dataNascimento: new Date(usuario.dataNascimento),
+        genero: usuario.genero,
+        cpf: usuario.cpf,
+        email: usuario.email,
+        enderecos: usuario.enderecos,
+        telefones: usuario.telefones,
+        matricula: usuario.matricula,
+        senha: usuario.senha,
+        perfil: usuario.perfil
 
-    usuarioController.handleAdicionarUsuario(
-      dispatch,
-      novoUsuario
-    );
+      };
 
-    limpar();
+      usuarioController.handleAdicionarUsuario(
+        dispatch,
+        novoUsuario,
+        token
+      );
+
+      limpar();
+    }
   };
 
   const limpar = () => {
@@ -258,8 +265,8 @@ const UsuarioForm: React.FC = () => {
   useEffect(() => {
     async function fetchUsuario() {
       try {
-        if (id) {
-          const usuarioRecuperado = await usuarioController.recuperar(id);
+        if (id && token) {
+          const usuarioRecuperado = await usuarioController.recuperar(id, token);
           usuarioRecuperado.dataNascimento = new Date(usuarioRecuperado.dataNascimento);
 
           if (usuarioRecuperado.enderecos[0] === null) {

@@ -51,47 +51,47 @@ class UsuarioController {
     this.usuarioService = new UsuarioService();
   }
 
-  public async criarUsuario(usuario: Usuario): Promise<Usuario> {
+  public async criarUsuario(usuario: Usuario, token: string): Promise<Usuario> {
     try {
-      const novoUsuario = await this.usuarioService.cadastrar(usuario);
+      const novoUsuario = await this.usuarioService.cadastrar(usuario, token);
       return novoUsuario;
     } catch (error) {
       throw new Error('Erro ao criar usuário');
     }
   }
 
-  public async atualizarUsuario(usuario: Usuario): Promise<Usuario> {
+  public async atualizarUsuario(usuario: Usuario, token: string): Promise<Usuario> {
     try {
-      const usuarioAtualizado = await this.usuarioService.atualizar(usuario);
+      const usuarioAtualizado = await this.usuarioService.atualizar(usuario, token);
       return usuarioAtualizado;
     } catch (error) {
       throw new Error('Erro ao atualizar usuário');
     }
   }
 
-  public async recuperar(id: string): Promise<Usuario> {
+  public async recuperar(id: string, token: string): Promise<Usuario> {
     try {
-      const usuario = await this.usuarioService.recuperar(id);
+      const usuario = await this.usuarioService.recuperar(id, token);
       return usuario;
     } catch (error) {
       throw new Error('Erro ao recuperar usuário');
     }
   }
 
-  public async excluirUsuario(id: string): Promise<void> {
+  public async excluirUsuario(id: string, token: string): Promise<void> {
     try {
-      await this.usuarioService.excluir(id);
+      await this.usuarioService.excluir(id, token);
     } catch (error) {
       throw new Error('Erro ao excluir usuário');
     }
   }
 
   handleAdicionarUsuario = (dispatch: Function,
-    usuario: Usuario) => {
+    usuario: Usuario, token: string) => {
 
     dispatch(limparMensagens());
 
-    this.criarUsuario(usuario);
+    this.criarUsuario(usuario,token);
 
     dispatch(
       adicionarMensagem({
