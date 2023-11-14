@@ -4,7 +4,7 @@ import UsuarioController from "./UsuarioController";
 import { useDispatch, useSelector } from "react-redux";
 import { Usuario } from "../modelos/Usuario";
 import { useParams } from 'react-router-dom';
-import { selectToken } from "../jwt/tokenSlice";
+import { selectToken } from "../Jwt/tokenSlice";
 
 const UsuarioForm: React.FC = () => {
   const usuarioController = new UsuarioController();

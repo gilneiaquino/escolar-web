@@ -3,7 +3,7 @@ import { Usuario } from '../modelos/Usuario';
 import InputMask from "react-input-mask";
 import { useNavigate } from 'react-router-dom';
 import UsuarioController from './UsuarioController';
-import { selectToken } from '../jwt/tokenSlice';
+import { selectToken } from '../Jwt/tokenSlice';
 import { useSelector } from 'react-redux';
 
 function UsuarioConsultaList() {

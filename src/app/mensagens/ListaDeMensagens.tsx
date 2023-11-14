@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../reduce/store";
+import { RootState } from "../Reduce/store";
 
 const ListaDeMensagens: React.FC = () => {
   const mensagens = useSelector((state: RootState) => state.mensagens.mensagens);

@@ -1,19 +1,16 @@
 import axios, { AxiosResponse } from 'axios';
 import { Usuario } from '../modelos/Usuario';
 import { UsuarioDto } from '../modelos/UsuarioDto';
-import { setToken } from '../jwt/tokenSlice';
+import { setToken } from '../Jwt/tokenSlice';
 import { useDispatch } from 'react-redux';
-
-
+import config from '../Configuracoes/config';
 
 class UsuarioService {
   private dispatch = useDispatch();
-
-  private readonly baseURL: string = 'http://localhost:8080/api/usuarios';
+  private readonly baseURL: string = `${config.API_BASE_URL}/api/usuarios`; // Usa a URL base definida
   private readonly axiosInstance;
 
   constructor() {
-    this.baseURL = 'http://localhost:8080';
     this.axiosInstance = axios.create({
       baseURL: this.baseURL,
       headers: {
@@ -22,13 +19,6 @@ class UsuarioService {
     });
   }
 
-  private customConfig = {
-    headers: {
-      baseURL: this.baseURL,
-      'Content-Type': 'application/json',
-    },
-  };
-
   public async cadastrar(usuario: Usuario, token: string): Promise<Usuario> {
     try {
       const headers = {
@@ -36,11 +26,7 @@ class UsuarioService {
         'Content-Type': 'application/json',
       };
 
-      const response = await axios.post<Usuario>(
-        'http://localhost:8080/api/usuarios/cadastro',
-        usuario,
-        { headers }
-      );
+      const response = await this.axiosInstance.post<Usuario>('/cadastro', usuario, { headers });
       return response.data;
     } catch (error: any) {
       throw error;
@@ -54,11 +40,7 @@ class UsuarioService {
         'Content-Type': 'application/json',
       };
 
-      const response = await this.axiosInstance.put<Usuario>(
-        `/${usuario.id}`,
-        usuario,
-        { headers }
-      );
+      const response = await this.axiosInstance.put<Usuario>(`/${usuario.id}`, usuario, { headers });
       return response.data;
     } catch (error) {
       throw error;
@@ -82,23 +64,18 @@ class UsuarioService {
     nome: string,
     cpf: string,
     matricula: string,
-    token: string // Adiciona o token como parâmetro
+    token: string
   ): Promise<Usuario[]> {
     try {
-      const queryParams = new URLSearchParams({
-        nome: nome,
-        cpf: cpf,
-        matricula: matricula,
-      });
+      const queryParams = new URLSearchParams({ nome, cpf, matricula });
 
       const headers = {
-        Authorization: `Bearer ${token}`, // Inclui o token no cabeçalho Authorization
+        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       };
 
-      const url = `http://localhost:8080/api/usuarios/consultar?${queryParams.toString()}`;
-
-      const response: AxiosResponse<Usuario[]> = await axios.get(url, { headers });
+      const url = `/consultar?${queryParams.toString()}`;
+      const response: AxiosResponse<Usuario[]> = await this.axiosInstance.get(url, { headers });
 
       return response.data;
     } catch (error: any) {
@@ -113,8 +90,8 @@ class UsuarioService {
         'Content-Type': 'application/json',
       };
 
-      const url = `http://localhost:8080/api/usuarios/recuperar/${id}`;
-      const response = await axios.get<Usuario>(url, { headers });
+      const url = `/recuperar/${id}`;
+      const response = await this.axiosInstance.get<Usuario>(url, { headers });
 
       return response.data;
     } catch (error: any) {
@@ -124,7 +101,7 @@ class UsuarioService {
 
   async login(usuarioDto: UsuarioDto) {
     try {
-      const response = await this.axiosInstance.post('/api/usuarios/autenticacao', usuarioDto);
+      const response = await this.axiosInstance.post('/autenticacao', usuarioDto);
       const { token } = response.data;
       this.dispatch(setToken(token));
       return token;
@@ -132,7 +109,6 @@ class UsuarioService {
       throw new Error('Erro ao fazer login');
     }
   }
-
 }
 
 export default UsuarioService;
