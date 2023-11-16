@@ -105,10 +105,12 @@ class UsuarioService {
       const { token } = response.data;
       this.dispatch(setToken(token));
       return token;
-    } catch (error) {
-      throw new Error('Erro ao fazer login');
+    } catch (error: any) {
+      throw error.response.data.error || 'Erro ao fazer login'; // Lança a mensagem de erro específica ou genérica
     }
   }
+  
+  
 }
 
 export default UsuarioService;

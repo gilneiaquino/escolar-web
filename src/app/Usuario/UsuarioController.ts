@@ -103,15 +103,21 @@ class UsuarioController {
 
   }
 
-  public async login(usuarioDto: UsuarioDto,dispatch: Function ) {
+  public async login(usuarioDto: UsuarioDto) {
     try {
-      this.usuarioService.login(usuarioDto);
-      this.navigate('/usuario-list-consulta');
-    } catch (error) {
-      throw new Error('Erro ao criar usuário');
+      const token = await this.usuarioService.login(usuarioDto);
+      
+      if (token) {
+        return token;
+      } else {
+        return null;
+      }
+    } catch (error:any) {
+      throw new Error(error); // Propaga o erro retornado pelo serviço para o componente
     }
   }
- 
+  
+  
  
   public async consultar(
     nome: string,

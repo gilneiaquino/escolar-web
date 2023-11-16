@@ -1,16 +1,25 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UsuarioController from '../Usuario/UsuarioController';
+import { useDispatch } from 'react-redux';
+import { adicionarMensagem, limparMensagens } from '../mensagens/mensagensSlice';
 
 function Login() {
     const navigate = useNavigate();
     const usuarioController = new UsuarioController();
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        // Função para limpar as mensagens quando o componente é montado
+        dispatch(limparMensagens());
+    }, [dispatch]);
+
 
     const [formData, setFormData] = useState({
         email: '',
         senha: '',
     });
-
+ 
     const handleInputChange = (e: any) => {
         const { name, value } = e.target;
         setFormData({
@@ -19,7 +28,8 @@ function Login() {
         });
     };
 
-    const handleSubmit = (e: any) => {
+    const handleSubmit = async (e: any) => {
+        dispatch(limparMensagens());
         e.preventDefault();
 
         const { email, senha } = formData;
@@ -29,8 +39,20 @@ function Login() {
             senha: senha,
         };
 
-        usuarioController.login(usuarioDto, dispatchEvent);
+        try {
+            await usuarioController.login(usuarioDto);
+            navigate('/usuario-list-consulta');
+        } catch (error: any) {
+            dispatch(
+                adicionarMensagem({
+                  id: Date.now(),
+                  texto: error.message || String(error),
+                  tipo: "danger"
+                })
+              );
+        }
     };
+
 
     const handleForgotPasswordClick = () => {
         navigate(`/esqueci-minha-senha`);
@@ -49,7 +71,7 @@ function Login() {
         // Adicione a lógica para o login com Facebook aqui
         // Redirecione para a página de autenticação do Facebook
     };
- 
+
     return (
         <div className="container">
             <div className="row justify-content-center mt-5">
@@ -87,7 +109,7 @@ function Login() {
                                         Entrar
                                     </button>
                                 </div>
-                            </form>
+                            </form>               
                             <div className="mt-3">
                                 <button
                                     className="btn btn-link"
