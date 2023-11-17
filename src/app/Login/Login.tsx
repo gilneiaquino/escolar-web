@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import UsuarioController from '../Usuario/UsuarioController';
-import { useDispatch } from 'react-redux';
+ import { useDispatch } from 'react-redux';
 import { adicionarMensagem, limparMensagens } from '../mensagens/mensagensSlice';
+import LoginController from './LoginController';
 
 function Login() {
     const navigate = useNavigate();
-    const usuarioController = new UsuarioController();
+    const loginController = new LoginController();
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -40,7 +40,7 @@ function Login() {
         };
 
         try {
-            await usuarioController.login(usuarioDto);
+            await loginController.login(usuarioDto);
             navigate('/usuario-list-consulta');
         } catch (error: any) {
             dispatch(

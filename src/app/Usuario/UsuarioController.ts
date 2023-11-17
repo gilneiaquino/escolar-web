@@ -1,13 +1,10 @@
-import { useNavigate } from 'react-router-dom';
 import { adicionarMensagem, limparMensagens } from '../mensagens/mensagensSlice';
 import { Usuario } from '../modelos/Usuario';
-import { UsuarioDto } from '../modelos/UsuarioDto';
 import UsuarioService from './UsuarioService';
 
 class UsuarioController {
 
   private usuarioService: UsuarioService;
-  private navigate = useNavigate();
 
 
   estados = [
@@ -91,7 +88,7 @@ class UsuarioController {
 
     dispatch(limparMensagens());
 
-    this.criarUsuario(usuario,token);
+    this.criarUsuario(usuario, token);
 
     dispatch(
       adicionarMensagem({
@@ -103,22 +100,6 @@ class UsuarioController {
 
   }
 
-  public async login(usuarioDto: UsuarioDto) {
-    try {
-      const token = await this.usuarioService.login(usuarioDto);
-      
-      if (token) {
-        return token;
-      } else {
-        return null;
-      }
-    } catch (error:any) {
-      throw new Error(error); // Propaga o erro retornado pelo serviço para o componente
-    }
-  }
-  
-  
- 
   public async consultar(
     nome: string,
     cpf: string,
@@ -126,7 +107,7 @@ class UsuarioController {
     token: string
   ): Promise<Usuario[] | null> {
     try {
-      this.usuarios = await this.usuarioService.consultar(nome, cpf, matricula,token);
+      this.usuarios = await this.usuarioService.consultar(nome, cpf, matricula, token);
 
       if (this.usuarios.length > 0) {
         return this.usuarios;

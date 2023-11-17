@@ -1,12 +1,8 @@
 import axios, { AxiosResponse } from 'axios';
 import { Usuario } from '../modelos/Usuario';
-import { UsuarioDto } from '../modelos/UsuarioDto';
-import { setToken } from '../Jwt/tokenSlice';
-import { useDispatch } from 'react-redux';
 import config from '../Configuracoes/config';
 
 class UsuarioService {
-  private dispatch = useDispatch();
   private readonly baseURL: string = `${config.API_BASE_URL}/api/usuarios`; // Usa a URL base definida
   private readonly axiosInstance;
 
@@ -98,19 +94,7 @@ class UsuarioService {
       throw error;
     }
   }
-
-  async login(usuarioDto: UsuarioDto) {
-    try {
-      const response = await this.axiosInstance.post('/autenticacao', usuarioDto);
-      const { token } = response.data;
-      this.dispatch(setToken(token));
-      return token;
-    } catch (error: any) {
-      throw error.response.data.error || 'Erro ao fazer login'; // Lança a mensagem de erro específica ou genérica
-    }
-  }
-  
-  
+ 
 }
 
 export default UsuarioService;
