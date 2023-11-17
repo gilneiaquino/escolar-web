@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 import { useDispatch } from 'react-redux';
-import { setToken } from '../Jwt/tokenSlice';
+import { clearToken, setToken } from '../Jwt/tokenSlice';
 import config from '../Configuracoes/config';
 import { LoginDto } from '../dtos/LoginDto';  
 
