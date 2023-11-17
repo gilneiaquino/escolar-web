@@ -1,33 +1,28 @@
 import React from 'react';
-import { clearToken } from '../Jwt/tokenSlice';
-import { useDispatch } from 'react-redux';
+import { clearToken, selectToken } from '../Jwt/tokenSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Menu: React.FC = () => {
+    const token = useSelector(selectToken);
     const dispatch = useDispatch();
 
     const logout = () => {
-        dispatch(clearToken()); 
+        dispatch(clearToken());
         window.location.href = '/login';
     };
-    return (
+
+    if (!token) {
+        return null;
+    }
+
+    return ( 
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container">
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto">
                         <li className="nav-item">
                             <a className="nav-link active" href="/">Inicio</a>
-                        </li>
-                        <li className="nav-item dropdown">
-                            <a className="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Aluno
-                            </a>
-                            <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a className="dropdown-item" href="/aluno-form">Cadastrar</a></li>
-                                <li><a className="dropdown-item" href="/aluno-list-consulta">Consultar</a></li>
-                                <li><hr className="dropdown-divider" /></li>
-                                <li><a className="dropdown-item" href="/Sair">Sair</a></li>
-                            </ul>
-                        </li>
+                        </li> 
                         <li className="nav-item dropdown">
                             <a className="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Usuário
@@ -69,7 +64,7 @@ const Menu: React.FC = () => {
                     </form>
                 </div>
             </div>
-        </nav>
+        </nav>  
     );
 };
 
