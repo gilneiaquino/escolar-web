@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
+import {adicionarMensagem} from "../mensagens/mensagensSlice";
+import LoginController from "./LoginController";
+import {useDispatch} from "react-redux";
 
 function EsqueciMinhaSenha() {
+    const loginController = new LoginController();
+    const dispatch = useDispatch();
+
     const [email, setEmail] = useState('');
     const [enviado, setEnviado] = useState(false);
 
@@ -10,10 +16,22 @@ function EsqueciMinhaSenha() {
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        // Aqui você pode adicionar a lógica para enviar um email de redefinição de senha
-        // com o endereço de email fornecido.
-        setEnviado(true);
+        try {
+            loginController.recuperarSenha(email);
+            setEnviado(true);
+        } catch (error: any) {
+            dispatch(
+                adicionarMensagem({
+                    id: Date.now(),
+                    texto: error.message || String(error),
+                    tipo: "danger"
+                })
+            );
+        }
+
     };
+
+
 
     return (
         <div className="container">

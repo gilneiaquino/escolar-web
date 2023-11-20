@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 import { useDispatch } from 'react-redux';
-import { clearToken, setToken } from '../Jwt/tokenSlice';
+import { setToken } from '../Jwt/tokenSlice';
 import config from '../Configuracoes/config';
 import { LoginDto } from '../dtos/LoginDto';  
 
@@ -28,6 +28,16 @@ export class LoginService {
       throw error.response.data.error || 'Erro ao fazer login'; 
     }
   }
+
+  async enviarEmailRedefinicaoSenha(email: string) {
+    try {
+      const response = await this.axiosInstance.get(`/esqueci-senha?email=${email}`);
+      return response.data;
+    } catch (error: any) {
+      throw error.response.data.error || 'Erro ao enviar o email de redefinição de senha.';
+    }
+  }
+
 }
 
 export default LoginService;

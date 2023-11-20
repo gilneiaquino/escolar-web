@@ -21,6 +21,16 @@ class LoginController {
       throw new Error(error);
     }
   }
+
+  public async recuperarSenha(email : string) {
+    try {
+      await this.loginService.enviarEmailRedefinicaoSenha(email);
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
+
+
 }
 
 export default LoginController;
