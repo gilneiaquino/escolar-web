@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
-import {adicionarMensagem} from "../mensagens/mensagensSlice";
+import React, {useEffect, useState} from 'react';
+import {adicionarMensagem, limparMensagens} from "../mensagens/mensagensSlice";
 import LoginController from "./LoginController";
 import {useDispatch} from "react-redux";
 
 function EsqueciMinhaSenha() {
     const loginController = new LoginController();
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        // Função para limpar as mensagens quando o componente é montado
+        dispatch(limparMensagens());
+    }, [dispatch]);
+
 
     const [email, setEmail] = useState('');
     const [enviado, setEnviado] = useState(false);

@@ -62,15 +62,6 @@ function Login() {
         navigate(`/alterar-minha-senha`);
     };
 
-    const handleGoogleLoginClick = () => {
-        // Adicione a lógica para o login com Google aqui
-        // Redirecione para a página de autenticação do Google
-    };
-
-    const handleFacebookLoginClick = () => {
-        // Adicione a lógica para o login com Facebook aqui
-        // Redirecione para a página de autenticação do Facebook
-    };
 
     return (
         <div className="container">
@@ -124,22 +115,6 @@ function Login() {
                                     onClick={handleChangePasswordClick}
                                 >
                                     Alterar senha
-                                </button>
-                            </div>
-                            <div className="mt-3">
-                                <button
-                                    className="btn btn-outline-primary btn-block"
-                                    onClick={handleGoogleLoginClick}
-                                >
-                                    Entrar com Google
-                                </button>
-                            </div>
-                            <div className="mt-3">
-                                <button
-                                    className="btn btn-outline-primary btn-block"
-                                    onClick={handleFacebookLoginClick}
-                                >
-                                    Entrar com Facebook
                                 </button>
                             </div>
                         </div>

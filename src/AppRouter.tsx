@@ -15,6 +15,7 @@ import AlterarSenha from './app/Login/AlterarSenha';
 import CursoForm from './app/Curso/CursoForm';
 import UsuarioForm from './app/Usuario/UsuarioForm';
 import UsuarioConsultaList from './app/Usuario/UsuarioConsultaList';
+import TokenInvalido from "./app/Login/TokenInvalido";
 
 const AppRouter = () => {
   return (
@@ -37,6 +38,7 @@ const AppRouter = () => {
         <Route path="/usuario-form" element={<UsuarioForm />} />
         <Route path="/usuario-form/:id" element={<UsuarioForm />} />
         <Route path="/usuario-list-consulta" element={<UsuarioConsultaList />} />
+        <Route path="/token-invalido" element={<TokenInvalido />} />
       </Routes>
     </Router>
   );
