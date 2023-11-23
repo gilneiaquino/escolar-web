@@ -27,7 +27,6 @@ const Menu: React.FC = () => {
                             <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a className="dropdown-item" href="/usuario-form">Cadastrar</a></li>
                                 <li><a className="dropdown-item" href="/usuario-list-consulta">Consultar</a></li>
-                                <li><hr className="dropdown-divider" /></li>
                             </ul>
                         </li>
                         <li className="nav-item dropdown">
@@ -48,17 +47,10 @@ const Menu: React.FC = () => {
 
                             </ul>
                         </li>
-                        <li className="nav-item">
-                            <a className="nav-link active" href="/login">Login</a>
-                        </li>
                         <li>
                             <a className="nav-link active" href="#" onClick={logout}>Sair</a>
                         </li>
                     </ul>
-                    <form className="d-flex">
-                        <input className="form-control me-2" type="search" placeholder="busca" aria-label="Search" />
-                        <button className="btn btn-outline-success" type="submit">Busca</button>
-                    </form>
                 </div>
             </div>
         </nav>  
