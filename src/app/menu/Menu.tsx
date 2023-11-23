@@ -1,17 +1,14 @@
 import React from 'react';
-import { clearToken, selectToken } from '../Jwt/tokenSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import AutenticacaoController from "../Jwt/AutenticacaoController";
 
 const Menu: React.FC = () => {
-    const token = useSelector(selectToken);
-    const dispatch = useDispatch();
-
     const logout = () => {
-        dispatch(clearToken());
+        AutenticacaoController.removeToken();
         window.location.href = '/login';
     };
 
-    if (!token) {
+    if (!AutenticacaoController.getToken()) {
         return null;
     }
 

@@ -2,12 +2,10 @@
 
 import { configureStore } from "@reduxjs/toolkit";
 import mensagensReducer from "../mensagens/mensagensSlice";
-import tokenReducer from "../Jwt/tokenSlice";
 
 const store = configureStore({
   reducer: {
-    mensagens: mensagensReducer,
-    token: tokenReducer,
+    mensagens: mensagensReducer
   },
 });
 

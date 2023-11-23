@@ -13,44 +13,42 @@ class UsuarioService {
         'Content-Type': 'application/json',
       },
     });
+
+    this.axiosInstance.interceptors.request.use(
+        (config) => {
+          const token = localStorage.getItem('token');
+          if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+          }
+          return config;
+        },
+        (error) => {
+          return Promise.reject(error);
+        }
+    );
   }
 
-  public async cadastrar(usuario: Usuario, token: string): Promise<Usuario> {
+  public async cadastrar(usuario: Usuario): Promise<Usuario> {
     try {
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      };
-
-      const response = await this.axiosInstance.post<Usuario>('/cadastro', usuario, { headers });
+      const response = await this.axiosInstance.post<Usuario>('/cadastro', usuario);
       return response.data;
     } catch (error: any) {
       throw error;
     }
   }
 
-  public async atualizar(usuario: Usuario, token: string): Promise<Usuario> {
+  public async atualizar(usuario: Usuario): Promise<Usuario> {
     try {
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      };
-
-      const response = await this.axiosInstance.put<Usuario>(`/${usuario.id}`, usuario, { headers });
+      const response = await this.axiosInstance.put<Usuario>(`/${usuario.id}`);
       return response.data;
     } catch (error) {
       throw error;
     }
   }
 
-  public async excluir(id: string, token: string): Promise<void> {
+  public async excluir(id: string): Promise<void> {
     try {
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      };
-
-      await this.axiosInstance.delete(`/${id}`, { headers });
+      await this.axiosInstance.delete(`/${id}`);
     } catch (error) {
       throw error;
     }
@@ -59,19 +57,12 @@ class UsuarioService {
   public async consultar(
     nome: string,
     cpf: string,
-    matricula: string,
-    token: string
+    matricula: string
   ): Promise<Usuario[]> {
     try {
       const queryParams = new URLSearchParams({ nome, cpf, matricula });
-
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      };
-
       const url = `/consultar?${queryParams.toString()}`;
-      const response: AxiosResponse<Usuario[]> = await this.axiosInstance.get(url, { headers });
+      const response: AxiosResponse<Usuario[]> = await this.axiosInstance.get(url);
 
       return response.data;
     } catch (error: any) {
@@ -79,15 +70,10 @@ class UsuarioService {
     }
   }
 
-  public async recuperar(id: string, token: string): Promise<Usuario> {
+  public async recuperar(id: string): Promise<Usuario> {
     try {
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      };
-
       const url = `/recuperar/${id}`;
-      const response = await this.axiosInstance.get<Usuario>(url, { headers });
+      const response = await this.axiosInstance.get<Usuario>(url);
 
       return response.data;
     } catch (error: any) {

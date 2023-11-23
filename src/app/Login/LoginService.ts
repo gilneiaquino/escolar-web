@@ -1,6 +1,5 @@
 import axios, {AxiosInstance} from 'axios';
 import {useDispatch} from 'react-redux';
-import {setToken} from '../Jwt/tokenSlice';
 import config from '../Configuracoes/config';
 import {LoginDto} from '../dtos/LoginDto';
 import {SenhaDto} from "../dtos/SenhaDto";
@@ -23,7 +22,7 @@ export class LoginService {
         try {
             const response = await this.axiosInstance.post('/autenticacao', loginDto);
             const {token} = response.data;
-            this.dispatch(setToken(token));
+            localStorage.setItem("token", token);
             return token;
         } catch (error: any) {
             throw error.response.data.error || 'Erro ao fazer login';

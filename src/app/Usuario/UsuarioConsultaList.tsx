@@ -1,13 +1,10 @@
-import { useState } from 'react';
-import { Usuario } from '../modelos/Usuario';
+import {useState} from 'react';
+import {Usuario} from '../modelos/Usuario';
 import InputMask from "react-input-mask";
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import UsuarioController from './UsuarioController';
-import { selectToken } from '../Jwt/tokenSlice';
-import { useSelector } from 'react-redux';
 
 function UsuarioConsultaList() {
-  const token = useSelector(selectToken);
   const [nome, setNome] = useState('');
   const [cpf, setCpf] = useState('');
   const [matricula, setMatricula] = useState('');
@@ -20,13 +17,8 @@ function UsuarioConsultaList() {
 
   const consultarUsuarios = async () => {
     try {
-      if (token) {
-        const usuariosConsultados = await usuarioController.consultar(nome, cpf, matricula, token);
+        const usuariosConsultados = await usuarioController.consultar(nome, cpf, matricula);
         setUsuarios(usuariosConsultados || []);
-      } else {
-        // Lidar com a situação em que o token é nulo
-        console.error('Token não está definido!');
-      }
     } catch (error) {
       console.error('Erro ao consultar usuários:', error);
     }
@@ -42,13 +34,9 @@ function UsuarioConsultaList() {
 
   const handleExcluirUsuario = async (id: any) => {
     try {
-      if (token) {
-        await usuarioController.excluirUsuario(id,token);
-        const usuariosConsultados = await usuarioController.consultar(nome, cpf, matricula, token);
+        await usuarioController.excluirUsuario(id);
+        const usuariosConsultados = await usuarioController.consultar(nome, cpf, matricula);
         setUsuarios(usuariosConsultados || []);
-      } else {
-        console.error('Token não está definido!');
-      }
     } catch (error) {
       console.error('Erro ao excluir usuário:', error);
     }

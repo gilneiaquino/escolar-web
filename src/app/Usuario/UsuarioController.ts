@@ -48,47 +48,47 @@ class UsuarioController {
     this.usuarioService = new UsuarioService();
   }
 
-  public async criarUsuario(usuario: Usuario, token: string): Promise<Usuario> {
+  public async criarUsuario(usuario: Usuario): Promise<Usuario> {
     try {
-      const novoUsuario = await this.usuarioService.cadastrar(usuario, token);
+      const novoUsuario = await this.usuarioService.cadastrar(usuario);
       return novoUsuario;
     } catch (error) {
       throw new Error('Erro ao criar usuário');
     }
   }
 
-  public async atualizarUsuario(usuario: Usuario, token: string): Promise<Usuario> {
+  public async atualizarUsuario(usuario: Usuario): Promise<Usuario> {
     try {
-      const usuarioAtualizado = await this.usuarioService.atualizar(usuario, token);
+      const usuarioAtualizado = await this.usuarioService.atualizar(usuario);
       return usuarioAtualizado;
     } catch (error) {
       throw new Error('Erro ao atualizar usuário');
     }
   }
 
-  public async recuperar(id: string, token: string): Promise<Usuario> {
+  public async recuperar(id: string): Promise<Usuario> {
     try {
-      const usuario = await this.usuarioService.recuperar(id, token);
+      const usuario = await this.usuarioService.recuperar(id);
       return usuario;
     } catch (error) {
       throw new Error('Erro ao recuperar usuário');
     }
   }
 
-  public async excluirUsuario(id: string, token: string): Promise<void> {
+  public async excluirUsuario(id: string): Promise<void> {
     try {
-      await this.usuarioService.excluir(id, token);
+      await this.usuarioService.excluir(id);
     } catch (error) {
       throw new Error('Erro ao excluir usuário');
     }
   }
 
   handleAdicionarUsuario = (dispatch: Function,
-    usuario: Usuario, token: string) => {
+    usuario: Usuario) => {
 
     dispatch(limparMensagens());
 
-    this.criarUsuario(usuario, token);
+    this.criarUsuario(usuario);
 
     dispatch(
       adicionarMensagem({
@@ -103,11 +103,10 @@ class UsuarioController {
   public async consultar(
     nome: string,
     cpf: string,
-    matricula: string,
-    token: string
+    matricula: string
   ): Promise<Usuario[] | null> {
     try {
-      this.usuarios = await this.usuarioService.consultar(nome, cpf, matricula, token);
+      this.usuarios = await this.usuarioService.consultar(nome, cpf, matricula);
 
       if (this.usuarios.length > 0) {
         return this.usuarios;

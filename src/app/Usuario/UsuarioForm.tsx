@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import InputMask from "react-input-mask";
 import UsuarioController from "./UsuarioController";
-import { useDispatch, useSelector } from "react-redux";
-import { Usuario } from "../modelos/Usuario";
-import { useParams } from 'react-router-dom';
-import { selectToken } from "../Jwt/tokenSlice";
+import {useDispatch} from "react-redux";
+import {Usuario} from "../modelos/Usuario";
+import {useParams} from 'react-router-dom';
 
 const UsuarioForm: React.FC = () => {
   const usuarioController = new UsuarioController();
   const dispatch = useDispatch();
-  const token = useSelector(selectToken);
-
 
   const initialState: Usuario = {
     id: '',
@@ -208,8 +205,6 @@ const UsuarioForm: React.FC = () => {
   };
 
   const adicionarUsuario = () => {
-
-    if (token) {
       const novoUsuario: Usuario = {
         nome: usuario.nome,
         dataNascimento: new Date(usuario.dataNascimento),
@@ -226,12 +221,9 @@ const UsuarioForm: React.FC = () => {
 
       usuarioController.handleAdicionarUsuario(
         dispatch,
-        novoUsuario,
-        token
+        novoUsuario
       );
-
       limpar();
-    }
   };
 
   const limpar = () => {
@@ -265,8 +257,8 @@ const UsuarioForm: React.FC = () => {
   useEffect(() => {
     async function fetchUsuario() {
       try {
-        if (id && token) {
-          const usuarioRecuperado = await usuarioController.recuperar(id, token);
+        if (id) {
+          const usuarioRecuperado = await usuarioController.recuperar(id);
           usuarioRecuperado.dataNascimento = new Date(usuarioRecuperado.dataNascimento);
 
           if (usuarioRecuperado.enderecos[0] === null) {
