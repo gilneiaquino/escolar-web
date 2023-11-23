@@ -1,12 +1,7 @@
 // AppRouter.js
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HomePage from './pages/HomePage';
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import PerguntasForm from './app/perguntas/PerguntasForm';
-import AlunoConsultaList from './app/Aluno/AlunoConsultaList';
-import AlunoForm from './app/Aluno/AlunoForm';
-import CalendarioEventos from './app/painel/CalendarioEventos';
-import Dashboard from './app/painel/Dashboard';
 import Cursos from './app/Curso/Cursos';
 import Certificado from './app/Curso/Certificado';
 import Login from './app/Login/Login';
@@ -22,12 +17,7 @@ const AppRouter = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/aluno-form" element={<AlunoForm />} />
-        <Route path="/aluno-form/:id" element={<AlunoForm />} />
-        <Route path="/aluno-list-consulta" element={<AlunoConsultaList />} />
         <Route path="/perguntas-form" element={<PerguntasForm />} />
-        <Route path="/calendario-entrega-trabalhos" element={<CalendarioEventos />} />
-        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/cursos" element={<Cursos />} />
         <Route path="/curso-form" element={<CursoForm />} />        
         <Route path="/curso-form/:id" element={<CursoForm />} />        
