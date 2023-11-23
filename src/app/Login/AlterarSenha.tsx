@@ -1,17 +1,28 @@
 import React, {useEffect, useState} from 'react';
-import loginController from "./LoginController";
-import {SenhaDto} from "../dtos/SenhaDto";
 import LoginController from "./LoginController";
+import {SenhaDto} from "../dtos/SenhaDto";
 import {adicionarMensagem, limparMensagens} from "../mensagens/mensagensSlice";
 import {useDispatch} from "react-redux";
+import {useLocation} from "react-router-dom";
 
 function AlterarSenha() {
     const loginController = new LoginController();
     const dispatch = useDispatch();
+    const routerLocation = useLocation();
 
     useEffect(() => {
         dispatch(limparMensagens());
-    }, [dispatch]);
+
+        const searchParams = new URLSearchParams(routerLocation.search);
+        const emailParam = searchParams.get('email');
+
+        if (emailParam) {
+            setFormData((prevState) => ({
+                ...prevState,
+                email: emailParam,
+            }));
+        }
+    }, [dispatch, routerLocation.search]);
 
 
     const [formData, setFormData] = useState<SenhaDto>({
