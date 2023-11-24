@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
- import { useDispatch } from 'react-redux';
-import { adicionarMensagem, limparMensagens } from '../mensagens/mensagensSlice';
+import {useState, useEffect} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
+import {adicionarMensagem, limparMensagens} from '../mensagens/mensagensSlice';
 import LoginController from './LoginController';
 
 function Login() {
@@ -10,8 +10,19 @@ function Login() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        // Função para limpar as mensagens quando o componente é montado
         dispatch(limparMensagens());
+        const searchParams = new URLSearchParams(window.location.search);
+        const successMessage = searchParams.get('message');
+
+        if (successMessage) {
+            dispatch(
+                adicionarMensagem({
+                    id: Date.now(),
+                    texto: decodeURIComponent(successMessage),
+                    tipo: 'success'
+                })
+            );
+        }
     }, [dispatch]);
 
 
@@ -19,9 +30,9 @@ function Login() {
         email: '',
         senha: '',
     });
- 
+
     const handleInputChange = (e: any) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         setFormData({
             ...formData,
             [name]: value,
@@ -32,7 +43,7 @@ function Login() {
         dispatch(limparMensagens());
         e.preventDefault();
 
-        const { email, senha } = formData;
+        const {email, senha} = formData;
 
         const usuarioDto = {
             email: email,
@@ -45,11 +56,11 @@ function Login() {
         } catch (error: any) {
             dispatch(
                 adicionarMensagem({
-                  id: Date.now(),
-                  texto: error.message || String(error),
-                  tipo: "danger"
+                    id: Date.now(),
+                    texto: error.message || String(error),
+                    tipo: "danger"
                 })
-              );
+            );
         }
     };
 
@@ -95,7 +106,7 @@ function Login() {
                                         Entrar
                                     </button>
                                 </div>
-                            </form>               
+                            </form>
                             <div className="mt-3">
                                 <button
                                     className="btn btn-link"

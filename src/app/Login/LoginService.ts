@@ -47,6 +47,23 @@ export class LoginService {
         }
     }
 
+    async alterarSenhaRecuperada(senhaDto: SenhaDto, token: string) {
+        try {
+            const response = await this.axiosInstance.put(`${this.baseURL}/alterar-senha-recuperada`, senhaDto, {
+                headers: {
+                    Authorization: `${token}`
+                }
+            });
+            if (response.status === 200) {
+                return response.data;
+            } else {
+                throw new Error('Falha ao alterar senha');
+            }
+        } catch (error: any) {
+            throw new Error(error.response.data.message || 'Erro ao processar a requisição');
+        }
+    }
+
 
 }
 

@@ -39,6 +39,16 @@ class LoginController {
             throw new Error(error);
         }
     }
+
+    public async alterarSenhaRecuperada(senhaDto: SenhaDto, token: string) {
+        try {
+            await this.loginService.alterarSenhaRecuperada(senhaDto, token);
+        } catch (error: any) {
+            throw new Error(error);
+        }
+    }
+
+
 }
 
 export default LoginController;

@@ -10,17 +10,25 @@ function RecuperarSenha() {
     const dispatch = useDispatch();
     const routerLocation = useLocation();
 
+    const [token, setToken] = useState<string | null>(null);
+
     useEffect(() => {
         dispatch(limparMensagens());
 
         const searchParams = new URLSearchParams(routerLocation.search);
         const emailParam = searchParams.get('email');
+        const tokenParam = searchParams.get('token');
+
 
         if (emailParam) {
             setFormData((prevState) => ({
                 ...prevState,
                 email: emailParam,
             }));
+        }
+
+        if (tokenParam) {
+            setToken(tokenParam);
         }
     }, [dispatch, routerLocation.search]);
 
@@ -43,14 +51,11 @@ function RecuperarSenha() {
         e.preventDefault();
         dispatch(limparMensagens());
         try {
-            await loginController.alterarSenha(formData);
-            dispatch(
-                adicionarMensagem({
-                    id: Date.now(),
-                    texto: String('Senha alterada com sucesso'),
-                    tipo: "success"
-                })
-            );
+            if (token) {
+                await loginController.alterarSenhaRecuperada(formData, token);
+                const successMessage = encodeURIComponent('Senha alterada com sucesso');
+                window.location.href = `/login?message=${successMessage}`;
+            }
         } catch (error: any) {
             // Lógica para tratamento de erros
             console.error('Erro ao alterar senha:', error.message || String(error));
@@ -62,7 +67,7 @@ function RecuperarSenha() {
             <div className="row justify-content-center mt-5">
                 <div className="col-md-6">
                     <div className="card">
-                        <div className="card-header">Alterar Senha</div>
+                        <div className="card-header">Recuperar Senha</div>
                         <div className="card-body">
                             <form onSubmit={handleSubmit}>
                                 <div className="form-group">
@@ -107,9 +112,6 @@ function RecuperarSenha() {
                                     </button>
                                 </div>
                             </form>
-                            <div className="mt-3">
-                                <a href="/login">Voltar para a tela de login</a>
-                            </div>
                         </div>
                     </div>
                 </div>
