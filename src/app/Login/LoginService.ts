@@ -55,14 +55,18 @@ export class LoginService {
                 }
             });
             if (response.status === 200) {
+                // Redirecionamento no frontend após a alteração de senha com sucesso
+                window.location.href = '/login';
                 return response.data;
             } else {
-                throw new Error('Falha ao alterar senha');
+                window.location.href = '/token-invalido';
             }
         } catch (error: any) {
+            window.location.href = '/token-invalido';
             throw new Error(error.response.data.message || 'Erro ao processar a requisição');
         }
     }
+
 
 
 }

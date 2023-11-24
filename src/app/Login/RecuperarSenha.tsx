@@ -51,6 +51,18 @@ function RecuperarSenha() {
         e.preventDefault();
         dispatch(limparMensagens());
         try {
+            if (formData.novaSenha !== formData.confirmarSenha) {
+git s                console.error('As senhas não correspondem');
+                dispatch(
+                    adicionarMensagem({
+                        id: Date.now(),
+                        texto: 'As senhas não correspondem',
+                        tipo: "danger"
+                    })
+                );
+                return;
+            }
+
             if (token) {
                 await loginController.alterarSenhaRecuperada(formData, token);
                 const successMessage = encodeURIComponent('Senha alterada com sucesso');
