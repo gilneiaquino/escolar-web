@@ -58,11 +58,6 @@ function Login() {
         navigate(`/esqueci-minha-senha`);
     };
 
-    const handleChangePasswordClick = () => {
-        navigate(`/alterar-minha-senha`);
-    };
-
-
     return (
         <div className="container">
             <div className="row justify-content-center mt-5">
@@ -107,14 +102,6 @@ function Login() {
                                     onClick={handleForgotPasswordClick}
                                 >
                                     Esqueci minha senha
-                                </button>
-                            </div>
-                            <div className="mt-3">
-                                <button
-                                    className="btn btn-link"
-                                    onClick={handleChangePasswordClick}
-                                >
-                                    Alterar senha
                                 </button>
                             </div>
                         </div>

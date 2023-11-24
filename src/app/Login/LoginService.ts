@@ -1,26 +1,22 @@
-import axios, {AxiosInstance} from 'axios';
+import {AxiosInstance} from 'axios';
 import {useDispatch} from 'react-redux';
 import config from '../Configuracoes/config';
 import {LoginDto} from '../dtos/LoginDto';
 import {SenhaDto} from "../dtos/SenhaDto";
+import axiosInstance from "../Configuracoes/axiosConfig";
 
 export class LoginService {
     private dispatch = useDispatch();
     private readonly baseURL: string = `${config.API_BASE_URL}/api/logins`;
-    private readonly axiosInstance: AxiosInstance;
+    private readonly axiosInstance;
 
     constructor() {
-        this.axiosInstance = axios.create({
-            baseURL: this.baseURL,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
+        this.axiosInstance = axiosInstance;
     }
 
     async login(loginDto: LoginDto) {
         try {
-            const response = await this.axiosInstance.post('/autenticacao', loginDto);
+            const response = await this.axiosInstance.post(`${this.baseURL}/autenticacao`, loginDto);
             const {token} = response.data;
             localStorage.setItem("token", token);
             return token;
@@ -31,7 +27,7 @@ export class LoginService {
 
     async enviarEmailRedefinicaoSenha(email: string) {
         try {
-            const response = await this.axiosInstance.get(`/esqueci-senha?email=${email}`);
+            const response = await this.axiosInstance.get(`${this.baseURL}/esqueci-senha?email=${email}`);
             return response.data;
         } catch (error: any) {
             throw error.response.data.error || 'Erro ao enviar o email de redefinição de senha.';
@@ -40,8 +36,7 @@ export class LoginService {
 
     async alterarSenha(senhaDto: SenhaDto) {
         try {
-            const response = await this.axiosInstance.put('/alterar-senha', senhaDto);
-
+            const response = await this.axiosInstance.put(`${this.baseURL}/alterar-senha`, senhaDto);
             if (response.status === 200) {
                 return response.data;
             } else {

@@ -3,19 +3,30 @@ import LoginController from "./LoginController";
 import {SenhaDto} from "../dtos/SenhaDto";
 import {adicionarMensagem, limparMensagens} from "../mensagens/mensagensSlice";
 import {useDispatch} from "react-redux";
+import {useLocation} from "react-router-dom";
 
-function AlterarSenha() {
+function RecuperarSenha() {
     const loginController = new LoginController();
     const dispatch = useDispatch();
+    const routerLocation = useLocation();
 
     useEffect(() => {
         dispatch(limparMensagens());
-    }, [dispatch]);
+
+        const searchParams = new URLSearchParams(routerLocation.search);
+        const emailParam = searchParams.get('email');
+
+        if (emailParam) {
+            setFormData((prevState) => ({
+                ...prevState,
+                email: emailParam,
+            }));
+        }
+    }, [dispatch, routerLocation.search]);
 
 
     const [formData, setFormData] = useState<SenhaDto>({
         email: '',
-        senhaAtual: '',
         novaSenha: '',
         confirmarSenha: '',
     });
@@ -33,7 +44,6 @@ function AlterarSenha() {
         dispatch(limparMensagens());
         try {
             await loginController.alterarSenha(formData);
-            localStorage.removeItem('token'); // Remover o token após a alteração
             dispatch(
                 adicionarMensagem({
                     id: Date.now(),
@@ -41,24 +51,11 @@ function AlterarSenha() {
                     tipo: "success"
                 })
             );
-            // Redirecionar para a tela de login após a alteração da senha
-            setTimeout(() => {
-                window.location.href = '/login';
-            }, 3000); // Redirecionamento após 3 segundos
-
         } catch (error: any) {
             // Lógica para tratamento de erros
             console.error('Erro ao alterar senha:', error.message || String(error));
-            dispatch(
-                adicionarMensagem({
-                    id: Date.now(),
-                    texto: String('Erro ao alterar senha'),
-                    tipo: "danger"
-                })
-            );
         }
     };
-
 
     return (
         <div className="container">
@@ -76,18 +73,6 @@ function AlterarSenha() {
                                         id="email"
                                         name="email"
                                         value={formData.email}
-                                        onChange={handleInputChange}
-                                        required
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="senhaAtual">Senha Atual:</label>
-                                    <input
-                                        type="password"
-                                        className="form-control"
-                                        id="senhaAtual"
-                                        name="senhaAtual"
-                                        value={formData.senhaAtual}
                                         onChange={handleInputChange}
                                         required
                                     />
@@ -133,4 +118,4 @@ function AlterarSenha() {
     );
 }
 
-export default AlterarSenha;
+export default RecuperarSenha;
