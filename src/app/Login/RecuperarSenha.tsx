@@ -52,7 +52,7 @@ function RecuperarSenha() {
         dispatch(limparMensagens());
         try {
             if (formData.novaSenha !== formData.confirmarSenha) {
-git s                console.error('As senhas não correspondem');
+                console.error('As senhas não correspondem');
                 dispatch(
                     adicionarMensagem({
                         id: Date.now(),
